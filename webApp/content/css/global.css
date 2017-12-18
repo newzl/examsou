@@ -101,3 +101,6 @@
 .hl-progress {position:relative;display:inline-block;width:150px;height:150px;}
 .hl-progress span {display:inline-block;position:absolute;width:100%;text-align:center;line-height:1;font-size:26px;top:45%;left:0;margin:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);}
 .hl-progress p {display:inline-block;position:absolute;width:100%;text-align:center;color:#ccc;line-height:1;font-size:18px;top:70%;left:0;margin:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);}
+
+.find-panel .layui-form-label {width: auto !important;}
+.find-panel .layui-form-item{margin-bottom:0px;}

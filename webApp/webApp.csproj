@@ -154,6 +154,7 @@
     <Compile Include="Controllers\courseController.cs" />
     <Compile Include="Controllers\defaultController.cs" />
     <Compile Include="Controllers\educateController.cs" />
+    <Compile Include="Controllers\eduitemController.cs" />
     <Compile Include="Controllers\feedbackController.cs" />
     <Compile Include="Controllers\homeController.cs" />
     <Compile Include="Controllers\learnController.cs" />
@@ -1371,6 +1372,8 @@
     <Content Include="Views\course\index.cshtml" />
     <Content Include="Views\profile\profession.cshtml" />
     <Content Include="Views\educate\index.cshtml" />
+    <Content Include="Views\eduitem\detail.cshtml" />
+    <Content Include="Views\eduitem\search.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
