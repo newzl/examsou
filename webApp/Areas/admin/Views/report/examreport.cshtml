@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "考试情况统计";
+    Layout = "~/Areas/admin/Views/_layoutAdmin.cshtml";
+}
+@section css{
+    <style>
+        .layui-table tbody tr:hover, .layui-table-hover {
+            background-color: #fff !important;
+        }
+    </style>
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    <form class="layui-form layui-form-pane find-panel">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">部门/科室</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="bm" name="bm" lay-filter="bm">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="ks" name="ks">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">考试时间</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="minExam" name="minExam" placeholder="yyyy-mm-dd" required lay-verify="required" autocomplete="off" class="layui-input" onfocus="minExamEve()" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="maxExam" name="maxExam" placeholder="yyyy-mm-dd" required lay-verify="required" autocomplete="off" class="layui-input" onfocus="maxExamEve()" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">及格分数</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="number" name="passScore" value="60" required lay-verify="isDouble" placeholder="及格分数" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a href="javascript:;" id="formFind" class="layui-btn" lay-submit lay-filter="formFind"><i class="layui-icon">&#xe62c;</i> 统计</a>
+                <a href="javascript:;" class="layui-btn layui-btn-primary" id="print"><i class="layui-icon">&#xe62d;</i> 打印</a>
+            </div>
+        </div>
+    </form>
+</blockquote>
+<table id="tableDom" lay-filter="tableView"></table>
+<input type="hidden" id="companyID" value="@ViewBag.companyID" />
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script src="/scripts/mergecell.js"></script>
+    <script>
+        var print = $('#print'), printWhere = {};
+        layui.config({ base: '/areas/admin/js/' }).use(['form', 'table', 'glevent'], function () {
+            var form = layui.form, table = layui.table, glevent = layui.glevent;
+            $(function () {
+                initDate();
+                glevent.loadbmks();
+                $('#formFind').click();
+            });
+            form.verify({
+                isDouble: function (va) {
+                    if (!(va.match(/^-?\d+$|^(-?\d+)(\.\d+)?$/))) {
+                        return '请输入正确的数字';
+                    }
+                }
+            });
+            form.on('submit(formFind)', function (d) {
+                initTable(d.field);
+                return false;
+            });
+            function initTable(whereObj) {
+                table.render({
+                    elem: '#tableDom', id: 'tableData',
+                    url: '/admin/report/table_examreport',
+                    where: whereObj,
+                    cols: [[
+                        { field: 'name', title: '部门', width: 120 },
+                        { field: 'name2', title: '科室', width: 150 },
+                        { field: 'number', title: '注册人数', width: 100, align: 'right' },
+                        { field: 'yk', title: '应考人数', width: 100, align: 'right' },
+                        { field: 'sk', title: '实考人数', width: 100, align: 'right' },
+                        { field: 'wk', title: '未考人数', width: 100, align: 'right' },
+                        { field: 'kscs', title: '考试次数', width: 100, align: 'right' },
+                        { field: 'ksl', title: '考试率', width: 100, align: 'right', templet: '<span>{{ d.ksl }}%</span>' },
+                        { field: 'hgl', title: '及格率', width: 100, align: 'right', templet: '<span>{{ d.hgl }}%</span>' },
+                    ]],
+                    done: function (res, curr, count) {
+                        rowspan(".layui-table", 1);//合并单元格
+                    }
+                });
+            }
+            //初始化考试时间范围
+            function initDate() {
+                var nd = new Date();
+                var y = nd.getFullYear();
+                var m = nd.getMonth() + 1;
+                var d = nd.getDate();
+                var fdate = y + '-' + m + '-' + d;
+                $('#maxExam').val(fdate);
+                $('#minExam').val(getPreMonth(fdate));
+            }
+            function getPreMonth(date) {
+                var arr = date.split('-');
+                var year = arr[0]; //获取当前日期的年份
+                var month = arr[1]; //获取当前日期的月份
+                var day = arr[2]; //获取当前日期的日
+                var days = new Date(year, month, 0);
+                days = days.getDate(); //获取当前日期中月的天数
+                var year2 = year;
+                var month2 = parseInt(month) - 1;
+                if (month2 == 0) {
+                    year2 = parseInt(year2) - 1;
+                    month2 = 12;
+                }
+                var day2 = day;
+                var days2 = new Date(year2, month2, 0);
+                days2 = days2.getDate();
+                if (day2 > days2) {
+                    day2 = days2;
+                }
+                if (month2 < 10) {
+                    month2 = '0' + month2;
+                }
+                return year2 + '-' + month2 + '-' + day2;
+            }
+        });
+        function minExamEve() {
+            var maxExam = $dp.$('maxExam');
+            WdatePicker({
+                onpicked: function () {
+                    maxExam.focus();
+                },
+                maxDate: '#F{$dp.$D(\'maxExam\')}'
+            })
+        }
+        function maxExamEve() {
+            WdatePicker({
+                minDate: '#F{$dp.$D(\'minExam\')}'
+            })
+        }
+    </script>
+}

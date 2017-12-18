@@ -1,0 +1,146 @@
+﻿@model Models.showsgzj
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>查看手工组卷</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/areas/css/global.css?v=2.0.2" rel="stylesheet" />
+    <style>
+        .extitle {text-align: center;line-height: 1.6em;font-size: 1.5em;font-weight: bold;color: #444;}
+        .tbc {background-color: #F8F8F8;}
+        .ttc {text-align: center;}
+        .layui-form-switch {margin: 0;}
+    </style>
+</head>
+<body style="padding:10px;">
+        <h1 class="extitle">@Model.name</h1>
+        <table class="layui-table layui-form">
+            <tbody>
+                <tr><td class="tbc">考试说明</td><td colspan="5">@Model.explain</td></tr>
+                <tr>
+                    <td style="width:10%" class="tbc">及格分数</td>
+                    <td style="width:10%">@Model.passScore 分</td>
+                    <td style="width:10%" class="tbc">考试次数</td>
+                    @if (Model.examNum > 0)
+                    {
+                        <td style="width:10%">@Model.examNum 次</td>
+                    }
+                    else
+                    {
+                        <td style="width:10%">无限制</td>
+                    }
+                    <td style="width:10%" class="tbc">答题时间</td>
+                    <td style="width:10%">@Model.useTime 分钟</td>
+                </tr>
+                <tr>
+                    <td class="tbc">截止日期</td>
+                    @if (Model.startTime != null && Model.endTime != null)
+                    {
+                        <td colspan="5">@String.Format("{0:yyyy-MM-dd HH:mm}", Model.startTime)<span style="margin: 0 10px;">至</span>@String.Format("{0:yyyy-MM-dd HH:mm}", Model.endTime)</td>
+                    }
+                    else
+                    {
+                        <td colspan="5">未限制截止日期</td>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <input type="checkbox" lay-skin="primary" title="是/否允许提交答案后查看答题情况" disabled checked="@Model.isShow" />
+                        <input type="checkbox" lay-skin="primary" title="是/否允许考试页面右键复制功能" disabled checked="@Model.isCopy" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbc">考试状态</td>
+                    <td><input type="checkbox" name="state" lay-skin="switch" lay-text="启用|停用" disabled checked="@Model.state" /></td>
+                    <td class="tbc">组卷方式</td>
+                    <td colspan="3">手工组卷</td>
+                </tr>
+                <tr><td colspan="6" class="ttc tbc">题数设置</td></tr>
+                <tr><td colspan="2">题型</td><td>题库数量</td><td>出题数量</td><td>每题分数</td><td>小计分数</td></tr>
+                <tr><td colspan="2">单选题</td><td>@Model.chss</td><td>@Model.chs</td><td>@Model.chvs</td><td>@(Model.chs * Model.chvs)</td></tr>
+                <tr><td colspan="2">多选题</td><td>@Model.muss</td><td>@Model.mus</td><td>@Model.muvs</td><td>@(Model.mus * Model.muvs)</td></tr>
+                <tr><td colspan="2">判断题</td><td>@Model.juss</td><td>@Model.jus</td><td>@Model.juvs</td><td>@(Model.jus * Model.juvs)</td></tr>
+                <tr><td colspan="5" style="text-align:right">合计</td><td>@((Model.chs * Model.chvs) + (Model.mus * Model.muvs) + (Model.jus * Model.juvs))</td></tr>
+                <tr><td colspan="6" class="ttc tbc">参考对象</td></tr>
+                <tr class="tbc"><td colspan="2">部门</td><td colspan="2">科室</td><td>级别</td><td>职称</td></tr>
+                @foreach (var item in Model.examJoin)
+                {
+                    <tr><td colspan="2">@item.bm</td><td colspan="2">@item.ks</td><td>@item.jb</td><td>@item.zc</td></tr>
+                }
+            </tbody>
+        </table>
+    <div id="subjectView" style="display:none"></div>
+    <script type="text/html" id="subTpl">
+        {{# if(d.dan!==null){ }}
+            <div>【单选题】每小题{{d.chvs}}分，共{{d.dan.length}}题</div>
+            {{#  layui.each(d.dan, function(i, item){ }}
+                <div>{{(i+1)}}、{{item.sub}}</div>
+                <div>A、{{item.A}}</div>
+                <div>B、{{item.B}}</div>
+                <div>C、{{item.C}}</div>
+                <div>D、{{item.D}}</div>
+                {{# if(item.E!==null&&item.E!==''){ }}
+                    <div>E、{{item.E}}</div>
+                {{# } }}
+                <br />
+            {{#  }); }}
+        {{# } if(d.duo!==null){ }}
+            <div>【多选题】每小题{{d.muvs}}分，共{{d.duo.length}}题</div>
+            {{#  layui.each(d.duo, function(i, item){ }}
+            <div>{{(i+1)}}、{{item.sub}}</div>
+            <div>A、{{item.A}}</div>
+            <div>B、{{item.B}}</div>
+            <div>C、{{item.C}}</div>
+            <div>D、{{item.D}}</div>
+            {{# if(item.E!==null&&item.E!==''){ }}
+            <div>E、{{item.E}}</div>
+            {{# } }}
+            {{# if(item.F!==null&&item.F!==''){ }}
+            <div>F、{{item.F}}</div>
+            {{# } }}
+            <br />
+            {{#  }); }}
+        {{# } if(d.pan!==null){ }}
+        <div>【判断题】每小题{{d.juvs}}分，共{{d.pan.length}}题</div>
+            {{#  layui.each(d.pan, function(i, item){ }}
+            <div>{{(i+1)}}、{{item.sub}}</div>
+            <div>正确</div>
+            <div>错误</div>
+            <br />
+            {{#  }); }}
+        {{# } }}
+    </script>
+    <input type="hidden" id="epid" value="@ViewBag.epid" />
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/scripts/exportword/FileSaver.js"></script>
+    <script src="/scripts/exportword/jquery.wordexport.js"></script>
+    <script>
+        var laytpl;
+        layui.use(['form', 'laytpl'], function () {
+            laytpl = layui.laytpl;
+            $.ajax({
+                url: '/admin/sgzj/export',
+                type: 'get', dataType: 'json', cache: false,async:false,
+                data: { epid: parseInt($('#epid').val()) },
+                success: function (res) {
+                    var getTpl = subTpl.innerHTML;
+                    laytpl(getTpl).render(res, function (html) {
+                        document.getElementById('subjectView').innerHTML = html;
+                    });
+                },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
+            });
+        });
+        //导出doc
+        function expWord() {
+            var filename = $('.extitle').text();
+            $('#subjectView').wordExport(filename);
+        }
+    </script>
+</body>
+</html>

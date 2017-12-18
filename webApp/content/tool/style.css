@@ -1,0 +1,11 @@
+﻿*{margin: 0;padding: 0;}
+table {font-size:10px;color:#333333;border-width:1px;border-color:#a9a9a9;border-collapse:collapse;}
+table th {border-width:1px;padding:0 5px;border-style:solid;border-color:#a9a9a9;}
+table td {border-width:1px;padding:0 5px;border-style:solid;border-color:#a9a9a9;}
+.miwid{min-width:30px;}
+.collapse{border-width: 1px;border-style: solid;border-radius: 2px;border-color: #e6e6e6;}
+.colla-item:first-child {border-top: none;}
+.colla-item {border-top-width: 1px;border-top-style: solid;border-color: #e6e6e6;}
+.colla-title{line-height: 42px;padding: 0 15px 0 35px;background-color: #f2f2f2;cursor: pointer;position: relative;height: 42px;color: #333;font-size: 14px;}
+.colla-content{display: none;padding: 3px 10px;line-height: 22px;color: #666;border-color: #e6e6e6;}
+.colla-icon{position: absolute;left: 15px;top: 0;font-size: 14px;}

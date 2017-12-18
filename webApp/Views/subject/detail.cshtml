@@ -1,0 +1,251 @@
+﻿@model Models.subjectDetail
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>题库详情 - 新智联在线考试平台</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/content/css/global.css?v=2.0.2" rel="stylesheet" />
+</head>
+<body class="gray-back">
+    <div class="layui-header exam-header">
+        <div class="layui-main">
+            <div class="layui-logo">
+                <a href="/">新智联</a>
+            </div>
+            <ul class="layui-nav layui-layout-right" id="navView"></ul>
+            <script type="text/html" id="navDom">
+                {{# layui.each(d, function(i, item){ }}
+                <li class="layui-nav-item">
+                    <a href="javascript:;">{{item.title}}</a>
+                    {{# if(item.children != undefined && item.children.length > 0){ }}
+                    <dl class="layui-nav-child">
+                        {{# layui.each(item.children, function(j, chil){ }}
+                        <dd><a href="{{chil.href + '?rid=' + Math.random()}}">{{chil.title}}</a></dd>
+                        {{# });}}
+                    </dl>
+                    {{# } }}
+                </li>
+                {{# });}}
+            </script>
+        </div>
+    </div>
+    <div class="member-container">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md9">
+                <div class="ex-panel detail-box">
+                    <div class="detail-ti">
+                        <a href="/subject" class="sub-img">
+                            <img src="/images/subject.png" />
+                        </a>
+                        <strong>@Model.name</strong>
+                        <div class="sub-stars">
+                            @for (int i = 0; i < Model.evaluate; i++)
+                            {<i class="layui-icon">&#xe658;</i> }
+                        </div>
+                        <p><a href="#commentView">( @Model.comments 人评论)</a></p>
+                    </div>
+                    <div class="detail-in">
+                        <h1>介绍信息</h1>
+                        @if (Model.introduce != null)
+                        {<p>@Model.introduce</p>}
+                        else
+                        {<p>暂无介绍信息</p>}
+                    </div>
+                    <div class="detail-in">
+                        <h1>题库内容</h1>
+                        <dl>
+                            <dd><i class="layui-icon">&#xe7a0;</i>题库数量：<em>@Model.total 题</em></dd>
+                            <dd><i class="layui-icon">&#xe615;</i><a href="javascript:;" data-sid="@Model.id" id="seeSubject">查看科目系列</a></dd>
+                            <dd><i class="layui-icon">&#xe63a;</i><a href="javascript:;" id="comment">发表评论</a></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="ex-panel detail-box" id="commentView">
+                    <fieldset class="layui-elem-field layui-field-title" style="text-align: center;"><legend>评论</legend></fieldset>
+                    <ul class="sub-com" id="tableView"></ul>
+                    <div id="paging"></div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="ex-panel sub-level">
+                    <strong>@Model.level</strong>
+                    <p>@Model.learns 人在学</p>
+                    @if (@Model.isLearn)
+                    {
+                        <a href="/subject/learnsubject" class="layui-btn layui-btn-radius layui-btn-lg layui-btn-normal">已经选择</a>
+                    }
+                    else
+                    {
+                        <a href="javascript:;" data-sid="@Model.id" class="layui-btn layui-btn-radius layui-btn-lg" id="seleLearn">选择学习</a>
+                    }
+                </div>
+                <div class="ex-panel sub-level">
+                    <img src="~/images/qrcode.jpg" width="195" height="195" />
+                    <div class="scan">微信扫码使用新智联小程序</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; 2017 贵阳新智联科技有限公司 版权所有</p>
+        <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
+    </div>
+    <input type="hidden" id="comments" value="@Model.comments" />
+    <input type="hidden" id="sid" value="@Model.id" />
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/scripts/jquery.cookie.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/scripts/member/global.js?v=2.0.2"></script>
+    <script>
+        layui.use(['layer', 'util', 'laypage'], function () {
+            var layer = layui.layer, util = layui.util, laypage = layui.laypage;
+            util.fixbar({ top: true });
+            $(function () {
+                init.comments();
+                event.see();
+                event.comment();
+                event.learn();
+            });
+            var event = {
+                see: function () {
+                    $('#seeSubject').off().on('click', function () {
+                        var url = '/subject/subjecttree/' + $(this).data('sid');
+                        layer.open({
+                            type: 2, title: '查看科目系列',
+                            shadeClose: true, scrollbar: false,
+                            shade: 0.6, area: ['450px', '90%'],
+                            content: url
+                        });
+                    });
+                },
+                comment: function () {
+                    $('#comment').off().on('click', function () {
+                        layer.open({
+                            type: 2, title: '发表评论',
+                            shade: 0.3, area: ['950px', '510px'],
+                            content: '/content/static/commentedut.html',
+                            btn: ['确定', '取消'],
+                            yes: function (i, lo) {
+                                var iframeWin = window[lo.find('iframe')[0]['name']];
+                                iframeWin.getContent(function (res) {
+                                    if (res.content.length <= 5) {
+                                        layer.msg('评论内容至少5个字符', { icon: 2 });
+                                    }
+                                    else {
+                                        layer.confirm('确定提交评论？', { icon: 3 }, function () {
+                                            saveComment(res);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                },
+                learn: function () {
+                    $('#seleLearn').off().on('click', function () {
+                        $.ajax({
+                            url: '/subject/savelearnsubject',
+                            type: 'post', dataType: 'json', cache: false,
+                            data: { sid: parseInt($(this).data('sid')) },
+                            beforeSend: function () { layer.load(2); },
+                            success: function (res) {
+                                if (res > 0) {
+                                    layer.msg('选择学习成功。', {
+                                        icon: 1, time: 1000, end: function () {
+                                            window.location.replace("/subject/learnsubject?rid=" + Math.random());
+                                        }
+                                    });
+                                }
+                                else {
+                                    layer.alert('选择学习失败', { icon: 2 });
+                                }
+                            },
+                            complete: function () { layer.closeAll('loading'); },
+                            error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                        });
+                    });
+                }
+            };
+            var init = {
+                comments: function () {
+                    if (parseInt($('#comments').val()) > 0) {
+                        loadTable(1);
+                    }
+                    else {
+                        $('#tableView').append('<div class="not-com"><i class="layui-icon">&#xe63a;</i><h5>暂无任何评论</h5></div>');
+                    }
+                }
+            };
+            function saveComment(obj) {
+                $.ajax({
+                    url: '/subject/savecomment',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: {
+                        sid: parseInt($('#sid').val()),
+                        content: obj.content,
+                        evaluate: obj.evaluate
+                    },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.closeAll();
+                        layer.msg('评论保存成功', { icon: 1 });
+                        loadTable(1);
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function loadTable(page) {
+                $.ajax({
+                    url: '/subject/commentdata',
+                    type: 'get', dataType: 'json', cache: false,
+                    data: {
+                        sid: parseInt($('#sid').val()),
+                        page: page
+                    },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        var dom = $('#tableView');
+                        dom.empty();
+                        if (res.count > 0) {
+                            if (res.count > 10) initpage(res.count, page);
+                            $.each(res.data, function (i, item) {
+                                var photo = item.photo !== null ? item.photo : '/images/face/face0001.png';
+                                var htm = '<li><div class="com-box">';
+                                htm += '<div class="com-img"><img src="' + photo + '" width="50" height="50" /></div>';
+                                htm += '<div>' + item.ename + '<span class="sub-stars">'
+                                for (var i = 0; i < item.evaluate; i++) {
+                                    htm += '<i class="layui-icon">&#xe658;</i>';
+                                }
+                                htm += '</span></div>';
+                                htm += '<div class="com-date">' + util.timeAgo(item.createTime, true) + '</div>';
+                                htm += '<div class="com-content">' + item.content + '</div>';
+                                if (item.reply !== null) htm += '<div class="com-reply"><div>管理员回复</div><div class="com-content">' + item.reply + '</div></div>';
+                                htm += '</div></li>';
+                                dom.append(htm);
+                            });
+                        }
+                        else {
+                            dom.append('<div class="not-com"><i class="layui-icon">&#xe63a;</i><h5>暂无任何评论</h5></div>');
+                        }
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function initpage(count, curr) {
+                laypage.render({
+                    elem: 'paging', count: count, curr: curr,
+                    jump: function (obj, first) {
+                        if (!first) loadTable(obj.curr);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

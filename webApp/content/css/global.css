@@ -1,0 +1,103 @@
+﻿.fl {float: left !important;}
+.fr {float: right !important;}
+.clear {clear: both;}
+.gray-back {background: #eee;}
+.textc {text-align: center;background-color: #F8F8F8;width: 100px;}
+/*顶部*/
+.exam-header{background:#fff;box-shadow: 0 1px 0 0 rgba(26,16,9,0.06), 0 2px 3px rgba(26,16,9,0.06);margin-bottom:10px;}
+.exam-header .layui-logo a{line-height:60px;font-weight:bold;color:#4ecdc4;font-size:30px;}
+.exam-header .layui-nav {background: none;}
+.exam-header .layui-nav-item {line-height: 60px;}
+.exam-header .layui-nav-item>a {color: #666;}
+.exam-header .layui-nav-item a:hover, .exam-header .layui-nav .layui-this a{color:#999}
+.exam-header .layui-nav-item dd a{text-align:center;}
+.exam-header .layui-nav-child{top: 60px;}
+.exam-header .layui-nav-more{border-color: #C2C2C2 transparent transparent;border-top-color: rgba(194,194,194,.7);}
+.exam-header .layui-nav-mored{border-color: transparent transparent #C2C2C2;}
+/*底部*/
+.footer {height: 70px;width: auto;padding-top:20px;color: #989898;text-align: center;}
+.footer a{color:#777 !important;}
+.footer p {height: 25px;line-height: 25px;}
+/*登录*/
+.login-content {margin: 5% auto 0;width: 350px;padding: 50px 70px 40px;background-color: #fff;border-radius: 4px;box-shadow: 0 1px 0 0 rgba(26,16,9,0.06), 0 2px 3px rgba(26,16,9,0.06);}
+.login-logo {margin: 0 auto;margin-bottom: 40px;text-align: center;}
+.login-logo a {font-weight: bold;color: #4ecdc4;font-size: 35px;}
+.login-form .layui-form-item {position: relative;}
+.login-form .layui-form-item .login-icon {position: absolute;color: #ccc;top: 10px;left: 10px;}
+.login-form .layui-form-item input {padding-left: 34px;}
+.login-form .codeImg{vertical-align: middle; cursor: pointer;width:100px;height:37px;}
+.login-form .login-btn{width:100%;font-size:18px;}
+
+.acc-content,.member-content{position: relative;width: 950px;min-height: 650px;margin: 0 auto;padding: 5px 20px 20px;border-radius: 2px;background-color: #fff;box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
+.acc-content {min-height: 450px;}
+.acc-regtip p{padding:5px 0;color:#ccc;}
+.acc-regtip p a{color:#aaa;}
+/*member*/
+.member-container{position: relative;width: 950px;margin: 0 auto;}
+/*暂无记录*/
+.not-found {text-align: center;padding: 120px 0;}
+.not-found i {font-size:120px;color:#e5e5e5;}
+.not-found h5 {font-size: 18px;color: #999;margin-top:-10px;}
+.not-found p {font-size: 14px;padding: 10px 0 0;color: #b2b2b2;}
+/*基本资料*/
+.myselect {width: 160px;}
+.faceList {width: 550px;margin: 0 auto;padding: 8px;}
+.faceList li {float: left;padding: 8px 15px;cursor: pointer;}
+.faceList li:hover {filter: alpha(opacity=70);opacity: 0.7;}
+.faceList li img {height: 80px;width: 80px;}
+/*选择题库*/
+.sub_item {position:relative;overflow:hidden;}
+.sub_item dd {position:relative;margin:10px;display:inline-block;vertical-align:top;}
+.sub_item dd a {display:inline-block;width:125px;height:130px;color:#777;text-align:center;border:1px solid #e2e2e2;}
+.sub_item dd a:hover {border:1px solid #5FB878;}
+.sub_item dd p {width:125px;font-size:14px;display:block;margin-bottom:5px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sub_item dd i {font-size:70px;color:#5FB878;}
+.sub_item dd span {font-size:10px;color:#ccc;}
+/*题库详细*/
+.ex-panel {margin-bottom:15px;border-radius:2px;background-color:#fff;box-shadow:0 1px 2px 0 rgba(0,0,0,.05);}
+.detail-box {padding:30px;min-height:100px;}
+.detail-ti {position:relative;line-height:20px;padding:15px 0 15px 130px;}
+.sub-level {padding:20px 0;text-align:center;}
+.sub-level strong,.detail-ti strong {font-size:22px;color:#4194da;}
+.sub-level p {padding:10px 0 20px;color:#b2b2b2;}
+.sub-level .scan {position: relative; color: #666;font-size:14px;}
+
+.sub-img {position:absolute;left:0;top:0;padding:15px;background:#f8f8f8;border-radius:20px;}
+.sub-stars {padding:5px;}
+.sub-stars i {color:#F5A623;}
+.detail-in {padding:20px 0 5px 0;}
+.detail-in h1 {padding-bottom:10px;font-size:16px;color:#888;}
+.detail-in p {line-height:2;font-size:14px;color:#999;text-indent:2em;}
+.detail-in dd {display:inline-block;margin-right:30px;color:#999;}
+.detail-in dd a {color:#999;}
+.detail-in dd i {margin-right:5px;}
+.not-com {text-align:center;padding:20px 0;}
+.not-com i {font-size:100px;color:#e5e5e5;}
+.not-com h5 {font-size:16px;color:#999;margin-top:-10px;}
+.sub-com li {position:relative;padding-left:60px;min-height:50px;margin:15px 0;}
+.com-box {padding-bottom:10px;border-bottom:1px dotted #DFDFDF;}
+.com-box h1 {color:#333;}
+.com-box h1 cite{margin-left:10px;color:#b2b2b2;}
+.com-img {position:absolute;left:0;top:0;}
+.com-content {padding:10px 0;color:#777;line-height:1.5;word-break:break-all;word-wrap:normal;}
+.com-date,.com-dispose {position:absolute;color:#b2b2b2;right:0;top:0;}
+.com-reply {padding-left:10px;border-left:3px solid #fdaa50;}
+/*我的学习*/
+.ln-title {position:relative;height:50px;line-height:50px;border-bottom:1px solid #E9E9E9;text-align:center;}
+.ln-title a {font-size:14px;color:#333;}
+.ln-title a i {font-size:13px;color:#bbb;margin-left:5px;font-weight:bold;}
+.ln-card a {display:block;border:1px solid #E9E9E9;height:110px;text-align:center;background:#fff;margin-top:15px;border-radius:3px;padding:10px;box-shadow:0px 2px 0px rgba(170,170,170,0.1);-webkit-transition:all 0.4s cubic-bezier(0.215,0.61,0.355,1) 0s;transition:all 0.4s cubic-bezier(0.215,0.61,0.355,1) 0s;}
+.ln-card a:hover {box-shadow:0 1px 6px rgba(0,0,0,.2);border-color:rgba(0,0,0,.2);}
+.ln-name {height:32px;line-height:32px;font-size:20px;color:#333;width:118px;margin:20px auto 13px;text-align:right;}
+.ln-de {font-size:14px;color:#999;}
+.mn {background:url(/images/ic_mn.png) no-repeat left center;}
+.sj {background:url(/images/ic_sj.png) no-repeat left center;}
+.zj {background:url(/images/ic_zj.png) no-repeat left center;}
+.jl {background:url(/images/ic_jl.png) no-repeat left center;}
+.ln-prog {padding:20px 15px 0 15px;}
+.ln-prog-box {padding-top:20px;}
+.ln-prog-title {color:#bbb;font-size:14px;margin:0 0 18px 5px;}
+.ln-prog-title i {margin-left:10px;font-size:18px;font-weight:bold;color:#999;}
+.hl-progress {position:relative;display:inline-block;width:150px;height:150px;}
+.hl-progress span {display:inline-block;position:absolute;width:100%;text-align:center;line-height:1;font-size:26px;top:45%;left:0;margin:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);}
+.hl-progress p {display:inline-block;position:absolute;width:100%;text-align:center;color:#ccc;line-height:1;font-size:18px;top:70%;left:0;margin:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);}

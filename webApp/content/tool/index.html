@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>试题解析工具</title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+    <textarea id="netData" style="width:100%;height:200px;"></textarea>
+    <button id="netParse">转换</button>
+
+    <div class="ATEST" style="display:none">
+        <span style="margin-right:15px;" class="Style"></span>
+        <span style="margin-right:15px;" class="TestCount"></span>
+        <span style="margin-right:15px;" class="SubType"></span>
+        <button class="toggle">显示/隐藏</button>
+        <button class="export">导出word</button>
+        <table>
+            <thead>
+                <tr>
+                    <th class="miwid">序号</th>
+                    <th>题目</th>
+                    <th class="miwid">答案</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th class="miwid">解析</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <textarea style="width:100%;height:100px;" class="objJson"></textarea>
+        <div class="exportWord" style="display:none"></div>
+    </div>
+
+    <div class="BTEST" style="display:none">
+        <span style="margin-right:15px;" class="Style"></span>
+        <span style="margin-right:15px;" class="TestCount"></span>
+        <span style="margin-right:15px;" class="SubType"></span>
+        <button class="toggle">显示/隐藏</button>
+        <button class="export">导出word</button>
+        <table>
+            <thead>
+                <tr>
+                    <th class="miwid">序号</th>
+                    <th>题目</th>
+                    <th class="miwid">答案</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th class="miwid">解析</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <textarea style="width:100%;height:100px;" class="objJson"></textarea>
+        <div class="exportWord" style="display:none"></div>
+    </div>
+
+    <div class="XTEST" style="display:none">
+        <span style="margin-right:15px;" class="Style"></span>
+        <span style="margin-right:15px;" class="TestCount"></span>
+        <span style="margin-right:15px;" class="SubType"></span>
+        <button class="toggle">显示/隐藏</button>
+        <button class="export">导出word</button>
+        <table>
+            <thead>
+                <tr>
+                    <th class="miwid">序号</th>
+                    <th>题目</th>
+                    <th class="miwid">答案</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th>F</th>
+                    <th class="miwid">解析</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <textarea style="width:100%;height:100px;" class="objJson"></textarea>
+        <div class="exportWord" style="display:none"></div>
+    </div>
+
+    <div class="PDTEST" style="display:none">
+        <span style="margin-right:15px;" class="Style"></span>
+        <span style="margin-right:15px;" class="TestCount"></span>
+        <span style="margin-right:15px;" class="SubType"></span>
+        <button class="toggle">显示/隐藏</button>
+        <button class="export">导出word</button>
+        <table>
+            <thead>
+                <tr>
+                    <th class="miwid">序号</th>
+                    <th>题目</th>
+                    <th class="miwid">答案</th>
+                    <th class="miwid">解析</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <textarea style="width:100%;height:100px;" class="objJson"></textarea>
+        <div class="exportWord" style="display:none"></div>
+    </div>
+
+    <div class="TKTEST" style="display:none">
+        <span style="margin-right:15px;" class="Style"></span>
+        <span style="margin-right:15px;" class="TestCount"></span>
+        <span style="margin-right:15px;" class="SubType"></span>
+        <button class="toggle">显示/隐藏</button>
+        <button class="export">导出word</button>
+        <table>
+            <thead>
+                <tr>
+                    <th class="miwid">序号</th>
+                    <th>题目</th>
+                    <th class="miwid">答案</th>
+                    <th class="miwid">解析</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <textarea style="width:100%;height:100px;" class="objJson"></textarea>
+        <div class="exportWord" style="display:none"></div>
+    </div>
+
+    <div class="JDTEST" style="display:none">
+        <span style="margin-right:15px;" class="Style"></span>
+        <span style="margin-right:15px;" class="TestCount"></span>
+        <span style="margin-right:15px;" class="SubType"></span>
+        <button class="toggle">显示/隐藏</button>
+        <button class="export">导出word</button>
+        <table>
+            <thead><tr><th class="miwid">序号</th><th>题目</th><th class="miwid">答案</th><th class="miwid">解析</th></tr></thead>
+            <tbody>
+            </tbody>
+        </table>
+        <textarea style="width:100%;height:100px;" class="objJson"></textarea>
+        <div class="exportWord" style="display:none"></div>
+    </div>
+
+    <script src="/scripts/jquery-3.2.1.js"></script>
+    <script src="/scripts/exportword/FileSaver.js"></script>
+    <script src="/scripts/exportword/jquery.wordexport.js"></script>
+    <script src="repla.js"></script>
+    <script src="crypto.js"></script>
+    <script>
+        $('#netParse').click(function () {
+            var nva = $('#netData').val();
+            if (nva !== '' && nva.length > 0) {
+                serialize($.parseJSON(nva));
+            }
+            else {
+                alert('没有任何数据');
+            }
+        });
+        function serialize(netData) {
+            $.each(netData.data.test.StyleItems, function (i, obj) {
+                if (obj.Type === 'ATEST') {//单选题
+                    var elem = $('.ATEST');
+                    subEvent.ctexts(elem, { t: obj.Style, c: obj.TestCount, s: obj.SubType });
+                    var subject = [];
+                    $.each(obj.TestItems, function (i, item) {
+                        load.subitem({
+                            tit: item.Title,
+                            ans: item.Answer,
+                            exp: item.Explain,
+                            sel: item.SelectedItems,
+                        }, function (res) {
+                            subject.push(res);
+                        });
+                    });
+                    load.word(subject, elem);
+                    load.table(subject, elem);
+                    subEvent.cevent(elem, obj.Style);
+                }
+                else if (obj.Type === 'BTEST') {//单选题2
+                    var elem = $('.BTEST');
+                    subEvent.ctexts(elem, { t: obj.Style, c: obj.TestCount, s: obj.SubType });
+                    var subject = [];
+                    $.each(obj.TestItems, function (i, item) {
+                        load.subitem({
+                            tit: item.Title,
+                            ans: item.Answer,
+                            exp: item.Explain,
+                            sel: item.SelectedItems,
+                        }, function (res) {
+                            subject.push(res);
+                        });
+                        if (item.BTestItems === undefined) {
+                            $.each(item.BTestItems, function (i, bi) {
+                                load.subitem({
+                                    tit: bi.Title,
+                                    ans: bi.Answer,
+                                    exp: bi.Explain,
+                                    sel: item.SelectedItems,
+                                }, function (res) {
+                                    subject.push(res);
+                                });
+                            });
+                        }
+                    });
+                    load.word(subject, elem);
+                    load.table(subject, elem);
+                    subEvent.cevent(elem, obj.Style);
+                }
+                else if (obj.Type === 'XTEST') {//多选题
+                    var elem = $('.XTEST');
+                    subEvent.ctexts(elem, { t: obj.Style, c: obj.TestCount, s: obj.SubType });
+                    var subject = [];
+                    $.each(obj.TestItems, function (i, item) {
+                        load.subitem({
+                            tit: item.Title,
+                            ans: item.Answer.split('').join(),
+                            exp: item.Explain,
+                            sel: item.SelectedItems,
+                        }, function (res) {
+                            subject.push(res);
+                        });
+                    });
+                    load.word(subject, elem);
+                    load.table(subject, elem, true);
+                    subEvent.cevent(elem, obj.Style);
+                }
+                else if (obj.Type === 'PDTEST') {//判断题
+                    var elem = $('.PDTEST');
+                    subEvent.ctexts(elem, { t: obj.Style, c: obj.TestCount, s: obj.SubType });
+                    var subject = [];
+                    $.each(obj.TestItems, function (i, item) {
+                        load.pditem({
+                            tit: item.Title,
+                            ans: item.Answer,
+                            exp: item.Explain
+                        }, function (res) {
+                            subject.push(res);
+                        });
+                    });
+                    load.pdword(subject, elem);
+                    load.pdtable(subject, elem);
+                    subEvent.cevent(elem, obj.Style);
+                }
+                else if (obj.Type === 'TKTEST') {//填空题
+                    var elem = $('.TKTEST');
+                    subEvent.ctexts(elem, { t: obj.Style, c: obj.TestCount, s: obj.SubType });
+                    var subject = [];
+                    $.each(obj.TestItems, function (i, item) {
+                        load.ksitem({
+                            tit: item.Title,
+                            ans: item.Answer.join('；'),
+                            exp: item.Explain
+                        }, function (res) {
+                            subject.push(res);
+                        });
+                    });
+                    load.ksword(subject, elem);
+                    load.kstable(subject, elem);
+                    subEvent.cevent(elem, obj.Style);
+                }
+                else if (obj.Type === 'JDTEST') {//名词解释
+                    var elem = $('.JDTEST');
+                    subEvent.ctexts(elem, { t: obj.Style, c: obj.TestCount, s: obj.SubType });
+                    var subject = [];
+                    $.each(obj.TestItems, function (i, item) {
+                        load.ksitem({
+                            tit: item.Title,
+                            ans: item.Answer,
+                            exp: item.Explain
+                        }, function (res) {
+                            subject.push(res);
+                        });
+                    });
+                    load.ksword(subject, elem);
+                    load.kstable(subject, elem);
+                    subEvent.cevent(elem, obj.Style);
+                }
+            });
+        }
+
+        var load = {
+            //序列化--A,B型题
+            subitem: function (item, callback) {
+                var sitem = {};
+                sitem['tit'] =replaceGif(aesDecrypt(item.tit));
+                sitem['ans'] = $.trim(item.ans);
+                sitem['exp'] = item.exp.length > 0 ? replaceGif(item.exp) : null;
+                $.each(item.sel, function (i, opt) {
+                    sitem[opt.ItemName] = replaceGif(opt.Content);
+                });
+                callback(sitem);
+            },
+            //序列化--判断题
+            pditem: function (item, callback) {
+                var sitem = {};
+                sitem['tit'] = replaceGif(aesDecrypt(item.tit));
+                sitem['ans'] = item.ans === 'A' ? true : false;
+                sitem['exp'] = item.exp.length > 0 ? replaceGif(item.exp) : null;
+                callback(sitem);
+            },
+            //序列化--快速
+            ksitem: function (item, callback) {
+                var sitem = {};
+                sitem['tit'] = replaceGif(aesDecrypt(item.tit));
+                sitem['ans'] = replaceGif(item.ans);
+                sitem['exp'] = item.exp.length > 0 ? replaceGif(item.exp) : null;
+                callback(sitem);
+            },
+            /*********word**/
+            //加载word数据
+            word: function (obj, elem) {
+                var eword = elem.children('.exportWord');
+                eword.empty();
+                $.each(obj, function (i, wi) {
+                    var htm = '<div>' + (i + 1) + '、' + wi.tit + '</div>';
+                    htm += '<div>A、' + wi.A + '</div>';
+                    htm += '<div>B、' + wi.B + '</div>';
+                    htm += '<div>C、' + wi.C + '</div>';
+                    htm += '<div>D、' + wi.D + '</div>';
+                    if (wi.E !== undefined) if (wi.E.length > 0) htm += '<div>E、' + wi.E + '</div>';
+                    if (wi.F !== undefined) if (wi.F.length > 0) htm += '<div>F、' + wi.F + '</div>';
+                    htm += '<div>【答案】' + wi.ans + '</div>';
+                    var ex = wi.exp !== null ? wi.exp : '';
+                    htm += '<div>【解析】' + ex + '</div><br />';
+                    eword.append(htm);
+                });
+                eword.append('<div>' + JSON.stringify(obj) + '</div>');
+            },
+            pdword: function (obj, elem) {
+                var eword = elem.children('.exportWord');
+                eword.empty();
+                $.each(obj, function (i, wi) {
+                    var htm = '<div>' + (i + 1) + '、' + wi.tit + '</div>';
+                    var anss = wi.ans ? '正确' : '错误';
+                    htm += '<div>【答案】' + anss + '</div>';
+                    var ex = wi.exp !== null ? wi.exp : '';
+                    htm += '<div>【解析】' + ex + '</div><br />';
+                    eword.append(htm);
+                });
+                eword.append('<div>' + JSON.stringify(obj) + '</div>');
+            },
+            ksword: function (obj, elem) {
+                var eword = elem.children('.exportWord');
+                eword.empty();
+                $.each(obj, function (i, wi) {
+                    var htm = '<div>' + (i + 1) + '、' + wi.tit + '</div>';
+                    htm += '<div>【答案】' + wi.ans + '</div>';
+                    var ex = wi.exp !== null ? wi.exp : '';
+                    htm += '<div>【解析】' + ex + '</div><br />';
+                    eword.append(htm);
+                });
+                eword.append('<div>' + JSON.stringify(obj) + '</div>');
+            },
+            /*********table**/
+            //加载table数据A,B型题
+            table: function (obj, elem, isF) {
+                var tbody = elem.find('tbody');
+                tbody.empty();
+                $.each(obj, function (i, sub) {
+                    var htm = '<tr><td>' + (i + 1) + '</td><td>' + sub.tit + '</td><td>' + sub.ans + '</td><td>' + sub.A + '</td><td>' + sub.B + '</td><td>' + sub.C + '</td><td>' + sub.D + '</td>';
+                    if (sub.E !== undefined) {
+                        if (sub.E.length > 0) htm += '<td>' + sub.E + '</td>';
+                        else htm += '<td></td>';
+                    }
+                    else {
+                        htm += '<td></td>';
+                    }
+                    if (isF) {
+                        if (sub.F !== undefined) {
+                            if (sub.F.length > 0) htm += '<td>' + sub.F + '</td>';
+                            else htm += '<td></td>';
+                        }
+                        else {
+                            htm += '<td></td>';
+                        }
+                    }
+                    var ex = sub.exp !== null ? sub.exp : '';
+                    htm += '<td>' + ex + '</td>';
+                    htm += '</tr>';
+                    tbody.append(htm);
+                });
+                elem.children('.objJson').val(JSON.stringify(obj));
+            },
+            //加载table数据--判断题
+            pdtable: function (obj, elem) {
+                var tbody = elem.find('tbody');
+                tbody.empty();
+                $.each(obj, function (i, sub) {
+                    var anss = sub.ans ? '正确' : '错误';
+                    var htm = '<tr><td>' + (i + 1) + '</td><td>' + sub.tit + '</td><td>' + anss + '</td>';
+                    var ex = sub.exp !== null ? sub.exp : '';
+                    htm += '<td>' + ex + '</td>';
+                    htm += '</tr>';
+                    tbody.append(htm);
+                });
+                elem.children('.objJson').val(JSON.stringify(obj));
+            },
+            kstable: function (obj, elem) {
+            var tbody = elem.find('tbody');
+            tbody.empty();
+            $.each(obj, function (i, sub) {
+                var htm = '<tr><td>' + (i + 1) + '</td><td>' + sub.tit + '</td><td>' + sub.ans + '</td>';
+                var ex = sub.exp !== null ? sub.exp : '';
+                htm += '<td>' + ex + '</td>';
+                htm += '</tr>';
+                tbody.append(htm);
+            });
+            elem.children('.objJson').val(JSON.stringify(obj));
+        }
+        };
+        var subEvent = {
+            //公用赋值
+            ctexts: function (elem, options) {
+                elem.children('.Style').text('【类型】' + options.t);
+                elem.children('.TestCount').text('【数量】' + options.c);
+                elem.children('.SubType').text('【题型】' + options.s);
+            },
+            //公用事件
+            cevent: function (elem, filename) {
+                elem.off().on('click', '.export', function () {
+                    elem.children('.exportWord').wordExport(filename);
+                }).on('click', '.toggle', function () {
+                    elem.children('table').toggle();
+                });
+                elem.show();
+            }
+        };
+        //解密
+        function aesDecrypt(message) {
+            var keyHex = CryptoJS.enc.Utf8.parse("5QTtRO3vQMaYnPajQqc4d7eaF6BNS2dG");
+            var ivHex = CryptoJS.enc.Utf8.parse("5QTtRO3vQMaYnPajQqc4d7eaF6BNS2dG");
+            var decrypted = CryptoJS.DES.decrypt({
+                ciphertext: CryptoJS.enc.Hex.parse(message)
+            }, keyHex, {
+                iv: ivHex,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            if (true) {
+                return decrypted.toString(CryptoJS.enc.Utf8);
+            } else {
+                return message;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿@model Models.employeeDetail
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户详情</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <style>
+        .textc {text-align: center;background-color: #F8F8F8;width: 15%;}
+        .layui-table img {max-width: none;}
+    </style>
+</head>
+<body>
+    <table class="layui-table">
+        <tr>
+            <td class="textc">姓名</td>
+            <td tyle="width: 20%;">@Model.name</td>
+            <td class="textc">性别</td>
+            <td style="width: 25%;">@Model.sex</td>
+            <td rowspan="4" colspan="1" style="text-align:center;width:25%">
+                @if (Model.photo != null)
+                {
+                    <img src="@Model.photo" width="115" height="150" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="textc">民族</td>
+            <td>@Model.nation</td>
+            <td class="textc">学历</td>
+            <td>@Model.degree</td>
+        </tr>
+        <tr>
+            <td class="textc">是否认证</td>
+            @if (Model.state == 1)
+            {
+                <td style="color:#5FB878">已认证</td>
+            }
+            else
+            {
+                <td style="color:#FF5722">未认证</td>
+            }
+            <td class="textc">所属单位</td>
+            <td>@Model.company</td>
+        </tr>
+        <tr>
+            <td class="textc">手机号码</td>
+            <td>@Model.phone</td>
+            <td class="textc">身份证号</td>
+            <td>@Model.idcard</td>
+        </tr>
+        <tr>
+            <td class="textc">登录账户</td>
+            <td>@Model.account</td>
+            <td class="textc">邮箱地址</td>
+            <td colspan="2">@Model.email</td>
+        </tr>
+    </table>
+    <table class="layui-table">
+        <tr>
+            <td class="textc">部门/科室</td>
+            <td tyle="width: 35%;">@Model.department / @Model.offices</td>
+            <td class="textc">级别/职称</td>
+            <td style="width: 35%;">@Model.level / @Model.jobInfo</td>
+        </tr>
+        <tr>
+            <td class="textc">登录次数</td>
+            <td>@Model.logins 次</td>
+            <td class="textc">学习次数</td>
+            <td>@Model.learns 次</td>
+        </tr>
+        <tr>
+            <td class="textc">上次登录</td>
+            <td>@Model.lastLoginTime.ToString("yyyy-MM-dd HH:mm")</td>
+            <td class="textc">注册时间</td>
+            <td>@Model.registerTime.ToString("yyyy-MM-dd HH:mm")</td>
+        </tr>
+    </table>
+</body>
+</html>

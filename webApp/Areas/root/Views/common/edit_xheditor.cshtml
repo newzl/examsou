@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>xh编辑器</title>
+</head>
+<body>
+    <textarea name="content" id="editorView"></textarea>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/content/xhEditor/xheditor-1.2.2.min.js"></script>
+    <script src="/content/xhEditor/xheditor_lang/zh-cn.js"></script>
+    <script>
+        var editor = $('#editorView').xheditor({
+            tools: 'mfull',
+            width: 800,
+            height: 480,
+            showBlocktag: false,
+            internalScript: false,
+            internalStyle: false,
+            fullscreen: true,
+            upImgUrl: "/handler/root/upload_xheditor.ashx",
+            upImgExt: "jpg,jpeg,gif,png"
+        });
+        function get(callback) {
+            var htm = editor.getSource();
+            if (htm.length > 0) {
+                callback(htm);
+            }
+            else {
+                callback(null);
+            }
+        }
+        function set(cont) {
+            editor.setSource(cont);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <script src="/scripts/jquery-3.2.1.min.js"></script>
+    <script src="/scripts/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        var employee = 'ZXXXEMPLOYEECOOKIE';
+        $(document).ready(function () {
+            if ($.cookie(employee) != null) {
+                $.cookie(employee, null, { path: '/', expires: -1 });
+            }
+            if (getUrlParam('returnurl') != null) window.location.replace('/' + getUrlParam('returnurl') + '?ranid=' + Math.random());
+            else window.location.replace('/account/login?rid=' + Math.random());
+        });
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    </script>
+</body>
+</html>

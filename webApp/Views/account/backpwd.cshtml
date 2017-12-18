@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "找回密码";
+    Layout = "~/Views/account/_layoutAccount.cshtml";
+}
+<div class="layui-container acc-content">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li><a href="/account/reg">用户注册</a></li>
+            <li class="layui-this">找回密码</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机或邮箱</label>
+                        <div class="layui-input-inline" style="width:300px;">
+                            <input type="text" id="account" name="account" required lay-verify="verAccount" placeholder="请输入手机号码或邮箱地址" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">动态码</label>
+                        <div class="layui-input-inline" style="width:180px;">
+                            <input type="text" name="code" required lay-verify="verCode" placeholder="请输入动态码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-word-aux">
+                            <a href="javascirpt:;" id="getCode" class="layui-btn layui-btn-primary">获取动态码</a>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">新密码</label>
+                        <div class="layui-input-inline" style="width:300px;">
+                            <input type="password" id="pwd" required lay-verify="verPwd" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">确定新密码</label>
+                        <div class="layui-input-inline" style="width:300px;">
+                            <input type="password" name="pwdc" required lay-verify="verPwdc" placeholder="请输入确定新密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">重复输入新密码确认不会输错</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-label"></div>
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-danger" lay-submit lay-filter="backpwdForm">重置密码</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section js{
+    <script src="/scripts/account/backPwd.js?v=2.0.2"></script>
+}

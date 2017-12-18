@@ -1,0 +1,43 @@
+﻿<form class="layui-form" style="padding-top:15px;">
+    <div class="layui-form-item flmc">
+        <label class="layui-form-label">父类名称</label>
+        <div class="layui-form-mid layui-word-aux" id="psname"></div>
+        <input type="hidden" id="pid" name="pid" value="2" />
+        <input type="hidden" id="sid" name="sid" value="0" />
+    </div>
+    <div class="layui-form-item lxjb">
+        <label class="layui-form-label">类型级别</label>
+        <div class="layui-input-inline">
+            <select id="levelID" name="levelID">
+                <option value="0">公共题库</option>
+                <option value="1">初级职称</option>
+                <option value="2">中级职称</option>
+                <option value="3">高级职称</option>
+                <option value="5">其他职称</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="sname" name="sname" required lay-verify="required" placeholder="请输入类型名称" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item jsxx">
+        <label class="layui-form-label">介绍信息</label>
+        <div class="layui-input-inline">
+            <textarea id="introduce" name="introduce" placeholder="请输入介绍信息" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">启用状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" id="valid" name="valid" lay-skin="switch" lay-text="启用|停用" checked="checked">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <a class="layui-btn" lay-submit lay-filter="saveForm">保存</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,58 @@
+﻿html{background-color: #F2F2F2;}
+.edu-header{position: fixed; left: 0; top: 0; z-index: 10000; width: 100%; height: 60px;}
+.edu-logo{position: absolute; left: 15px;line-height: 60px;font-weight: bold;color: #4ecdc4;font-size: 30px;}
+.edu-logo:hover{color:#4ecdc4;}
+.edu-nav{margin-left: 200px;padding: 0; background: none;}
+
+.footer {border-top:1px solid #ddd;background:#fff; color:#989898;text-align:center;padding:10px 0 20px 0;margin:0 auto;}
+.footer p {padding:3px 0;text-align:center;}
+
+.edu-nav-user{position: absolute; top: 0; right: 0;background: none;}
+.edu-nav-user .layui-nav-item a{padding:0 10px;}
+
+.edu-case-header{height: 200px;margin-top: 60px;text-align: center;color: #fff; background: #4ecdc4;margin-bottom:15px;}
+.edu-case-title{padding-top:30px;font-size: 60px;font-weight: bold;text-shadow: 1px 1px 1px rgba(0,0,0,0.7);}
+.edu-case-detail{padding-top:20px;font-size: 25px;text-shadow: 1px 1px 1px rgba(0,0,0,0.7);}
+
+.edu-menunav{width:100%;height: 350px;background: #fff;position: relative;}
+.edu-menunav .userInfo{position: relative;height: 90px;line-height: 22px;padding: 15px 15px 15px 120px;}
+.edu-menunav .userInfo img{position: absolute; left: 15px; top: 15px;width:90px;height:90px;}
+.edu-menunav .userName a{font-size:20px;color:#555;line-height:30px;}
+.edu-menunav .userName .sex{margin-right:5px;}
+.edu-menunav .userName .nan{color:#4EBBF9}
+.edu-menunav .userName .nv{color:#F581B1}
+.edu-menunav .detail{color:#999;margin-top:8px;font-size:14px;cursor:default;}
+.edu-menunav .detail .layui-icon{margin-left:10px; margin-right:5px;}
+.edu-menunav .menuNav a {display: block;border: 1px solid #E9E9E9;height: 88px;text-align: center;border-radius: 3px;padding: 10px;color:#ccc;
+    box-shadow: 0px 2px 0px rgba(170,170,170,0.1);
+    -webkit-transition: all 0.4s cubic-bezier(0.215,0.61,0.355,1) 0s;
+    transition: all 0.4s cubic-bezier(0.215,0.61,0.355,1) 0s;
+}
+.edu-menunav .menuNav .action:hover {box-shadow:0 1px 6px rgba(0,0,0,.2);border-color:rgba(0,0,0,.2);}
+.edu-menunav .menuNav a .layui-icon{font-size:45px;}
+.edu-menunav .menuNav a p{line-height:35px;}
+
+.edu-item{padding: 10px;background-color: #fff;vertical-align: middle;}
+.edu-item:hover{box-shadow: 1px 1px 5px rgba(0,0,0,.1);}
+.edu-itemPic {display:block;width:100%;border:0;}
+.edu-itemPic img {vertical-align:middle;height:140px;}
+.edu-itemName{display:block;font-size:16px;padding:10px 0 5px 0;color:#333;}
+.edu-info{position: relative;border-top: 1px dotted #ededed;padding-top:10px;cursor:default;}
+.edu-info .type,.edu-info .learns,.edu-info .company{font-size: 14px;color: #999;}
+.edu-info .type b{padding: 0 3px 0 8px;color:#FF5722;}
+.edu-info .learns{position:absolute;top:10px;right:0;}
+.edu-info .learns span{padding:0 5px;color: #01AAED;}
+.edu-info .company{padding-top:10px;}
+
+.edu-panel{margin:20px 0; border-radius: 2px; background-color: #fff; box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
+.edu-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px dotted #E9E9E9; color: #333; border-radius: 2px 2px 0 0; font-size: 14px;}
+.edu-panel-title .title{border-left: 4px solid #3e8540;padding-left: 10px;font-size:16px;}
+.edu-panel-title .right {position: absolute;right:15px;top: 0;color:#999}
+.edu-panel-main{padding: 20px;}
+
+.doctor{position:relative;height:120px;padding-left:150px}
+.doctor img{position:absolute;top:15px;left:15px; width:120px;height:120px;}
+.doctor .doc-name{font-size: 20px;color:#777;line-height: 30px;font-weight:bold;}
+.doctor .doc-zc{margin-left:10px;color: #777;}
+.doctor .doc-kj{margin-left:15px;color: #c2c2c2;}
+.doctor .doc-detail{color: #aaa;height:88px;font-size: 14px;cursor: default;}

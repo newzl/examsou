@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "用户认证";
+    Layout = "~/Areas/admin/Views/_layoutAdmin.cshtml";
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    <form class="layui-form layui-form-pane find-panel">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <input type="text" name="ename" placeholder="请输入姓名" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <select name="sex">
+                        <option value="-1">全部</option>
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="idcard" placeholder="请输入身份证号" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">部门/科室</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="bm" name="bm" lay-filter="bm">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="ks" name="ks">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">级别/职称</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="jb" name="jb" lay-filter="jb">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="zc" name="zc">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">注册时间</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="minreg" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="WdatePicker({ startDate: '%y-%M-%d', dateFmt: 'yyyy-MM-dd', alwaysUseStartDate: true })" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="maxreg" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="WdatePicker({ startDate: '%y-%M-%d', dateFmt: 'yyyy-MM-dd', alwaysUseStartDate: true })" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否认证</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <select name="state">
+                        <option value="-1">全部</option>
+                        <option value="1">已认证</option>
+                        <option value="2">未认证</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a href="javascript:;" class="layui-btn" lay-submit lay-filter="formFind"><i class="layui-icon">&#xe615;</i> 查询</a>
+                <a href="javascript:;" class="layui-btn layui-btn-primary" id="print"><i class="layui-icon">&#xe62d;</i> 打印</a>
+            </div>
+        </div>
+    </form>
+</blockquote>
+<table id="tableDom" lay-filter="tableView"></table>
+<input type="hidden" id="companyID" value="@ViewBag.companyID" />
+<script type="text/html" id="letState">
+    {{# if(d.state===1){ }}
+    <span style="color:#5FB878;padding-right:10px;">已认证</span>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state2">停用</a>
+    {{# }else { }}
+    <span style="color:#FF5722;padding-right:10px;">未认证</span>
+    <a class="layui-btn layui-btn-xs" lay-event="state1">认证</a>
+    {{# } }}
+</script>
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script>
+        var print = $('#print'), printWhere = {};
+        layui.config({ base: '/areas/admin/js/' }).use(['form', 'layer', 'table', 'glevent'], function () {
+            var form = layui.form, layer = layui.layer, table = layui.table, glevent = layui.glevent;
+            $(function () {
+                glevent.loadbmks();
+                glevent.loadjbzc();
+            });
+            form.on('submit(formFind)', function (d) {
+                print.off().addClass('layui-btn-disabled');
+                printWhere = d.field;
+                table.reload('tableData', {
+                    where: { wherejson: JSON.stringify(d.field) }
+                });
+                return false;
+            });
+            table.render({
+                elem: '#tableDom', id: 'tableData', page: true, limits: [10, 20, 30], limit: 10,
+                url: '/admin/employeemsg/tabledata',
+                cols: [[
+                    { field: 'rows', title: '序号', width: 60, align: 'center' },
+                    { field: 'name', title: '姓名', width: 90, align: 'center', event: 'detail', style: 'cursor: pointer;color: #01AAED;' },
+                    { field: 'sex', title: '性别', width: 60, align: 'center' },
+                    { field: 'idcard', title: '身份证号', width: 200 },
+                    { field: 'department', title: '部门', width: 120 },
+                    { field: 'offices', title: '科室', width: 120 },
+                    { field: 'level', title: '级别', width: 120 },
+                    { field: 'jobInfo', title: '职称', width: 120 },
+                    { field: 'phone', title: '手机号码', width: 150 },
+                    { field: 'registerTime', title: '注册时间', width: 150 },
+                    { field: 'state', title: '是否认证', width: 130, templet: '#letState' },
+                ]],
+                done: function (res, curr, count) {
+                    if (count > 0) print.removeClass('layui-btn-disabled'); bindPrint();
+                }
+            });
+            table.on('tool(tableView)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'detail') { //查看
+                    glevent.employeeDetail(data.id);
+                }
+                else if (obj.event === 'state1') { //认证
+                    obj.update({ state: 1 });
+                    updatestate({ state: 1, id: data.id }, function () {
+                        layer.msg('认证成功', { icon: 1 });
+                    });
+                } else if (obj.event === 'state2') { //停用
+                    layer.confirm('确定停用该用户？', { icon: 3 }, function (index) {
+                        obj.update({ state: 2 });
+                        updatestate({ state: 2, id: data.id }, function () {
+                            layer.close(index);
+                            layer.msg('停用成功');
+                        });
+                    });
+                }
+            });
+            function updatestate(josn, callback) {
+                $.ajax({
+                    url: '/admin/employeemsg/updatestate',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: josn,
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        callback(res);
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function bindPrint() {
+                print.off().on('click', function () {
+                    var cid = $('#companyID').val();
+                    window.open('/content/report/page/authorizesReport.aspx?companyid=' + cid + '&' + $.param(printWhere), 'report');
+                });
+            }
+        });
+    </script>
+}

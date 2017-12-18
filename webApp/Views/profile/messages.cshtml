@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "我的消息";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">我的消息</li>
+        <li><a href="/profile/core">个人中心</a></li>
+        <li><a href="/profile/personal">基本信息</a></li>
+        <li><a href="/profile/profession">工作信息</a></li>
+        <li><a href="/profile/changepwd">修改密码</a></li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <div class="not-found"><i class="layui-icon">&#xe63a;</i><h5>暂无任何消息</h5><p>您目前没有收到任何消息</p></div>
+        </div>
+    </div>
+</div>

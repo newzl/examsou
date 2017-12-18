@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>考试宝典图标</title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+    <button id="btn1">全部显示</button>
+    <button id="btn2">不重复显示</button>
+    <a href="/root/tool/imgs">返回后台</a>
+    <div class="collapse"></div>
+    <script src="/scripts/jquery-3.2.1.js"></script>
+    <script>
+        var dom = $('.collapse');
+        $('#btn1').click(function () {
+            $.getScript('http://hzs.ksbao.com/pc/js/imgJsonData.js', function () {
+                dom.empty();
+                $.each(imgJsonData.AppItems, function (i, app) {
+                    var htm = '<div class="colla-item">';
+                    htm += '<h2 class="colla-title"><span class="colla-icon">+</span>' + app.AppName + '——【' + app.AppEName + '】</h2>';
+                    htm += '<div class="colla-content">';
+                    htm += '<table>';
+                    htm += '<thead><tr><th class="miwid">数值</th><th class="miwid">记号</th><th class="miwid">图标名称</th><th class="miwid">图标</th></tr></thead><tbody>';
+                    $.each(app.ValueItems, function (i, item) {
+                        htm += '<tr><td>' + item.Value + '</td><td>' + item.Mark + '</td><td>' + item.ImgName + '</td>';
+                        htm += '<td></td>';
+                    });
+                    htm += '</tr></tbody></table></div></div>';
+                    dom.append(htm);
+                });
+                $('.colla-title').click(function () {
+                    $(this).next('.colla-content').toggle('fast');
+                    $(this).parent('.colla-item').siblings().children('.colla-content').hide('fast');
+                });
+            });
+        });
+        $('#btn2').click(function () {
+            $.getScript('http://hzs.ksbao.com/pc/js/imgJsonData.js', function () {
+                var arr = [];
+                $.each(imgJsonData.AppItems, function (i, app) {
+                    $.each(app.ValueItems, function (i, item) {
+                        arr.push(item);
+                    });
+                });
+                console.log(arr.length);
+                var map = {}, dest = [];
+                for (var i = 0; i < arr.length; i++) {
+                    var ai = arr[i];
+                    if (!map[ai.ImgName]) {
+                        dest.push({
+                            ImgName: ai.ImgName,
+                        });
+                        map[ai.ImgName] = ai;
+                    } else {
+                        for (var j = 0; j < dest.length; j++) {
+                            var dj = dest[j];
+                            if (dj.ImgName == ai.ImgName) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                var asc = function (x, y) {
+                    return (x['ImgName'] > y['ImgName']) ? 1 : -1
+                }
+                dest.sort(asc);
+                dom.empty();
+                var htm = '<table><thead><tr><th>图标名称</th></tr></thead><tbody>';
+                $.each(dest, function (i, d) {
+                    htm += '<tr><td>' + d.ImgName + '</td></tr>';
+                });
+                htm += '</tbody></table>';
+                dom.append(htm);
+            });
+        });
+    </script>
+</body>
+</html>

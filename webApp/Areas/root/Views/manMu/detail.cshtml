@@ -1,0 +1,49 @@
+﻿@model Models.submu
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>查看多选题</title>
+    <style>
+        div{font-size:16px;margin:15px 0;}
+        .option{margin-left:15px;}
+        .result{color: #1dacf9;font-size: 20px;font-weight: bold}
+        .bq{color:#F70;}
+    </style>
+</head>
+<body>
+    <div><span class="bq">【题目】</span>@(new HtmlString(Model.subs))</div>
+    <div class="option">
+        <div>A、@(new HtmlString(Model.A))</div>
+        <div>B、@(new HtmlString(Model.B))</div>
+        <div>C、@(new HtmlString(Model.C))</div>
+        <div>D、@(new HtmlString(Model.D))</div>
+        @if (Model.E != null && Model.E != "")
+        {
+            <div>E、@(new HtmlString(Model.E))</div>
+        }
+        @if (Model.F != null && Model.F != "")
+        {
+            <div>F、@(new HtmlString(Model.F))</div>
+        }
+    </div>
+    <div><b class="bq">【章节】</b>@(new HtmlString(Model.snav))</div>
+    <div><b class="bq">【答案】</b><span class="result">@Model.result</span></div>
+    @if (Model.explain != null && Model.explain != "")
+    {
+        <div><b class="bq">【解析】</b>@(new HtmlString(Model.explain))</div>
+    }
+    else
+    {
+        <div><b class="bq">【解析】</b>暂无解析</div>
+    }
+    @if (Model.instate)
+    {
+        <div><b class="bq">【状态】</b>已入库</div>
+    }
+    else
+    {
+        <div><b class="bq">【状态】</b> 未入库</div>
+    }
+</body>
+</html>

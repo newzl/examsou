@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "用户注册";
+    Layout = "~/Views/account/_layoutAccount.cshtml";
+}
+<div class="layui-container acc-content">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">用户注册</li>
+            <li><a href="/account/backpwd">找回密码</a></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机号码</label>
+                        <div class="layui-input-inline" style="width:300px;">
+                            <input type="text" id="phone" name="phone" required lay-verify="verPhone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">将成为唯一登录名</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">动态码</label>
+                        <div class="layui-input-inline" style="width:180px;">
+                            <input type="text" name="code" required lay-verify="verCode" placeholder="请输入动态码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-word-aux">
+                            <a href="javascirpt:;" id="getCode" class="layui-btn layui-btn-primary">获取动态码</a>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-inline" style="width:300px;">
+                            <input type="password" id="pwd" required lay-verify="verPwd" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">确定密码</label>
+                        <div class="layui-input-inline" style="width:300px;">
+                            <input type="password" name="pwdc" required lay-verify="verPwdc" placeholder="请输入确定密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">重复输入密码确认不会输错</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-label"></div>
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="regForm">立即注册</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-label"></div>
+                        <div class="layui-input-block acc-regtip">
+                            <p>或者使用其他方式快捷&nbsp;<a href="/account/otherreg">注册</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section js{
+    <script src="/scripts/account/phoneReg.js?v=2.0.2"></script>
+}

@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "修改密码";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li><a href="/profile/messages">我的消息</a></li>
+        <li><a href="/profile/core">个人中心</a></li>
+        <li><a href="/profile/personal">基本信息</a></li>
+        <li><a href="/profile/profession">工作信息</a></li>
+        <li class="layui-this">修改密码</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">旧密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="oldpwd" required lay-verify="verPwd" placeholder="请输入旧密码" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">必填</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="pwd" required lay-verify="verPwd" placeholder="请输入新密码" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">必填</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">确认新密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="pwdc" required lay-verify="verPwdc" placeholder="请输入确认新密码" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">必填</div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-danger" lay-submit lay-filter="resetPwd">修改密码</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section js{
+    <script>
+        layui.use('form', function () {
+            var form = layui.form;
+            form.verify({
+                verPwd: [/^.{6,16}$/, '密码为6到16个字符'],
+                verPwdc: function (val) { if (val !== $('#pwd').val()) return '两次密码输入不一致'; }
+            });
+            //修改密码
+            form.on('submit(resetPwd)', function (fd) {
+                var conf = layer.confirm('您确定修改密码？', { icon: 3 }, function () {
+                    layer.close(conf);
+                    $.ajax({
+                        url: '/profile/changepwdform',
+                        type: 'post', dataType: 'json', async: false, cache: false,
+                        data: fd.field,
+                        success: function (res) {
+                            if (res > 0) {
+                                layer.msg('修改成功，请重新登录！', {
+                                    icon: 1, end: function () {
+                                        window.location.href = "/account/quitlogin";
+                                    }
+                                });
+                            }
+                            else {
+                                layer.alert('旧密码不对，请重新输入！', { icon: 2 });
+                            }
+                        },
+                        error: function (m) { alert(m.responseText); }
+                    });
+                });
+                return false;
+            });
+        });
+    </script>
+}

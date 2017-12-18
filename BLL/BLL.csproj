@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6E48F7E4-FAD4-4B40-88C1-03D0F1DBC465}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BLL</RootNamespace>
+    <AssemblyName>BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="account\employeeBLL.cs" />
+    <Compile Include="account\validateEmailBLL.cs" />
+    <Compile Include="commentBLL.cs" />
+    <Compile Include="companyBLL.cs" />
+    <Compile Include="departmentBLL.cs" />
+    <Compile Include="examPlanBLL.cs" />
+    <Compile Include="exam\examTestBLL.cs" />
+    <Compile Include="feedbackBLL.cs" />
+    <Compile Include="jbzcBLL.cs" />
+    <Compile Include="learn\learnCollectBLL.cs" />
+    <Compile Include="learn\learnCommonBLL.cs" />
+    <Compile Include="learn\learnErrorBackBLL.cs" />
+    <Compile Include="learn\learnNotesBLL.cs" />
+    <Compile Include="learn\learnSubjectBLL.cs" />
+    <Compile Include="learn\learnsxBLL.cs" />
+    <Compile Include="pagingBLL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="publicBLL.cs" />
+    <Compile Include="reportBLL.cs" />
+    <Compile Include="root\keJianBLL.cs" />
+    <Compile Include="root\toolBLL.cs" />
+    <Compile Include="root\subchBLL.cs" />
+    <Compile Include="root\subjuBLL.cs" />
+    <Compile Include="root\subksBLL.cs" />
+    <Compile Include="root\submuBLL.cs" />
+    <Compile Include="subjectClassBLL.cs" />
+    <Compile Include="Users\usersBLL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{10582bb2-9371-49de-91a8-048992c701b3}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{17fe4064-0f57-4c68-baf1-ab787d2ee8b1}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{208a6fd3-f241-4e28-adb1-80528981884a}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{e3472a55-8001-4698-95cb-58160fa1e96c}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

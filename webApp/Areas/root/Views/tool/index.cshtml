@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "截题工具";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+@section css{
+    <link href="~/content/tool/style.css" rel="stylesheet" />
+}
+<textarea id="netData" style="width:100%;height:150px;"></textarea>
+<button id="netParse" class="layui-btn layui-btn-xs">转换</button>
+<button class="layui-btn layui-btn-xs layui-btn-normal" onclick="javascript:location.reload();">刷新</button>
+<span>【数量：<b class="appnum"></b>】&ensp;【APPEName：<b class="appname"></b>】</span>
+<div class="layui-collapse"></div>
+@section js{
+    <script src="/scripts/exportword/FileSaver.js"></script>
+    <script src="/scripts/exportword/jquery.wordexport.js"></script>
+    <script src="/content/tool/crypto.js"></script>
+    <script src="/Areas/root/js/tool.js"></script>
+}

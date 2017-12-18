@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "个人中心";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+@section css{
+    <style>
+        .layui-table tbody tr:hover, .layui-table-hover {background-color: #fff !important;}
+        .layui-table img {max-width: none;}
+    </style>
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li><a href="/profile/messages">我的消息</a></li>
+        <li class="layui-this">个人中心</li>
+        <li><a href="/profile/personal">基本信息</a></li>
+        <li><a href="/profile/profession">工作信息</a></li>
+        <li><a href="/profile/changepwd">修改密码</a></li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show" id="infoView">
+            <script type="text/html" id="infoDom">
+                <table class="layui-table">
+                    <tr>
+                        <td class="textc">姓名</td>
+                        <td>{{d.name != null ? d.name : '无'}}</td>
+                        <td class="textc">性别</td>
+                        <td>{{d.sex}}</td>
+                        <td rowspan="4" colspan="1" style="width: 150px;text-align:center;padding:0 10px;"><img src="{{d.photo != null ? d.photo : '/images/empty.jpg'}}" height="150" width="115"></td>
+                    </tr>
+                    <tr>
+                        <td class="textc">账号</td>
+                        <td>{{d.account}}</td>
+                        <td class="textc">手机号码</td>
+                        <td>{{d.phone != null ? d.phone : '无'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="textc">所属单位</td>
+                        <td>{{d.company != null ? d.company : '无'}}</td>
+                        <td class="textc">是否认证</td>
+                        {{# if(d.state===1){ }}
+                        <td>已认证</td>
+                        {{# }else{ }}
+                        {{# if(d.isApply===true){ }}
+                        <td style="color:red">未认证<a href="javascript:;" id="certification" class="fr layui-btn layui-btn-xs">申请认证</a></td>
+                        {{# }else{ }}
+                        <td style="color:red">未认证<a href="javascript:;" class="fr layui-btn layui-btn-xs layui-btn-disabled">已提交申请</a></td>
+                        {{# } }}
+                        {{# } }}
+                    </tr>
+                    <tr>
+                        <td class="textc">部门/科室</td>
+                        <td>{{ d.bmks != null ? d.bmks : '无' }}</td>
+                        <td class="textc">级别/职称</td>
+                        <td>{{d.jbzc != null ? d.jbzc : '无'}}</td>
+                    </tr>
+                </table>
+                <table class="layui-table">
+                    <tr>
+                        <td class="textc">学习次数</td>
+                        <td>{{d.learns}}次</td>
+                        <td class="textc">在线考试</td>
+                        <td>{{d.exams}}次</td>
+                        <td class="textc">模拟考试</td>
+                        <td>{{d.simulates}}次</td>
+                    </tr>
+                    <tr>
+                        <td class="textc">最 高 分</td>
+                        <td>{{d.maxs != null ? d.maxs : '暂无记录'}}</td>
+                        <td class="textc">最 低 分</td>
+                        <td>{{d.mins != null ? d.mins : '暂无记录'}}</td>
+                        <td class="textc">平 均 分</td>
+                        <td>{{d.avgs != null ? d.avgs : '暂无记录'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="textc">登录次数</td>
+                        <td>{{d.logins}}次</td>
+                        <td class="textc">登录时间</td>
+                        <td>{{d.logindate}}</td>
+                        <td class="textc">注册时间</td>
+                        <td>{{d.regdate}}</td>
+                    </tr>
+                </table>
+                {{# if(d.table != null){ }}
+                <table class="layui-table">
+                    <thead><tr><th>序号</th><th>项目</th><th>日期</th><th>次数</th></tr></thead>
+                    {{# layui.each(d.table, function(i, obj){ }}
+                    <tr><td>{{(i + 1)}}</td><td>{{obj.type}}</td><td>{{obj.date}}</td><td>{{obj.nums}}次</td></tr>
+                    {{#  }); }}
+                </table>
+                {{# } }}
+            </script>
+        </div>
+    </div>
+</div>
+@section js{
+    <script>
+        layui.use(['layer', 'laytpl'], function () {
+            var layer = layui.layer, laytpl = layui.laytpl;
+            $.ajax({
+                url: '/profile/datacore',
+                type: "get", dataType: 'json', cache: false,
+                data: null,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    var obj = res.info[0];
+                    obj['table'] = res.table;
+                    var getTpl = infoDom.innerHTML;
+                    laytpl(getTpl).render(obj, function (html) {
+                        document.getElementById('infoView').innerHTML = html;
+                    });
+                },
+                complete: function () { layer.closeAll('loading'); bindEvent(); },
+                error: function (msg) { layer.alert('ajaxError' + msg.responseText); }
+            });
+            function bindEvent() {
+                var dom = $('#certification');
+                dom.off().on('click', function () {
+                    $.post("/profile/isapply", null, function (res) {
+                        if (res > 0) {
+                            layer.msg('申请认证成功', { icon: 1 });
+                            dom.text('已提交申请').addClass('layui-btn-disabled');
+                            dom.off();
+                        }
+                        else {
+                            layer.open({
+                                title: '无法认证',
+                                btn: ['完善资料', '关闭'],
+                                icon: 2,
+                                content: '请填写个人资料！且必须填选:姓名、性别、单位、科室、职称等！',
+                                yes: function () {
+                                    window.location.replace('/profile/personal');
+                                },
+                                btn2: function () {
+                                    layer.closeAll();
+                                }
+                            });
+                        }
+                    }, "json")
+                });
+            }
+        });
+    </script>
+}

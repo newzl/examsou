@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>错题反馈</title>
+    <link href="/content/layui109/css/layui.css" rel="stylesheet" />
+</head>
+<body style="padding:5px;">
+    <form id="errorback" class="layui-form">
+        <div style="text-indent: 2em;">
+            感谢您对我们的支持和帮助，虽然我们每天都在完善题库，但有些题目可能仍然存在瑕疵，对您造成的不便我们深表歉意。您反馈的问题我们将尽快处理，并进行定期更新，更新完成之后，您所反馈的问题将修改正确。
+        </div>
+        <div id="radioList">
+            <input type="radio" name="err" value="1" title="错别字" />
+            <input type="radio" name="err" value="2" title="题目有误" />
+            <input type="radio" name="err" value="3" title="答案有误" />
+            <input type="radio" name="err" value="4" title="解析有误" />
+            <input type="radio" name="err" value="5" title="图片无法显示" />
+            <input type="radio" name="err" value="6" title="其他" checked />
+        </div>
+        <textarea id="editContent" placeholder="请描述题目的具体错误所在，方便我们对题目进行校正（限500字）" class="layui-textarea"></textarea>
+    </form>
+    <textarea id="feedback" style="display: none;"></textarea>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/content/layui109/layui.js"></script>
+    <script>
+        layui.use('form', function () { });
+        function getContent(cb) {
+            cb({
+                errType: parseInt($('.layui-form-radioed').prev('input').val()),
+                content: $('#editContent').val()
+            });
+        }
+    </script>
+</body>
+</html>

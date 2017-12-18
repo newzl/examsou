@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "意见反馈";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    <form class="layui-form layui-form-pane find-panel">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <input type="text" name="ename" placeholder="请输入姓名" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否显示</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <select name="display">
+                        <option value="-1">全部</option>
+                        <option value="1">显示</option>
+                        <option value="0">不显示</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否解决</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <select name="isdispose">
+                        <option value="-1">全部</option>
+                        <option value="1">已解决</option>
+                        <option value="0">未解决</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">回复日期</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="mindate" name="mindate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="maxdate" name="maxdate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="maxDateEve()" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a href="javascript:;" class="layui-btn" lay-submit lay-filter="formFind"><i class="layui-icon">&#xe615;</i> 查询</a>
+            </div>
+        </div>
+    </form>
+</blockquote>
+<table id="tableDom" lay-filter="tableView"></table>
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script>
+        layui.use(['form', 'layer', 'table'], function () {
+            var form = layui.form, layer = layui.layer, table = layui.table;
+            form.on('submit(formFind)', function (d) {
+                //initTable(d.field);
+                return false;
+            });
+            table.render({
+                elem: '#tableDom', id: 'tableData',
+                url: '',
+                cols: [[
+                    { field: 'rows', title: '序号', width: 60, align: 'center' },
+                    { field: 'name', title: '姓名', width: 90, align: 'center', event: 'detail', style: 'cursor: pointer;color: #01AAED;' },
+                    { field: 'content', title: '反馈内容', width: 600 },
+                    { field: 'xxrs', title: '是否显示', width: 100 },
+                    { field: 'must', title: '是否解决', width: 100 },
+                    { field: 'date', title: '反馈日期', width: 145 },
+                    { field: 'replyTime', title: '回复日期', width: 145 }
+                ]]
+            });
+        });
+        function minDateEve() {
+            var maxD = $dp.$('maxdate');
+            WdatePicker({
+                onpicked: function () {
+                    maxD.focus();
+                },
+                maxDate: '#F{$dp.$D(\'maxdate\')}'
+            })
+        }
+        function maxDateEve() {
+            WdatePicker({
+                minDate: '#F{$dp.$D(\'mindate\')}'
+            })
+        }
+    </script>
+}

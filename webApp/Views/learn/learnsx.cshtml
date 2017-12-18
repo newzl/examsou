@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>顺序练习 - 新智联在线考试平台</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/content/icheck/green.css" rel="stylesheet" />
+    <link href="/content/css/learn.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><a href="/">新智联</a></div>
+    </div>
+    <div class="layui-box layui-main">
+        <div class="ln-header-box layui-form">
+            <div class="ln-type">
+                <select>
+                    <option value="ch">单选题</option>
+                    <option value="mu">多选题</option>
+                    <option value="ju">判断题</option>
+                </select>
+            </div>
+            <p>医学三基-医院管理</p>
+            <div class="ln-header-btn">
+                <div class="layui-btn-group ln-cbtn">
+                    <a href="/learn" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe603;</i></a>
+                    <a id="help" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe607;</i></a>
+                    <a id="setting" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe614;</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="ln-content" id="subContent"></div>
+        <script type="text/html" id="subTpl">
+            <div class="subjects"><span>第{{d.rows}}题</span>{{=d.sub}}</div>
+            <div class="options">
+                <div class="item"><input type="radio" value="A" name="{{d.id}}" />A、{{=d.A}}</div>
+                <div class="item"><input type="radio" value="B" name="{{d.id}}" />B、{{=d.B}}</div>
+                <div class="item"><input type="radio" value="C" name="{{d.id}}" />C、{{=d.C}}</div>
+                <div class="item"><input type="radio" value="D" name="{{d.id}}" />D、{{=d.D}}</div>
+                {{# if(d.E !== null && d.E !== '' ){ }}
+                <div class="item"><input type="radio" value="E" name="{{d.id}}" />E、{{=d.E}}</div>
+                {{# } }}
+            </div>
+        </script>
+        <div class="ln-result">
+            @*<p class="dacuo"><label>回答错误！</label>正确答案：<b>A</b></p>*@
+            <p class="dadui">回答正确！</p>
+        </div>
+        <div class="ln-operate">
+            <div class="ln-pn layui-form">
+                <a class="layui-btn prev layui-btn-primary"><i class="layui-icon">&#xe65a;</i>上一题</a>
+                <a class="layui-btn next">下一题<i class="layui-icon">&#xe65b;</i></a>
+                <input type="checkbox" name="" title="答对自动下一题" lay-skin="primary" checked>
+            </div>
+            <div id="toolView"></div>
+            <script type="text/html" id="toolTpl">
+                <p>{{d.rows}} / {{d.count}}</p>
+                <div class="ln-tool ln-cbtn">
+                    {{# if(d.col !== null){ }}
+                    <a class="layui-btn layui-btn-primary star-btn" data-cid="{{d.col}}" title="取消收藏"><i class="layui-icon have">&#xe658;</i></a>
+                    {{# } else { }}
+                    <a class="layui-btn layui-btn-primary star-btn" title="收藏"><i class="layui-icon">&#xe600;</i></a>
+                    {{# } }}
+                    <a class="layui-btn layui-btn-primary notes-btn" title="笔记"><i class="layui-icon {{ d.not !== null ? 'have' : '' }}">&#xe642;</i></a>
+                    <a class="layui-btn layui-btn-primary explain-btn" title="试题详解"><i class="layui-icon">&#xe705;</i></a>
+                    <a class="layui-btn layui-btn-primary answer-btn" title="答题卡"><i class="layui-icon">&#xe65f;</i></a>
+                </div>
+            </script>
+        </div>
+
+        <div id="infoView"></div>
+        <script type="text/html" id="infoTpl">
+            <div class="ln-explain" style="display:none;">
+                <div class="title">
+                    试题详解
+                    <span>此题共{{d.tot}}人作答，其中{{d.yes}}%人答对</span>
+                    <cite>报错</cite>
+                </div>
+                <p class="explain">{{ d.exp !== null && d.exp !== '' ? d.exp : '暂无详解'}}</p>
+            </div>
+            <div class="ln-notes" style="display:none;">
+                <div class="title">
+                    我的笔记
+                    <cite>编辑</cite>
+                </div>
+                <p class="notes">{{ d.not !== null && d.not !== '' ? d.not : '暂无笔记'}}</p>
+            </div>
+        </script>
+
+        <div class="answer-card" style="display:none;">
+            <dl>
+                @for (int i = 1; i <= 153; i++)
+                {
+                    <dd class="no">@i</dd>
+                }
+            </dl>
+        </div>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/scripts/jquery.cookie.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/content/icheck/icheck.min.js"></script>
+    <script>
+        var sdata = [{
+            rows: 2,
+            id: 73550,
+            sub: "甾体皂苷和三萜皂苷在醋酐-浓硫酸反应中，能产生颜色变化，其区别为(   )",
+            A: "甾体皂苷需要加热，三萜皂苷不需要加热",
+            B: "甾体皂苷不需要加热，三萜皂苷需要加热",
+            C: "甾体皂苷、三萜皂苷分别加热到90℃、100℃",
+            D: "甾体皂苷最后出现红色或紫色，三萜皂苷最后出现绿色，不出现红色",
+            E: "甾体皂苷最后出现绿色，三萜皂苷最后出现红色，不出现绿色",
+            res: "E",
+            exp: null,
+            tot: 22,
+            yes: 56.98,
+            col: 123,
+            not: "车上"
+        }, {
+            rows: 3,
+            id: 73551,
+            sub: "人参中含多种人参皂苷，其绝大多数属于(   )",
+            A: "达玛烷型",
+            B: "羊毛脂烷型",
+            C: "甘遂烷型",
+            D: "葫芦烷型",
+            E: "",
+            res: "A",
+            exp: null,
+            tot: 6,
+            yes: 89.6,
+            col: null,
+            not: null
+        }];
+        var learnCookie = 'LEARNSETTINGCOOKIE';
+        layui.use(['form', 'layer', 'laytpl'], function () {
+            var form = layui.form, layer = layui.layer, laytpl = layui.laytpl;
+            var si = 0;
+            $(function () {
+                init.setting();
+                event.bindcbtn();
+                event.bindstatic();
+                init.tpldata(sdata[si]);
+            });
+            var event = {
+                //绑定右上角事件
+                bindcbtn: function () {
+                    $('#setting').off().on('click', function () {
+                        var cook = $.cookie(learnCookie), obj = null;
+                        if (cook !== undefined && cook !== null) obj = $.parseJSON(cook);
+                        else obj = { skin: 0, font: 0 }
+                        var pst = "layui-btn-primary",
+                            s0 = obj.skin == 0 ? '' : pst,
+                            s1 = obj.skin == 1 ? '' : pst,
+                            f0 = obj.font == 0 ? '' : pst,
+                            f1 = obj.font == 1 ? '' : pst,
+                            f2 = obj.font == 2 ? '' : pst;
+                        var htm = '<table><tr><td>皮肤：</td><td class="settskin">';
+                        htm += '<button value="0" class="layui-btn layui-btn-xs ' + s0 + '">正常</button>';
+                        htm += '<button value="1" class="layui-btn layui-btn-xs ' + s1 + '">夜间</button>';
+                        htm += '</td></tr><tr><td>字体：</td><td style="padding-top:5px;" class="settfont">';
+                        htm += '<button value="0" class="layui-btn layui-btn-xs ' + f0 + '">小</button>';
+                        htm += '<button value="1" class="layui-btn layui-btn-xs ' + f1 + '">中</button>';
+                        htm += '<button value="2" class="layui-btn layui-btn-xs ' + f2 + '">大</button>';
+                        htm += '</td></tr></table>';
+                        layer.tips(htm, '#setting', {
+                            time: 3000,
+                            tips: [4, '#999'],
+                            success: function () {
+                                $('.settskin .layui-btn-primary').off().on('click', function () {
+                                    obj['skin'] = parseInt($(this).val());
+                                    $.cookie(learnCookie, JSON.stringify(obj), { expires: 360, path: '/' });
+                                    init.setting(); layer.closeAll();
+                                });
+                                $('.settfont .layui-btn-primary').off().on('click', function () {
+                                    obj['font'] = parseInt($(this).val());
+                                    $.cookie(learnCookie, JSON.stringify(obj), { expires: 360, path: '/' });
+                                    init.setting(); layer.closeAll();
+                                });
+                            }
+                        });
+                    });
+                    $('#help').off().on('click', function () {
+                        layer.open({ type: 1, title: false, closeBtn: 0, area: '1000px', offset: '100px', time: 5000, shadeClose: true, content: '<img src="/images/point_pic.png">' });
+                    });
+                },
+                //绑定静态事件
+                bindstatic: function () {
+                    //上一题
+                    $('.prev').off().on('click', function () {
+                        si -= 1;
+                        init.tpldata(sdata[si]);
+                    });
+                    //下一题
+                    $('.next').off().on('click', function () {
+                        si += 1;
+                        sdata[si]['rows'] = 100;
+                        init.tpldata(sdata[si]);
+                    });
+                },
+                bindebtn: function () {
+                    //收藏
+                    $('.star-btn').off().on('click', function () {
+                        var cid = $(this).data('cid') || 0;
+                        alert(cid);
+                    });
+                    //笔记
+                    $('.notes-btn').off().on('click', function () {
+                        $('.ln-notes').toggle('fast');
+                    });
+                    //详解
+                    $('.explain-btn').off().on('click', function () {
+                        $('.ln-explain').toggle('fast');
+                    });
+                    //答题卡
+                    $('.answer-btn').off().on('click', function () {
+                        layer.open({
+                            type: 1,
+                            title: false,
+                            closeBtn: 0, time: 40000,
+                            area: '1100px',
+                            shadeClose: true,
+                            content: $('.answer-card')
+                        });
+                    });
+                }
+            };
+            var init = {
+                //初始化设置
+                setting: function () {
+                    var cook = $.cookie(learnCookie), obj = null;
+                    if (cook !== undefined && cook !== null) obj = $.parseJSON(cook);
+                    else obj = { skin: 0, font: 0 }
+                    if (obj.skin === 1) $('body').addClass('black');
+                    else $('body').removeClass('black');
+                    var dom = $('#subContent');
+                    switch (obj.font) {
+                        case 0: dom.removeClass('font18 font20').addClass('font16'); break;
+                        case 1: dom.removeClass('font16 font20').addClass('font18'); break;
+                        case 2: dom.removeClass('font16 font18').addClass('font20'); break;
+                    }
+                },
+                tpldata: function (d) {
+                    laytpl(subTpl.innerHTML).render({
+                        rows: d.rows,
+                        id: d.id,
+                        sub: d.sub,
+                        A: d.A,
+                        B: d.B,
+                        C: d.C,
+                        D: d.D,
+                        E: d.E
+                    }, function (htm) {
+                        document.getElementById('subContent').innerHTML = htm;
+                        initiCheck();
+                    });
+                    //详解和笔记
+                    laytpl(infoTpl.innerHTML).render({
+                        tot: d.tot,
+                        yes: d.yes,
+                        exp: d.exp,
+                        not: d.not
+                    }, function (htm) {
+                        document.getElementById('infoView').innerHTML = htm;
+                    });
+                    //工具条
+                    laytpl(toolTpl.innerHTML).render({
+                        rows: d.rows,
+                        count: 153,
+                        col: d.col,
+                        not: d.not
+                    }, function (htm) {
+                        document.getElementById('toolView').innerHTML = htm;
+                        event.bindebtn();
+                    });
+                }
+            };
+        });
+
+        function initiCheck() {
+            $('#subContent input').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+                increaseArea: '20%'
+            });
+        }
+    </script>
+</body>
+</html>

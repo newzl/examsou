@@ -1,0 +1,36 @@
+﻿@model Models.subks
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>查看问答题</title>
+    <style>
+        div{font-size:16px;margin:15px 0;}
+        .option{margin-left:15px;}
+        .result{color: #1dacf9;font-size: 20px;font-weight: bold}
+        .bq{color:#F70;}
+    </style>
+</head>
+<body>
+    <div><span class="bq">【题目】</span>@(new HtmlString(Model.subs))</div>
+    <div><b class="bq">【章节】</b>@(new HtmlString(Model.snav))</div>
+    <div>
+        <b class="bq">【答案】</b>@(new HtmlString(Model.result))</div>
+    @if (Model.explain != null && Model.explain != "")
+    {
+        <div><b class="bq">【解析】</b>@(new HtmlString(Model.explain))</div>
+    }
+    else
+    {
+        <div><b class="bq">【解析】</b>暂无解析</div>
+    }
+    @if (Model.instate)
+    {
+        <div><b class="bq">【状态】</b>已入库</div>
+    }
+    else
+    {
+        <div><b class="bq">【状态】</b> 未入库</div>
+    }
+</body>
+</html>

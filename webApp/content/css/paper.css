@@ -1,0 +1,52 @@
+﻿@import url('/content/icheck/green.css');
+body {background-color:#eee;}.cl {clear:both;}
+.layui-main {background-color:#fbfbfb;box-shadow:0 1px 0 0 rgba(26,16,9,0.06),0 2px 3px rgba(26,16,9,0.06);}
+.tcenter tr td,.tcenter tr th{text-align:center!important;}
+/*#region 顶部 */
+.header {width:100%;height:50px;line-height:50px;background-color:#FAFAFA;margin-bottom:10px;box-shadow:0 1px 0 0 rgba(26,16,9,0.06),0 2px 3px rgba(26,16,9,0.06);}
+.header .logo {width:1140px;margin:0 auto;}
+.header .logo a {font-size:27px;font-weight:bold;color:#4ecdc4;}
+/*#endregion */
+
+/*#region 题库wrap */
+.sub-wrap {float:left; width:900px;min-height:600px;background-color:white;border-right:1px solid #eee;}
+
+/*标题*/
+.sub-wrap h2 {padding:10px 0;text-align:center;border-bottom:1px solid #eee;font-size: 22px;color: #f70;}
+.sub-wrap h2 a{font-size:22px;color:#f70;}
+/*#endregion */
+
+/*#region 题目和选项 */
+.subContent {padding:20px 30px;}
+.subContent ul{margin-top:10px;padding: 0;list-style: none;}
+.subContent ul li{position: relative; padding: 0 0 10px 30px;}
+.subContent ul li:first-child{padding-left:0px;}
+.subContent ul li:first-child span{color:#F70;margin-right:5px;}
+.subContent ul li label{cursor:pointer;}
+.subContent ul .answer{display:none;color:#4bcc60;}
+.subContent ul .iradio_square-green,.subContent ul .icheckbox_square-green {position: absolute;top: -1px;left: 0;}
+/*#endregion */
+
+/*#region 导航-答题卡样式 */
+.nav-wrap{float:right;width:238px;}
+.nav-content{padding-top:10px;}
+.nav-fix{position:fixed !important;top:0px;width:238px;}
+/*倒计时*/
+.nav-countdown {text-align:center;color:red;}
+.nav-countdown span {font-size:17px;line-height:17px;padding:0 1px;}
+.nav-countdown .fo{font-weight:600;}
+/*答题卡*/
+.nav-sheet {padding:10px 0 10px 14px;}
+.nav-sheet a {display:inline-block;text-align:center;width: 24px;height: 20px;line-height: 20px;margin: 2px;border: 1px solid #ccc;color: #bbb;font-weight: bolder;}
+.nav-sheet a:hover{opacity:0.7;}
+.nav-sheet .yd,.nav-hint div:first-child i{background-color:#1b7e5a; border:1px solid #1b7e5a;color:#eee;}/*已答*/
+.nav-sheet .cd{background-color:red!important; border:1px solid red !important;}/*错误*/
+/*提示*/
+.nav-hint{margin:0 auto;margin:0 0 10px 65px;}
+.nav-hint div{display:inline-block;margin:0 5px;line-height:18px;}
+.nav-hint div i{float:left;width:15px;height:15px;border:1px solid #ddd;}
+.nav-btn{text-align:center;}/*按钮*/
+/*#endregion */
+
+/*底部*/
+.footer {color:#989898;text-align:center;padding:10px 0 20px 0;margin:0 auto;}

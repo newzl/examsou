@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "单选题管理";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+<div class="layui-tab layui-tab-brief" lay-filter="tabView">
+    <ul class="layui-tab-title">
+        <li lay-id="list" class="layui-this">试题列表</li>
+        <li lay-id="edit">单选题编辑</li>
+        <li lay-id="import">导入试题</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+                <form class="layui-form layui-form-pane find-panel">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">题库类型</label>
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <input type="text" id="findsname" placeholder="请选择题库类型" class="layui-input" readonly="readonly">
+                                <input type="hidden" id="findsid" name="sid" value="0" />
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                <a href="javascript:;" id="findreset">清除</a>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">题目</label>
+                            <div class="layui-input-inline" style="width: 350px;">
+                                <input type="text" name="title" placeholder="请输入题目" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">是否入库</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <select name="inputState">
+                                    <option value="-1">全部</option>
+                                    <option value="1">已入库</option>
+                                    <option value="0">未入库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">添加时间</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" id="mindate" name="mindate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" id="maxdate" name="maxdate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="maxDateEve()" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn" lay-submit lay-filter="findForm"><i class="layui-icon">&#xe615;</i> 查询</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <table id="tableDom" lay-filter="tableView"></table>
+            <div class="layui-btn-group">
+                <a class="layui-btn layui-btn-sm layui-btn-normal">单选题</a>
+                <a href="/root/manmu/list" class="layui-btn layui-btn-sm layui-btn-primary">多选题</a>
+                <a href="/root/manju/list" class="layui-btn layui-btn-sm layui-btn-primary">判断题</a>
+                <a href="/root/manqa/list" class="layui-btn layui-btn-sm layui-btn-primary">问答题</a>
+                <a href="/root/manfi/list" class="layui-btn layui-btn-sm layui-btn-primary">填空题</a>
+                <a href="/root/manmc/list" class="layui-btn layui-btn-sm layui-btn-primary">名词解析</a>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form editsub">
+                <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>类型</label>
+                    <div class="layui-form-mid layui-word-aux">
+                        <span id="subnav" class="subnav">请选择题库类型</span>&ensp;<a class="layui-btn layui-btn-xs selClass">选择</a>
+                        <input type="hidden" id="sid" class="sid" name="sid" value="0" lay-verify="versid" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="title" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>题目<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="subs" name="subs" placeholder="请输入题目" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>选项A<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="opA" name="opA" placeholder="请输入选项A" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>选项B<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="opB" name="opB" placeholder="请输入选项B" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>选项C<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="opC" name="opC" placeholder="请输入选项C" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>选项D<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="opD" name="opD" placeholder="请输入选项D" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选项E<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="opE" name="opE" placeholder="请输入选项E" class="layui-textarea"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">解释<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="explain" name="explain" placeholder="请输入解释" class="layui-textarea"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">答案</label>
+                    <div class="layui-input-block" id="result">
+                        <input type="radio" name="result" value="A" title="A" checked>
+                        <input type="radio" name="result" value="B" title="B">
+                        <input type="radio" name="result" value="C" title="C">
+                        <input type="radio" name="result" value="D" title="D">
+                        <input type="radio" name="result" value="E" title="E">
+                        <input type="checkbox" id="instate" name="instate" lay-skin="switch" lay-text="入库|出库" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" id="saveForm" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
+                        <button type="reset" id="resetForm" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="requ">*</b>类型</label>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="subnav">请选择题库类型</span>&ensp;<a class="layui-btn layui-btn-xs selClass">选择</a>
+                    <input type="hidden" id="isid" class="sid" value="0" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="requ">*</b>内容</label>
+                <div class="layui-input-block">
+                    <textarea id="content" placeholder="请输入内容" class="layui-textarea" required lay-verify="required"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button id="importForm" class="layui-btn">开始导入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operate">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+<script type="text/html" id="stateTpl">
+    <input type="checkbox" value="{{d.id}}" title="入库" lay-filter="stateView" {{ d.state ? 'checked' : '' }}>
+</script>
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script src="/Areas/root/js/manch.js?v=2.0.2"></script>
+}

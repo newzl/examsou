@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Keywords" content="新智联,新智联在线考试平台,在线学习" />
+    <meta name="Description" content="贵州省,新智联,学习,计生,技术,科技,在线学习,在线考试,在线学习考试,医师,执业医师" />
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="baidu-site-verification" content="hRfqc0mEvJ" />
+    <title>新智联在线考试平台</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/content/css/home.css?v=2.0.2" rel="stylesheet" />
+</head>
+<body>
+    <div class="layui-header layui-bg-black">
+        <div class="layui-main">
+            <div class="layui-logo">
+                <a href="javascript:;">新智联</a>
+            </div>
+            <div id="beon" style="display:none;">
+                <script type="text/html" id="topnavDom">
+                    <ul class="layui-nav layui-layout-right">
+                        <li class="layui-nav-item">
+                            <a href="javascript:;"><img src="{{d.photo}}" class="layui-nav-img" />{{d.name}}</a>
+                            <dl class="layui-nav-child">
+                                {{# layui.each(d.list, function(i, item){ }}
+                                <dd><a href="{{item.href}}">{{item.text}}</a></dd>
+                                {{#  }); }}
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item"><a href="/account/quitlogin?returnurl=home">退出</a></li>
+                    </ul>
+                </script>
+            </div>
+            <div id="noton">
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item"><a href="/account/login">登录</a></li>
+                    <li class="layui-nav-item"><a href="/account/reg">注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="feature">
+        <div class="layui-main wrap">
+            <div class="title">新智联在线考试平台</div>
+            <div class="detail">一家专门与医疗卫生类单位合作的在线考试平台，真正实现无纸化网络考试。</div>
+        </div>
+    </div>
+    <div class="learnWrap" id="learnView"></div>
+    <script type="text/html" id="learnDom">
+        {{# layui.each(d, function(i, obj){ }}
+        <div class="learnItem">
+            {{# layui.each(obj.item, function(j, item){ }}
+            <dl class="dlMainsKu" style="{{j===2 ? 'border: none;' : ''}}">
+                <dt><img src="{{item.img}}" /><br /><span class="t_text">{{item.text}}</span></dt>
+                <dd class="skuShow">
+                    <p class="examTitle">{{item.text}}</p>
+                    {{# layui.each(item.list, function(k, list){ }}
+                    <a href="/attempt/examtest/{{list.sid}}?rid={{Math.random().toString(36).substr(2)}}" target="_blank">{{list.text}}</a>
+                    {{#  }); }}
+                </dd>
+            </dl>
+            {{# });}}
+            <div class="cl"></div>
+        </div>
+        {{# });}}
+    </script>
+    <div class="moreWrap">
+        <a href="/account/login">查看更多</a>
+    </div>
+    <div class="hopeWrap">
+        <div class="hope">
+            <div class="hope-img fl">
+                <img src="~/images/home-hope.png" />
+            </div>
+            <div class="hope-content">
+                <p class="title">独特的用户定制机制</p>
+                <p class="detail">采用积木搭建概念，可由用户自定义科目，学习内容，考试题库，考试试卷，真正意义上实现“所见即所得”系统设计理念。</p>
+            </div>
+            <div class="cl"></div>
+        </div>
+    </div>
+    <div class="learnWrap">
+        <div class="titleWrap">
+            <h1 class="wrap-title">考&nbsp;试&nbsp;练&nbsp;习</h1>
+            <p style="color: #999">新智联考试平台&nbsp;&nbsp;&nbsp;懂"行"&nbsp;&nbsp;&nbsp;懂"试"&nbsp;&nbsp;&nbsp;更懂你</p>
+        </div>
+        <div class="contentWrap" style="border-top: 1px solid #ccc">
+            <a href="/member/examlist">
+                <dl class="dlSYZZ dlOnlinExam">
+                    <dt>在线考试</dt>
+                    <dd>在线见证您的学习成果！</dd>
+                </dl>
+            </a>
+            <a href="/member/myerror">
+                <dl class="dlSYZZ dlError">
+                    <dt>查看错题</dt>
+                    <dd>回顾在练习和考证答错的题目！</dd>
+                </dl>
+            </a>
+            <a href="/member/examrecord">
+                <dl class="dlSYZZ dlResult">
+                    <dt>考试成绩</dt>
+                    <dd>
+                        记录每次考试的成绩，以激励见证自己<br />
+                        的每一次成长！
+                    </dd>
+                </dl>
+            </a>
+            <div class="cl"></div>
+        </div>
+    </div>
+    <div class="aboutWrap">
+        <div class="aboutBox fl">
+            <p class="title">产品优势</p>
+            <p>
+                1、练习、学习、考试等多功能，支持多浏览器应用<br />
+                2、强大的数据题库、成绩报表、考试指南等功能<br />
+                3、直观化，科目、部门架构、功能名称等目标明确<br />
+                4、安全放心：提供试用版本和在线试用体验<br />
+                5、技术保障：专业团队提供题错反馈系统报错维护<br />
+                6、考试题型，支持七种不同题型的考试<br />
+                7、海量题库，科目齐全、错题回顾、巩固提高、成绩更卓效
+            </p>
+        </div>
+        <div class="aboutBox fl">
+            <p class="title">系统简介</p>
+            <p>“新智联在线考试平台”是一家专门与医疗卫生类单位合作的考试平台。 是基于B/S模式架构运行于MS平台上的应用软件，采用开放性结构，具有良好的兼容性。在许多细节方面均表现得更加人性、更加成熟、更加完善，同时结合用户需求，满足在网络环境中的线上学习、练习、考试一体化。做到知识信息积累，提高安全性能，使用户更好的实现网络学习，高效安全考试。</p>
+        </div>
+        <div class="cl"></div>
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; 2017 贵阳新智联科技有限公司 版权所有&nbsp;版本:2.0.2</p>
+        <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
+    </div>
+    <input type="hidden" id="islogin" value="@ViewBag.isLogin" />
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/scripts/jquery.cookie.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/scripts/app/home.js?v=2.0.2"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+﻿@{
+    ViewBag.Title = "部门科室";
+    Layout = "~/Areas/admin/Views/_layoutAdmin.cshtml";
+}
+<div class="layui-tab layui-tab-brief" lay-filter="bmksTab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">科室</li>
+        <li>部门</li>
+    </ul>
+    <div class="layui-tab-content">
+        @*科室*@
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+                <div>
+                    部门：
+                    <div class="layui-inline layui-form">
+                        <select id="bm" name="bm" lay-filter="bm">
+                            <option value="-1">全部</option>
+                        </select>
+                    </div>
+                    <a class="layui-btn" id="addKsBtn"><i class="layui-icon">&#xe61f;</i>添加科室</a>
+                </div>
+            </blockquote>
+            <table id="tableDom_ks" lay-filter="tableView_ks"></table>
+        </div>
+        @*部门*@
+        <div class="layui-tab-item">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+                <a class="layui-btn" id="addBmBtn"><i class="layui-icon">&#xe61f;</i>添加部门</a>
+            </blockquote>
+            <table id="tableDom_bm" lay-filter="tableView_bm"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operate_ks">
+    <a class="layui-btn layui-btn-xs" lay-event="edit_ks">修改</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del_ks">删除</a>
+</script>
+<script type="text/html" id="isexam_ks">
+    {{# if(d.isExam) { }}
+    <i class="layui-icon" style="color:#5FB878;font-size:20px;">&#xe616;</i>
+    {{# } else { }}
+    <i class="layui-icon" style="color:#FF5722;font-size:20px;">&#x1007;</i>
+    {{# } }}
+</script>
+<script type="text/html" id="valid_bmks">
+    {{# if(d.valid) { }}
+    <span style="color:#5FB878;font-weight:bold;">启用</span>
+    {{# } else { }}
+    <span style="color:#FF5722;font-weight:bold;">停用</span>
+    {{# } }}
+</script>
+
+<script type="text/html" id="operate_bm">
+    <a class="layui-btn layui-btn-xs" lay-event="edit_bm">修改</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del_bm">删除</a>
+</script>
+@section js{
+    <script>
+        "use strict";
+        layui.config({ base: '/areas/admin/js/' }).use(['form', 'layer', 'table', 'glevent'], function () {
+            var form = layui.form, layer = layui.layer, table = layui.table, glevent = layui.glevent;
+            $(function () {
+                glevent.loadbm();
+                event.addks();
+                event.addbm();
+            });
+            form.verify({
+                isInt: function (va) {
+                    if (!(va.match(/^\d+$/))) {
+                        return '请输入正确的非负整数';
+                    }
+                }
+            });
+            element.on('tab(bmksTab)', function (data) {
+                if (data.index === 0) {
+                    table.reload('tableData_ks');
+                }
+                else if (data.index === 1) {
+                    table.reload('tableData_bm');
+                }
+            });
+            //点击部门刷新table
+            form.on('select(bm)', function (d) {
+                table.reload('tableData_ks', {
+                    where: { bmid: d.value }
+                });
+                return false;
+            });
+            //保存科室
+            form.on('submit(saveKsForm)', function (d) {
+                $.ajax({
+                    url: '/admin/department/saveks',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: {
+                        id: d.field.id,
+                        pid: d.field.bmid,
+                        name: d.field.ksname,
+                        must: d.field.must,
+                        isExam: d.field.isExam === 'on' ? true : false,
+                        valid: d.field.valid === 'on' ? true : false
+                    },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.closeAll();
+                        table.reload('tableData_ks');
+                        layer.msg('保存成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+                return false;
+            });
+            //保存部门
+            form.on('submit(saveBmForm)', function (d) {
+                $.ajax({
+                    url: '/admin/department/savebm',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: {
+                        id: d.field.id,
+                        name: d.field.bmname,
+                        valid: d.field.valid === 'on' ? true : false
+                    },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.closeAll();
+                        table.reload('tableData_bm');
+                        layer.msg('保存成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+                return false;
+            });
+            var event = {
+                addks: function () {
+                    $('#addKsBtn').off().on('click', function () {
+                        $.get('/areas/admin/static/ksform.html', function (fhtml) {
+                            layer.open({
+                                type: 1, resize: false, area: ['350px', '450px'],
+                                title: '添加科室',
+                                content: fhtml,
+                                success: function (i) {
+                                    initselbm();
+                                    form.render();
+                                }
+                            });
+                        }, 'html');
+                    });
+                },
+                addbm: function () {
+                    $('#addBmBtn').off().on('click', function () {
+                        $.get('/areas/admin/static/bmform.html', function (fhtml) {
+                            layer.open({
+                                type: 1, resize: false, area: ['350px', '300px'],
+                                title: '添加部门',
+                                content: fhtml,
+                                success: function (i) {
+                                    form.render('checkbox');
+                                }
+                            });
+                        }, 'html');
+                    });
+                }
+            };
+            table.render({
+                elem: '#tableDom_ks', id: 'tableData_ks', page: true, limits: [10, 20], limit: 10,
+                url: '/admin/department/tabledataks',
+                cols: [[
+                    { field: 'rows', title: '序号', width: 60, align: 'center' },
+                    { field: 'bm', title: '部门', width: 120 },
+                    { field: 'ks', title: '科室', width: 120 },
+                    { field: 'must', title: '应考人数', width: 90, align: 'center' },
+                    { field: 'number', title: '注册人数', width: 90, align: 'center' },
+                    { field: 'createTime', title: '添加日期', width: 120, align: 'center' },
+                    { field: 'isExam', title: '是否纳入考试', width: 120, align: 'center', templet: '#isexam_ks' },
+                    { field: 'valid', title: '是否启用', width: 100, align: 'center', templet: '#valid_bmks' },
+                    { width: 120, toolbar: '#operate_ks' }
+                ]]
+            });
+            table.on('tool(tableView_ks)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit_ks') { //修改
+                    initks(data.id);
+                }
+                else if (obj.event === 'del_ks') {//删除
+                    layer.confirm('确定删除科室？', { icon: 3 }, function (index) {
+                        $.ajax({
+                            url: '/admin/department/deleteks',
+                            type: 'post', dataType: 'json', cache: false, async: false,
+                            data: { id: data.id },
+                            success: function (res) {
+                                obj.del();
+                                layer.close(index);
+                                layer.msg('删除成功');
+                            },
+                            error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                        });
+                    });
+                }
+            });
+            //初始化部门
+            function initselbm() {
+                $.ajax({
+                    url: '/handler/sele_bmks.ashx',
+                    type: 'get', dataType: 'json', cache: false, async: false,
+                    data: { pid: 0 },
+                    success: function (res) {
+                        var htm = '<option value="">请选择</option>';
+                        $.each(res, function (i, item) {
+                            htm += '<option value="' + item.val + '">' + item.text + '</option>';
+                        });
+                        $('#selbm').empty().append(htm);
+                    },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            //初始化科室值
+            function initks(ksid) {
+                $.ajax({
+                    url: '/admin/department/getentity',
+                    type: 'get', dataType: 'json', cache: false, async: false,
+                    data: { id: ksid },
+                    success: function (res) {
+                        $.get('/areas/admin/static/ksform.html', function (fhtml) {
+                            layer.open({
+                                type: 1, resize: false, area: ['350px', '450px'],
+                                title: '修改科室',
+                                content: fhtml,
+                                success: function (index) {
+                                    initselbm();
+                                    $('#ksid').val(res.id);
+                                    $('#ksname').val(res.name);
+                                    $('#must').val(res.must);
+                                    $('#isExam').attr('checked', res.isExam);
+                                    $('#valid').attr('checked', res.valid);
+                                    selected('selbm', res.pid);
+                                    form.render();
+                                }
+                            });
+                        }, 'html');
+                    },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            //***************部门**************
+            table.render({
+                elem: '#tableDom_bm', id: 'tableData_bm', page: true, limits: [10, 20], limit: 20,
+                url: '/admin/department/tabledatabm',
+                cols: [[
+                    { field: 'rows', title: '序号', width: 60, align: 'center' },
+                    { field: 'name', title: '部门名称', width: 120 },
+                    { field: 'kss', title: '科室数量', width: 100, sort: true },
+                    { field: 'createTime', title: '添加日期', width: 120, align: 'center' },
+                    { field: 'valid', title: '是否启用', width: 100, align: 'center', templet: '#valid_bmks' },
+                    { width: 120, toolbar: '#operate_bm' }
+                ]]
+            });
+            table.on('tool(tableView_bm)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit_bm') { //修改
+                    initbm(data.id);
+                }
+                else if (obj.event === 'del_bm') {//删除
+                    layer.confirm('确定删除部门及以下全部科室？', { icon: 3 }, function (index) {
+                        $.ajax({
+                            url: '/admin/department/deletebm',
+                            type: 'post', dataType: 'json', cache: false, async: false,
+                            data: { id: data.id },
+                            success: function (res) {
+                                obj.del();
+                                layer.close(index);
+                                layer.msg('删除成功');
+                            },
+                            error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                        });
+                    });
+                }
+            });
+            function initbm(bmid) {
+                $.ajax({
+                    url: '/admin/department/getentity',
+                    type: 'get', dataType: 'json', cache: false, async: false,
+                    data: { id: bmid },
+                    success: function (res) {
+                        $.get('/areas/admin/static/bmform.html', function (fhtml) {
+                            layer.open({
+                                type: 1, resize: false, area: ['350px', '350px'],
+                                title: '修改部门',
+                                content: fhtml,
+                                success: function (i) {
+                                    $('#bmid').val(res.id);
+                                    $('#bmname').val(res.name);
+                                    $('#valid').attr('checked', res.valid);
+                                    form.render('checkbox');
+                                }
+                            });
+                        }, 'html');
+                    },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+        });
+    </script>
+}

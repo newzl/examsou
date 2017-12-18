@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - 新智联在线考试平台</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/content/css/paper.css?v=2.0.2" rel="stylesheet" />
+</head>
+<body class="gray-back">
+    <div class="header">
+        <div class="logo"><a href="/">新智联</a></div>
+    </div>
+    <div class="layui-box layui-main">
+        @RenderBody()
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; 2017 贵阳新智联科技有限公司 版权所有</p>
+        <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/content/icheck/icheck.min.js"></script>
+    <script src="/scripts/paper/downcount.js"></script>
+    <script src="/scripts/paper/common.js?v=2.0.2"></script>
+    @RenderSection("js", false)
+</body>
+</html>

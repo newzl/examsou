@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>选择题型树</title>
+    <link href="/content/zTree/css/zTreeStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <ul id="treeDom" class="ztree"></ul>
+    <script src="/content/zTree/js/jquery-1.4.4.min.js"></script>
+    <script src="/content/zTree/js/jquery.ztree.core.min.js"></script>
+    <script>
+        var setting = {
+            async: {
+                enable: true, type: "get",
+                url: "/handler/root/getseltree.ashx",
+                autoParam: ["id"],
+                dataFilter: filter
+            }, view: {
+                selectedMulti: false
+            }
+        };
+        function filter(treeId, parentNode, childNodes) {
+            if (!childNodes) return null;
+            for (var i = 0, l = childNodes.length; i < l; i++) {
+                childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+            } return childNodes;
+        }
+        $(function () {
+            $.fn.zTree.init($("#treeDom"), setting);
+        });
+        function getNode(callback) {
+            var treeObj = $.fn.zTree.getZTreeObj("treeDom"), nodes = treeObj.getSelectedNodes();
+            if (nodes.length > 0) {
+                callback({
+                    id: nodes[0].id,
+                    nav: nodes[0].nav,
+                    leved: nodes[0].leved
+                });
+            }
+            else {
+                callback(null);
+            }
+        }
+    </script>
+</body>
+</html>

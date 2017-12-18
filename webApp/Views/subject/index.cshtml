@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "选择题库";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<ul class="layui-timeline" id="subView" style="padding:20px 0;"></ul>
+<script type="text/html" id="subDom">
+    {{# layui.each(d, function(i, obj){ }}
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+        <div class="layui-timeline-content">
+            <h3 class="layui-timeline-title">{{obj.name}}</h3>
+            {{# if(obj.children != undefined && obj.children.length > 0){ }}
+            <dl class="sub_item">
+                {{# layui.each(obj.children, function(i, item){ }}
+                <dd>
+                    <a href="/subject/detail/{{item.id}}" title="{{item.name}}">
+                        <i class="layui-icon">&#xe61e;</i><p>{{item.name}}</p><span>{{item.learns}}人在学</span>
+                    </a>
+                </dd>
+                {{# });}}
+            </dl>
+            {{# } }}
+        </div>
+    </li>
+    {{# });}}
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+        <div class="layui-timeline-content layui-text">
+            <div class="layui-timeline-title">&nbsp;</div>
+        </div>
+    </li>
+</script>
+@section js{
+    <script>
+        layui.use(['layer', 'laytpl', 'util'], function () {
+            var layer = layui.layer, laytpl = layui.laytpl, util = layui.util;
+            util.fixbar({ top: true });
+            $.ajax({
+                url: '/subject/selesubject',
+                type: 'get', dataType: 'json', cache: false,
+                data: null,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    var getTpl = subDom.innerHTML;
+                    laytpl(getTpl).render(res, function (html) {
+                        document.getElementById('subView').innerHTML = html;
+                    });
+                },
+                complete: function () { layer.closeAll('loading'); },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
+            });
+        });
+    </script>
+}

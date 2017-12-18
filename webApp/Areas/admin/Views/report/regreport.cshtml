@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "注册统计";
+    Layout = "~/Areas/admin/Views/_layoutAdmin.cshtml";
+}
+@section css{
+    <style>
+        .layui-table tbody tr:hover, .layui-table-hover {
+            background-color: #fff !important;
+        }
+    </style>
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    <form class="layui-form layui-form-pane find-panel">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">部门/科室</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="bm" name="bm" lay-filter="bm">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select id="ks" name="ks">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a href="javascript:;" id="formFind" class="layui-btn" lay-submit lay-filter="formFind"><i class="layui-icon">&#xe62c;</i> 统计</a>
+                <a href="javascript:;" class="layui-btn layui-btn-primary" id="print"><i class="layui-icon">&#xe62d;</i> 打印</a>
+            </div>
+        </div>
+    </form>
+</blockquote>
+<table id="tableDom" lay-filter="tableView"></table>
+<input type="hidden" id="companyID" value="@ViewBag.companyID" />
+@section js{
+    <script src="~/scripts/jquery-3.2.1.js"></script>
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script src="/scripts/mergecell.js"></script>
+    <script>
+        var print = $('#print'), printWhere = {};
+        layui.config({ base: '/areas/admin/js/' }).use(['form', 'table', 'glevent'], function () {
+            var form = layui.form, table = layui.table, glevent = layui.glevent;
+            $(function () {
+                glevent.loadbmks();
+            });
+            form.on('submit(formFind)', function (d) {
+                table.reload('tableData', {
+                    where: d.field
+                });
+                return false;
+            });
+            table.render({
+                elem: '#tableDom', id: 'tableData',
+                url: '/admin/report/table_regreport',
+                where: { bm: -1, ks: -1 },
+                cols: [[
+                    { field: 'name', title: '部门', width: 120 },
+                    { field: 'name2', title: '科室', width: 150 },
+                    { field: 'must', title: '应注册数', width: 100, align: 'right' },
+                    { field: 'zcrs', title: '注册人数', width: 100, align: 'right' },
+                    { field: 'rzrs', title: '认证人数', width: 100, align: 'right' },
+                    { field: 'zcl', title: '注册率', width: 100, align: 'right', templet: '<span>{{ d.zcl }}%</span>' },
+                ]],
+                done: function (res, curr, count) {
+                    rowspan(".layui-table", 1);//合并单元格
+                    var Must = 0, Zcrs = 0, Rzrs = 0;
+                    $.each(res.data, function (i, o) {
+                        Must += o.must;
+                        Zcrs += o.zcrs;
+                        Rzrs += o.rzrs;
+                    });
+                    var thm = '<tr><td colspan="2" align="right">合计：</td><td align="right" style="padding: 0 15px;">' + Must + '</td><td align="right" style="padding: 0 15px;">' + Zcrs + '</td><td align="right" style="padding: 0 15px;">' + Rzrs + '</td><td></td></tr>';
+                    $('.layui-table-body .layui-table').append(thm);
+                }
+            });
+        });
+    </script>
+}

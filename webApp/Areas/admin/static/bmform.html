@@ -1,0 +1,20 @@
+﻿<form class="layui-form" style="padding-top:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="bmname" name="bmname" required lay-verify="required" placeholder="请输入部门名称" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">启用状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" id="valid" name="valid" lay-skin="switch" lay-text="启用|停用" checked="checked">
+        </div>
+    </div>
+    <input type="hidden" id="bmid" name="id" value="0" />
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <a class="layui-btn" lay-submit lay-filter="saveBmForm">保存</a>
+        </div>
+    </div>
+</form>

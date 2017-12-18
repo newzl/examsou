@@ -1,0 +1,64 @@
+﻿.pull-left {float:left !important;}
+.pull-right {float:right !important;}
+.clear {clear:both;}
+/*修改layui原始样式*/
+.layui-bg-exam {background-color: #4ECDC4!important;}
+.layui-bg-exam .layui-nav-bar, .layui-bg-exam .layui-nav-itemed:after, .layui-bg-exam .layui-this:after {background-color: #77fef5 !important;}
+.field-panel .layui-timeline-title .layui-badge-rim {top: -2px;left: 10px;}
+.layui-body {left:0px !important;bottom:0px !important;padding:10px;min-height:500px;}
+
+.login-bg {background-color:#393D49;background:url(/images/login-bg.png)0 0 repeat-x fixed;width:100%;height:100%;}
+.login-box {width:450px;height:350px;margin:10% auto;background-color:rgba(255,255,255,0.407843);border-radius:10px;color:aliceblue;}
+.login-box .header {height:39px;padding:10px;border-bottom:1px solid aliceblue;}
+.login-box .header h1 {text-align:center;font-size:25px;line-height:40px;}
+.login-box .header a{color:aliceblue !important;}
+.login-box .login-main {height:200px;padding:30px 90px 0;}
+.login-main .layui-form-item {position:relative;}
+.login-main .layui-form-item .login-icon {position:absolute;color:#cccccc;top:10px;left:10px;}
+.login-main .layui-form-item input {padding-left:34px;}
+.login-box .footer {height:35px;padding:10px 10px 0 10px;}
+.login-box .footer p {line-height:35px;text-align:center;}
+.login-remember {line-height:38px;}
+.login-remember .layui-form-switch {margin-top:0px;}
+.login-code-box {position:relative;padding:10px;}
+.login-code-box input {position:absolute;width:100px;}
+.login-code-box img {cursor:pointer;position:absolute;left:115px;height:38px;}
+/*后台布局*/
+.layui-layout-admin .layui-logo {color:rgba(255,255,255,.9);text-align:left;}
+.layui-layout-admin .layui-logo i {font-size:28px;}
+.layui-layout-admin .layui-logo span {position:absolute;font-size:20px;font-weight:700;left:70px;}
+.layui-layout-admin .layui-logo .topbar {position:absolute;text-align:center;border-right:1px solid #57ded5;height:60px;width:60px;cursor:pointer;}
+.layui-layout-admin .layui-logo .topbar:hover {background-color:#57ded5;color:#fff;}
+#my_side {z-index:20171231;top:0px;width:0px;}
+#my_side cite {padding:0 5px;}
+.my-topnav {width:160px;height:59px;display:block;padding:0 20px;line-height:60px;font-size:16px;border-bottom:1px solid rgba(0,0,0,.3);}
+.my-shade {position:fixed;z-index:20171230;width:100%;height:100%;top:0;left:0;background-color:rgba(0,0,0,.4);}
+
+/*后台主页*/
+.home-panel {width:280px;height:83px;position:relative;float:left;margin:5px 10px;background-color:#fff;border:1px solid transparent;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.home-symbol {width:38%;height:83px;position:absolute;top:0;left:0;-webkit-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px;text-align:center;line-height:83px}
+.home-symbol i {color:#fff;font-size:3em}
+.home-value {width:60%;height:83px;position:absolute;top:0;right:0;display:inline-block;text-align:center;}
+.home-value a {display:block;height:45px;line-height:45px;padding-top:8px;font-size:30px;font-weight:300}
+.home-value p {display:block;height:30px;line-height:30px;padding-top:1px}
+.home-value a,.home-value p {margin:0;padding:0;color:#979daf;}
+.field-panel {background: #fff;padding: 7px 15px;border: 1px solid transparent;border-radius: 4px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);box-shadow: 0 1px 1px rgba(0,0,0,.05);}
+.backinfo tr td:first-child {width: 30%;text-align: right;color: #666;font-weight: 600;}
+.backinfo tr td:last-child {color: #999;}
+.color0 {background-color: #1E9FFF;}
+.color1 {background-color: #5FB878;}
+.color2 {background-color: #FF5722;}
+/*查询条件*/
+.find-panel .layui-form-label {width: auto !important;}
+.find-panel .layui-form-item{margin-bottom:0px;}
+
+.editsub .layui-textarea{min-height: 50px!important;}
+.editsub .layui-form-item{margin-bottom:3px!important;}
+.editsub .requ{color:red;}
+
+.snav{display:inline-block;cursor:pointer;}
+/*组卷参考对象*/
+.spreadBM, .spreadKS, .spreadJB {margin-right: 5px;}
+.tree1 td:first-child {padding-left: 35px;}
+.tree2 td:first-child {padding-left: 55px;}
+.tree3 td:first-child {padding-left: 95px;}

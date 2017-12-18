@@ -1,0 +1,23 @@
+﻿Uninstall-Package Microsoft.jQuery.Unobtrusive.Validation
+Uninstall-Package Microsoft.jQuery.Unobtrusive.Ajax
+Uninstall-Package jQuery.Validation
+Uninstall-Package jQuery.UI.Combined
+Uninstall-Package jQuery -version 1.8.2
+Uninstall-Package knockoutjs
+Update-package Newtonsoft.Json
+
+Uninstall-Package Microsoft.AspNet.Providers.LocalDB
+Uninstall-Package Microsoft.AspNet.Providers.Core.zh-Hans
+Uninstall-Package Microsoft.AspNet.Providers.Core
+Uninstall-Package EntityFramework.zh-Hans
+Uninstall-Package EntityFramework
+
+Uninstall-Package Microsoft.AspNet.Web.Optimization.zh-Hans
+Uninstall-Package Microsoft.AspNet.Web.Optimization
+Uninstall-Package WebGrease
+Uninstall-Package Modernizr
+Uninstall-Package Microsoft.AspNet.WebApi.HelpPage
+Uninstall-Package Microsoft.AspNet.WebApi.OData.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.OData
+
+--Update-Package Microsoft.AspNet.Mvc

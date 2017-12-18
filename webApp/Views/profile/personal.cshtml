@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "基本信息";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li><a href="/profile/messages">我的消息</a></li>
+        <li><a href="/profile/core">个人中心</a></li>
+        <li class="layui-this">基本信息</li>
+        <li><a href="/profile/profession">工作信息</a></li>
+        <li><a href="/profile/changepwd">修改密码</a></li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form">
+                <div class="layui-form-item" style="margin:0;">
+                    <label class="layui-form-label" style="line-height:80px;">头像</label>
+                    <div class="layui-form-mid" title="选择头像">
+                        <img id="userFace" src="/images/face/face0001.png" width="80" style="cursor:pointer" />
+                        <input type="hidden" id="photo" name="photo" value="" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-form-mid layui-word-aux" id="account" style="font-size: 14px;"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="ename" name="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">必填</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="sex" value="0" title="女" checked="checked" />
+                        <input type="radio" name="sex" value="1" title="男" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="phone" name="phone" lay-verify="verPhone" placeholder="请输入手机号" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">通知学习和考试</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电子邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="email" name="email" lay-verify="verEmail" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">通知学习和考试</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">政治面貌</label>
+                    <div class="layui-input-inline">
+                        <select id="zzmm" name="zzmm"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">民族</label>
+                    <div class="layui-input-inline">
+                        <select id="nation" name="nation"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学历</label>
+                    <div class="layui-input-inline">
+                        <select id="degree" name="degreeid"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formPersonal">立即保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section js{
+    <script src="/scripts/member/profile/personal.js?v=2.0.2"></script>
+}

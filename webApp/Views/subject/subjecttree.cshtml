@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>查看科目系列</title>
+    <link href="/content/layui109/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <ul id="treeDom"></ul>
+    <input type="hidden" id="sid" value="@ViewBag.sid" />
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/content/layui109/layui.js"></script>
+    <script>
+        layui.use('tree', function () {
+            $.ajax({
+                url: '/subject/subjectnodes',
+                type: 'get', dataType: 'json',
+                async: false, cache: false,
+                data: { sid: parseInt($('#sid').val()) },
+                success: function (res) {
+                    layui.tree({
+                        elem: '#treeDom', nodes: res
+                    });
+                },
+                error: function (m) {
+                    alert(m.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

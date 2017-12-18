@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "查看图标图片";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">APPEName</label>
+        <div class="layui-input-inline">
+            <input type="text" name="appname" required lay-verify="required" placeholder="请输入APPEName" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图标</label>
+        <div class="layui-input-inline">
+            <input type="text" name="icon" required lay-verify="required" placeholder="请输入图标" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="findForm">查看</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <a href="/content/tool/imgjson.html">考试宝典图标</a>
+        </div>
+    </div>
+</form>
+<blockquote class="layui-elem-quote layui-bg-black">
+    展示图
+</blockquote>
+@section js{
+    <script>
+        var ksbdurl = 'http://t.api.ksbao.com/tk_img/ImgDir_';
+        layui.use('form', function () {
+            var form = layui.form;
+            form.on('submit(findForm)', function (fd) {
+                var dom = $('.layui-elem-quote');
+                dom.empty();
+                var icon = fd.field.icon.replace(/\[/, ''), icon = icon.replace(/\]/, '');
+                dom.append('<img src="' + ksbdurl + fd.field.appname + '/' + icon + '"/>');
+                return false;
+            });
+        });
+    </script>
+}

@@ -1,0 +1,251 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>新智联-医务人员在线学习考试平台</title>
+    <link href="/layui/css/layui.css" rel="stylesheet" />
+    <link href="/content/css/default.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="edu-header layui-bg-cyan">
+        <div class="layui-main">
+            <a class="edu-logo" href="javascript:;">新智联</a>
+            <ul class="layui-nav edu-nav">
+                <li class="layui-nav-item"><a href="#">首页</a></li>
+                <li class="layui-nav-item"><a href="#">医学资讯</a></li>
+                <li class="layui-nav-item"><a href="#">快速导航</a></li>
+                <li class="layui-nav-item"><a href="#" target="_blank">平台简介</a></li>
+            </ul>
+            <ul class="layui-nav edu-nav-user">
+                <li class="layui-nav-item"><a href="/account/login">登录</a></li>
+                <li class="layui-nav-item"><a href="/account/reg">注册</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="edu-case-header">
+        <p class="edu-case-title">贵阳市继续医学教育在线学习平台</p>
+        <p class="edu-case-detail">实现无纸化继续医学教育网络学习，提高卫生技术人员专业能力和业务水平及服务质量</p>
+    </div>
+    <div class="layui-main">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md4">
+                <div class="edu-menunav">
+                    <div class="userInfo">
+                        <img src="~/images/face/face1012.png" />
+                        <p class="userName">
+                            <a href="#">王建国</a>
+                            <i class="layui-icon sex nan">&#xe662;</i>
+                            <i class="layui-icon sex nv">&#xe661;</i>
+                            <b class="layui-badge">VIP3</b>
+                        </p>
+                        <p class="detail layui-elip">贵阳市第一人民医院</p>
+                        <p class="detail">
+                            <i class="layui-icon" style="margin-left:0" title="我的学分">&#xe63c;</i>2分
+                            <i class="layui-icon" title="登录时间">&#xe60e;</i>2017-12-15 17:32
+                        </p>
+                    </div>
+                    <div class="layui-row layui-col-space5 menuNav" style="padding:0 5px;">
+                        <div class="layui-col-md4">
+                            <a href="#" class="action" style="color:#DAA520;">
+                                <i class="layui-icon">&#xe705;</i>
+                                <p>学习记录</p>
+                            </a>
+
+                        </div>
+                        <div class="layui-col-md4">
+                            <a href="#" class="action" style="color:#5FB878;">
+                                <i class="layui-icon">&#xe857;</i>
+                                <p>医考题库</p>
+                            </a>
+                        </div>
+                        <div class="layui-col-md4">
+                            <a href="#" class="action" style="color:#01AAED;">
+                                <i class="layui-icon">&#xe735;</i>
+                                <p>学分管理</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space5 menuNav" style="padding:0 5px;">
+                        <div class="layui-col-md4">
+                            <a href="javascript:;" style="cursor: not-allowed">
+                                <i class="layui-icon">&#xe630;</i>
+                                <p>学科导航</p>
+                            </a>
+                        </div>
+                        <div class="layui-col-md4">
+                            <a href="javascript:;" style="cursor: not-allowed">
+                                <i class="layui-icon">&#xe657;</i>
+                                <p>充值购买</p>
+                            </a>
+                        </div>
+                        <div class="layui-col-md4">
+                            <a href="javascript:;" style="cursor: not-allowed">
+                                <i class="layui-icon">&#xe681;</i>
+                                <p>微云课件</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md8">
+                <div class="layui-carousel" id="eduCarousel">
+                    <div carousel-item>
+                        <img src="/upload/171212/6026.jpg">
+                        <img src="/upload/171212/201709.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-main" id="eduItemView"></div>
+    <script type="text/html" id="eduItemTpl">
+        {{#  layui.each(d, function(i, item){ }}
+        {{# if(i % 4 <= 0){ }}
+        <div class="layui-row layui-col-space15">
+            {{# } }}
+            <div class="layui-col-md3">
+                <div class="edu-item">
+                    <a href="#" class="edu-itemPic"><img src="{{item.pic}}" style="width: 100%; border: 0;" /></a>
+                    <a href="#" class="edu-itemName layui-elip">{{item.name}}</a>
+                    <div class="edu-info">
+                        <span class="type">{{item.type}}<b>{{item.xf}}</b>学分</span>
+                        <span class="learns"><span>{{item.learns}}</span>人在学</span>
+                        <p class="company">{{item.fzdw}}</p>
+                    </div>
+                </div>
+            </div>
+            {{# if((i + 1) % 4 <= 0 || i===d.length){ }}
+        </div>
+        {{# } }}
+        {{# }); }}
+    </script>
+
+    <div class="layui-main">
+        <div class="edu-panel">
+            <p class="edu-panel-title">
+                <span class="title">名师风采</span>
+                <a href="#" class="right">更多</a>
+            </p>
+            <div class="edu-panel-main" id="doctorView"></div>
+            <script type="text/html" id="doctorTpl">
+                {{#  layui.each(d, function(i, item){ }}
+                {{# if(i % 2 <= 0){ }}
+                <div class="layui-row layui-col-space20">
+                    {{# } }}
+                    <div class="layui-col-md6">
+                        <blockquote class="layui-elem-quote layui-quote-nm doctor">
+                            <img src="{{item.pic}}"/>
+                            <p style="cursor:default">
+                                <span class="doc-name">{{item.name}}</span>
+                                <span class="doc-zc">{{item.zc}}</span>
+                                <span class="doc-kj">共{{item.kj}}个教程</span>
+                            </p>
+                            <div class="doc-detail">{{item.detail}}</div>
+                        </blockquote>
+                    </div>
+                    {{# if((i + 1) % 2 <= 0 || i===d.length){ }}
+                </div>
+                {{# } }}
+                {{# }); }}
+            </script>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; 2017 新智联在线学习平台 版权所有</p>
+        <p>贵阳新智联科技有限公司&ensp;黔ICP备17009435号&ensp;版本:2.0.2 </p>
+        <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
+    </div>
+    <script src="/layui/layui.js"></script>
+    <script>
+        var eduItem = [{
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 3, learns: 235,
+            fzdw: '贵阳市第一人民医院'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 5, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 3, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 5, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 1, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 2.5, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 2.5, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }, {
+            pic: '/upload/171212/820.jpg',
+            name: '住院病案首页的质量控制和检查',
+            type: '省级II类',
+            xf: 2.5, learns: 235,
+            fzdw: '贵州省医皮肤病门诊'
+        }];
+        var doctor = [{
+            pic: '/upload/171212/732.jpg',
+            name: '王建国',
+            zc: '主任医师、教授',
+            kj: 3,
+            detail:'创、烧伤外科专家，中国工程院院士，博士生导师。1942年毕业于国立上海医学院。1947年在美国德克萨斯州立大学医学院研修一年。1942年毕业于国立上海医学院。1942年毕业于国立上海医学院。上海医学院'
+        }, {
+            pic: '/upload/171212/732.jpg',
+            name: '王建国',
+            zc: '主任医师、教授',
+            kj: 3,
+            detail: '创、烧伤外科专家，中国工程院院士，博士生导师。1942年毕业于国立上海医学院。1947年在美国德克萨斯州立大学医学院研修一年。1942年毕业于国立上海医学院。1942年毕业于国立上海医学院。上海医学院'
+        }, {
+            pic: '/upload/171212/732.jpg',
+            name: '王建国',
+            zc: '主任医师、教授',
+            kj: 3,
+            detail: '创、烧伤外科专家，中国工程院院士，博士生导师。1942年毕业于国立上海医学院。1947年在美国德克萨斯州立大学医学院研修一年。1942年毕业于国立上海医学院。1942年毕业于国立上海医学院。上海医学院'
+        }];
+        layui.use(['form', 'laytpl', 'carousel'], function () {
+            var form = layui.form, laytpl = layui.laytpl,carousel = layui.carousel;
+            //图片轮播
+            carousel.render({
+                elem: '#eduCarousel'
+              , width: '100%'
+              , height: '350px'
+              , interval: 5000
+            });
+            var getEduTpl = eduItemTpl.innerHTML,
+                getDoctor = doctorTpl.innerHTML;
+            laytpl(getEduTpl).render(eduItem, function (html) {
+                document.getElementById('eduItemView').innerHTML = html;
+            });
+            laytpl(getDoctor).render(doctor, function (html) {
+                document.getElementById('doctorView').innerHTML = html;
+            });
+        });
+    </script>
+</body>
+</html>

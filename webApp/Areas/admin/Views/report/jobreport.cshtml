@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "职称注册统计";
+    Layout = "~/Areas/admin/Views/_layoutAdmin.cshtml";
+}
+@section css{
+    <style>.layui-table tbody tr:hover, .layui-table-hover {background-color: #fff !important;}</style>
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    职称注册情况统计表
+</blockquote>
+<table id="tableDom" lay-filter="tableView"></table>
+@section js{
+    <script src="/scripts/mergecell.js"></script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#tableDom', id: 'tableData',
+                url: '/admin/report/table_jobreport',
+                cols: [[
+                    { field: 'name1', title: '级别', width: 120 },
+                    { field: 'name2', title: '职称', width: 150 },
+                    { field: 'zcrs', title: '注册人数', width: 100, align: 'right' },
+                    { field: 'rzrs', title: '认证人数', width: 100, align: 'right' },
+                    { title: '未认证', width: 100, align: 'right', templet: '<span>{{d.zcrs-d.rzrs}}</span>' }
+
+                ]],
+                done: function (res, curr, count) {
+                    rowspan(".layui-table", 1);//合并单元格
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "章节练习";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+@section css{
+    <style>
+        .layui-input {height:22px;padding-left:5px;font-size:13px;color: #555;}
+        .layui-form-select .layui-input{padding-right:20px;}
+        .layui-form-select .layui-edge{right:5px;}
+        .layui-form-select dl{top:23px;}
+        .layui-form-select dl dd{line-height:22px;font-size:13px;color: #555;}
+    </style>
+    }
+<div class="ln-title" style="margin-bottom:10px;">
+    <a href="/learn" title="返回我的学习"><i class="layui-icon">&#xe603;</i> @ViewBag.sname</a>
+</div>
+<span class="layui-breadcrumb">
+    <a href="javascript:;">@ViewBag.sname</a>
+    <a><cite id="breadcrumb"></cite></a>
+</span>
+<table class="layui-table" lay-skin="line">
+    <thead>
+        <tr>
+            <th style="width:700px">章节</th>
+            <th style="width:200px">学习进度</th>
+            <th style="width:55px"></th>
+            <th style="width:50px"></th>
+        </tr>
+    </thead>
+    <tbody id="tableView" class="layui-form"></tbody>
+</table>
+<input type="hidden" id="data" value="@ViewBag.data" />
+<script type="text/html" id="tableTpl">
+    {{# layui.each(d.data, function(i, item){ }}
+    <tr>
+        {{# if(item.leved===3){ }}
+        <td><a href="javascript:;" class="leved3" data-sid="{{item.sid}}" title="{{item.sname}}"><i class="layui-icon">&#xe623;</i>&nbsp;{{item.sname}}</a></td>
+        <td><div class="layui-progress" lay-showpercent="yes"><div class="layui-progress-bar" lay-percent="{{parseFloat((item.cous*100.0/item.total).toFixed(2))}}%"></div></div></td>
+        <td style="padding:9px 0;">
+            <select>
+                {{# if(item.chs>0){ }}
+                <option value="ch">单选题</option>
+                {{# } if(item.mus>0){ }}
+                <option value="mu">多选题</option>
+                {{# } if(item.jus>0){ }}
+                <option value="ju">判断题</option>
+                {{# } if(item.fis>0){ }}
+                <option value="fi">填空题</option>
+                {{# } if(item.qas>0){ }}
+                <option value="qa">问答题</option>
+                {{# } if(item.lss>0){ }}
+                <option value="ls">论述题</option>
+                {{# } if(item.mcs>0){ }}
+                <option value="mc">名词解析</option>
+                {{# } }}
+            </select>
+        </td>
+        <td>
+            <a href="/practise/learn/{{d.lid}}/{{item.sid}}/learnsx" class="layui-btn layui-btn-xs layui-btn-primary" title="{{item.cous}}/{{item.total}}">开始练习</a>
+        </td>
+        {{# } else { }}
+        <td><i class="layui-icon">&#xe624;</i>&nbsp;{{item.sname}}</td>
+        <td><div class="layui-progress" lay-showpercent="yes"><div class="layui-progress-bar layui-bg-blue" lay-percent="{{parseFloat((item.cous*100.0/item.total).toFixed(2))}}%"></div></div></td>
+        <td style="padding:9px 0;">
+            <select>
+                {{# if(item.chs>0){ }}
+                <option value="ch">单选题</option>
+                {{# } if(item.mus>0){ }}
+                <option value="mu">多选题</option>
+                {{# } if(item.jus>0){ }}
+                <option value="ju">判断题</option>
+                {{# } if(item.fis>0){ }}
+                <option value="fi">填空题</option>
+                {{# } if(item.qas>0){ }}
+                <option value="qa">问答题</option>
+                {{# } if(item.lss>0){ }}
+                <option value="ls">论述题</option>
+                {{# } if(item.mcs>0){ }}
+                <option value="mc">名词解析</option>
+                {{# } }}
+            </select>
+        </td>
+        <td><a href="/practise/learn/{{d.lid}}/{{item.sid}}/learnsx" class="layui-btn layui-btn-xs layui-btn-primary" title="{{item.cous}}/{{item.total}}">开始练习</a></td>
+        {{# } }}
+    </tr>
+    {{# });}}
+</script>
+@section js{
+    <script>
+        layui.use(['element', 'laytpl', 'form'], function () {
+            var element = layui.element, laytpl = layui.laytpl, form = layui.form;
+            $(function () {
+                getchapter();
+            });
+            function getchapter(sid) {
+                getData(function (rd) {
+                    $.ajax({
+                        url: '/learn/getchapter',
+                        type: 'get', dataType: 'json', cache: false,
+                        data: {
+                            lid: rd.lid,
+                            sid: sid || rd.sid
+                        },
+                        beforeSend: function () { layer.load(2); },
+                        success: function (res) {
+                            var getTpl = tableTpl.innerHTML;
+                            laytpl(getTpl).render({
+                                lid: rd.lid,
+                                data: res
+                            }, function (html) {
+                                document.getElementById('tableView').innerHTML = html;
+                            });
+                        },
+                        complete: function () {
+                            layer.closeAll('loading');
+                            element.render();
+                            form.render('select');
+                            event.breadcrumb();
+                            event.leved3();
+                        },
+                        error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                    });
+                });
+            }
+            function getData(callback) {
+                callback($.parseJSON($('#data').val()));
+            }
+            var event = {
+                breadcrumb: function () {
+                    $('.layui-breadcrumb a').first().off().on('click', function () {
+                        var dom = $('#breadcrumb');
+                        if (dom.text().length > 0) {
+                            dom.text('');
+                            getchapter();
+                        }
+                    });
+                },
+                leved3: function () {
+                    $('.leved3').off().on('click', function () {
+                        $('#breadcrumb').text($(this).attr('title'));
+                        getchapter($(this).data('sid'));
+                    });
+                }
+            };
+        });
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Keywords" content="新智联,新智联在线考试平台,在线学习" />
+    <meta name="Description" content="贵州省,新智联,学习,计生,技术,科技,在线学习,在线考试,在线学习考试,医师,执业医师" />
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="baidu-site-verification" content="hRfqc0mEvJ" />
+    <title>账号登录 - 新智联在线考试平台</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/content/css/global.css?v=2.0.2" rel="stylesheet" />
+</head>
+<body class="gray-back">
+    <div class="login-content">
+        <div class="login-logo">
+            <a href="/">新智联</a>
+        </div>
+        <form class="layui-form login-form">
+            <div class="layui-form-item">
+                <label class="login-icon"><i class="layui-icon">&#xe612;</i></label>
+                <input type="text" id="account" name="account" class="layui-input" required lay-verify="account" placeholder="用户名" autocomplete="off" />
+            </div>
+            <div class="layui-form-item">
+                <label class="login-icon"><i class="layui-icon">&#xe642;</i></label>
+                <input type="password" name="pwd" class="layui-input" required lay-verify="pwd" placeholder="密码" autocomplete="off" />
+            </div>
+            <div class="layui-form-item">
+                <div class="fl" style="width: 70%;">
+                    <label class="login-icon"><i class="layui-icon">&#xe628;</i></label>
+                    <input type="text" id="code" name="code" class="layui-input" required lay-verify="code" placeholder="验证码" autocomplete="off" />
+                </div>
+                <div class="fr">
+                    <img id="codeImg" class="codeImg" src="/account/verification" title="点击换一个" />
+                </div>
+                <br class="clear" />
+            </div>
+            <div class="layui-form-item">
+                <div class="fl">
+                    <input type="checkbox" name="isSave" title="记住帐号" lay-skin="primary">
+                </div>
+                <div class="fr">
+                    <a href="/account/backpwd" class="right" style="line-height: 38px;">忘记密码</a>
+                </div>
+                <br class="clear" />
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn login-btn" lay-submit lay-filter="loginForm">登  录</button>
+            </div>
+            <div class="layui-form-item">
+                还没有账号?<a href="/account/reg">立即注册</a>
+            </div>
+        </form>
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; @DateTime.Now.Year 贵阳新智联科技有限公司 版权所有  <a href="/admin/account/login">后台管理</a></p>
+        <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/scripts/jquery.cookie.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/scripts/account/login.js?v=2.0.2"></script>
+</body>
+</html>

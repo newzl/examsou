@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "意见反馈";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<blockquote class="layui-elem-quote">
+    感谢您对我们的支持和帮助，虽然我们每天都在完善题库，但有些问题仍然存在。您反馈的问题我们将尽快处理，并进行定期更新，更新完成之后，您所反馈的问题将修改正确。<button class="layui-btn layui-btn-xs layui-btn-radius" id="weFeedBack">我要反馈</button>
+</blockquote>
+<ul class="sub-com" id="tableView"></ul>
+<div id="paging"></div>
+@section js{
+    <script>
+        layui.use(['layer', 'util', 'laypage'], function () {
+            var layer = layui.layer, util = layui.util, laypage = layui.laypage;
+            util.fixbar({ top: true });
+            $(function () {
+                loadTable(1);
+                event.openEdit();
+            });
+            var event = {
+                openEdit: function () {
+                    $('#weFeedBack').off().on('click', function () {
+                        layer.open({
+                            type: 2, title: '编辑反馈信息',
+                            shade: 0.3, area: ['950px', '510px'],
+                            content: '/content/static/layedit.html',
+                            btn: ['确定', '取消'],
+                            yes: function (i, lo) {
+                                var iframeWin = window[lo.find('iframe')[0]['name']];
+                                iframeWin.getContent(function (res) {
+                                    if (res.length <= 10) {
+                                        layer.msg('意见反馈内容至少10个字符', { icon: 2 });
+                                    }
+                                    else {
+                                        layer.confirm('确定提交意见？', { icon: 3 }, function () {
+                                            save(res);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            };
+            function save(content) {
+                $.ajax({
+                    url: '/feedback/save',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: { content: content },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.closeAll();
+                        layer.msg('保存成功，等待管理员审核', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function loadTable(page) {
+                $.ajax({
+                    url: '/feedback/tabledata',
+                    type: 'get', dataType: 'json', cache: false,
+                    data: { page: page },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        var dom = $('#tableView');
+                        dom.empty();
+                        if (res.count > 0) {
+                            if (res.count > 10) initpage(res.count, page);
+                            $.each(res.data, function (i, item) {
+                                var photo = item.photo !== null ? item.photo : '/images/face/face0001.png';
+                                var htm = '<li><div class="com-box" style="margin-right:90px;">';
+                                htm += '<div class="com-img"><img src="' + photo + '" width="50" height="50" /></div>';
+                                htm += '<h1>' + item.name + '<cite>' + util.timeAgo(item.date, true) + '</cite></h1>';
+                                if (item.isdispose) htm += '<div class="com-dispose"><img src="/images/dispose.png" width="80" /></div>';
+                                htm += '<div class="com-content">' + item.content + '</div>';
+                                if (item.reply !== null) htm += '<div class="com-reply"><h1>管理员回复</h1><div class="com-content">' + item.reply + '</div></div>';
+                                htm += '</div></li>';
+                                dom.append(htm);
+                            });
+                        }
+                        else {
+                            dom.append('<div class="not-com"><i class="layui-icon">&#xe63a;</i><h5>暂无意见反馈</h5></div>');
+                        }
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function initpage(count, curr) {
+                laypage.render({
+                    elem: 'paging', count: count, curr: curr,
+                    jump: function (obj, first) {
+                        if (!first) loadTable(obj.curr);
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "试卷列表";
+    Layout = "~/Areas/admin/Views/_layoutAdmin.cshtml";
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    <form class="layui-form layui-form-pane find-panel">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">考试名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ename" id="ename" placeholder="输入考试名称" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <select name="type">
+                        <option value="-1">全部</option>
+                        <option value="1">手工组卷</option>
+                        <option value="2">随机组卷</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">限制日期</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <select name="islimit">
+                        <option value="-1">全部</option>
+                        <option value="1">已限制</option>
+                        <option value="0">未限制</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">题数</label>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <input type="number" name="minNums" lay-verify="isInt" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <input type="number" name="maxNums" lay-verify="isInt" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">分数</label>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <input type="number" name="minScores" lay-verify="isDouble" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <input type="number" name="maxScores" lay-verify="isDouble" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">及格分数</label>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <input type="number" name="minPass" lay-verify="isDouble" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <input type="number" name="maxPass" lay-verify="isDouble" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">组卷日期</label>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <input type="text" id="minDate" name="minDate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 120px;">
+                    <input type="text" id="maxDate" name="maxDate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="maxDateEve()" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-inline" style="width: 80px;">
+                    <select name="state">
+                        <option value="-1">全部</option>
+                        <option value="1">启用</option>
+                        <option value="0">停用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a href="javascript:;" class="layui-btn" lay-submit lay-filter="formFind"><i class="layui-icon">&#xe615;</i> 查询</a>
+            </div>
+        </div>
+    </form>
+</blockquote>
+
+<table id="tableDom" lay-filter="tableView"></table>
+
+<script type="text/html" id="stateTpl">
+    {{#  if(d.state){ }}
+    <span class="layui-badge" style="background-color: #5FB878;">启用</span>
+    {{#  } else { }}
+    <span class="layui-badge layui-bg-gray">停用</span>
+    {{#  } }}
+</script>
+<script type="text/html" id="operate">
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="del">删除</a>
+    </div>
+</script>
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script>
+        var print = $('.print');
+        var whereStr = "";
+        layui.use(['form', 'table', 'layer'], function () {
+            var form = layui.form, table = layui.table, layer = layui.layer;
+            form.verify({
+                isDouble: function (va) {
+                    if (va != '' || va.length > 0) {
+                        if (!(va.match(/^-?\d+$|^(-?\d+)(\.\d+)?$/))) {
+                            return '请输入正确的数字';
+                        }
+                    }
+                },
+                isInt: function (va) {
+                    if (va != '' || va.length > 0) {
+                        if (!(va.match(/^\d+$/))) {
+                            return '请输入正确的非负整数';
+                        }
+                    }
+                }
+            });
+            form.on('submit(formFind)', function (fd) {
+                whereStr = JSON.stringify(fd.field);
+                table.reload('tableReload', {
+                    where: { whereJson: whereStr }
+                });
+                return false;
+            });
+            table.render({
+                elem: '#tableDom', id: 'tableReload', page: true,
+                url: '/admin/papermsg/table_planlist',
+                limits: [10, 20, 30], limit: 10,
+                cols: [[
+                    { width: 160, align: 'center', toolbar: '#operate' },
+                    { field: 'rows', title: '序号', width: 60, align: 'center' },
+                    { field: 'name', title: '考试名称', width: 350 },
+                    { field: 'examtype', title: '组卷方式', width: 100 },
+                    { field: 'nums', title: '题数', width: 80, sort: true },
+                    { field: 'scores', title: '分数', width: 80 },
+                    { field: 'passScore', title: '及格分数', width: 90 },
+                    { field: 'examNum', title: '考试次数', width: 100, sort: true },
+                    { field: 'useTime', title: '答题用时', width: 100, templet: '<span>{{ d.useTime }}分钟</span>' },
+                    { field: 'isLimit', title: '限制日期', width: 100, templet: '<span>{{ d.isLimit ? "已限制" : "未限制" }}</span>' },
+                    { field: 'state', title: '是否启用', width: 90, align: 'center', templet: '#stateTpl' },
+                    { field: 'createTime', title: '组卷时间', width: 150 }
+                ]]
+            });
+            //监听工具条
+            table.on('tool(tableView)', function (obj) {
+                var d = obj.data;
+                if (obj.event === 'detail') {
+                    if (d.type===1) {
+                        layer.open({
+                            type: 2, title: '组卷详情',
+                            resize: false,area: ['800px', '90%'],
+                            content: '/admin/sgzj/show/' + d.id,
+                            btn: ['导出试卷', '关闭'],
+                            yes: function (i, lo) {
+                                var iframew = window[lo.find('iframe')[0]['name']];
+                                iframew.expWord();
+                            }
+                        });
+                    }
+                    else {
+                        layer.open({
+                            type: 2, title: '组卷详情',
+                            resize: false,area: ['800px', '90%'],
+                            content: '/admin/sjzj/show/' + d.id,
+                            btn: '关闭'
+                        });
+                    }
+                } else if (obj.event === 'del') {
+                    layer.confirm('确定删除？', { icon: 3 }, function (lac) {
+                        $.ajax({
+                            url: '/admin/papermsg/delete',
+                            type: 'DELETE', dataType: 'json', cache: false,
+                            data: { epid: d.id },
+                            beforeSend: function () { layer.load(2); },
+                            success: function (r) {
+                                obj.del();
+                                layer.close(lac);
+                                layer.msg('删除成功', { icon: 1 });
+                            },
+                            complete: function () { layer.closeAll('loading'); },
+                            error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                        });
+                    });
+                } else if (obj.event === 'edit') {
+                    layer.alert('编辑行：<br>' + JSON.stringify(d))
+                }
+            });
+        });
+        function minDateEve() {
+            var maxD = $dp.$('maxDate');
+            WdatePicker({
+                onpicked: function () {
+                    maxD.focus();
+                },
+                maxDate: '#F{$dp.$D(\'maxDate\')}'
+            })
+        }
+        function maxDateEve() {
+            WdatePicker({
+                minDate: '#F{$dp.$D(\'minDate\')}'
+            })
+        }
+    </script>
+}

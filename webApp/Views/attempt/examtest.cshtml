@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "试阅试卷";
+    Layout = "~/Views/_layoutPaper.cshtml";
+}
+<div class="sub-wrap">
+    <h2>@ViewBag.subTitle</h2>
+    <div class="subContent" id="subContent"></div>
+</div>
+<div class="nav-wrap">
+    <div id="navContent" class="nav-content">
+        <div class="nav-sheet" id="subNav"></div>
+        <div class="nav-hint">
+            <div><i></i>已答</div>
+            <div><i></i>未答</div>
+        </div>
+        <div class="nav-btn">
+            <button class="layui-btn layui-btn-radius layui-btn-sm" id="marking">批阅试题</button>
+        </div>
+    </div>
+</div>
+<br class="cl" />
+<input type="hidden" id="sid" value="@ViewBag.sid" />
+@section js{
+<script src="/scripts/exam/examtest.js?v=2.0.2"></script>
+}

@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.Title = "题库类型";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+@section css{
+    <link href="/content/zTree/css/zTreeStyle.css" rel="stylesheet" />
+}
+<blockquote class="layui-elem-quote layui-quote-nm">
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-sm addp">添加大类</button>
+        <button class="layui-btn layui-btn-sm addc">添加小类</button>
+    </div>
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-sm layui-btn-normal start">启用</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger stop">停用</button>
+    </div>
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-sm layui-btn-primary update" title="修改"><i class="layui-icon">&#xe642;</i></button>
+        <button class="layui-btn layui-btn-sm layui-btn-primary delete" title="删除"><i class="layui-icon">&#xe640;</i></button>
+        <button class="layui-btn layui-btn-sm layui-btn-primary refresh" title="刷新"><i class="layui-icon">&#x1002;</i></button>
+    </div>
+</blockquote>
+<ul id="treeDom" class="ztree"></ul>
+@section js{
+    <script src="/content/zTree/js/jquery.ztree.core.min.js"></script>
+    <script>
+        "use strict";
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer, form = layui.form;
+            var dis = 'layui-btn-disabled';
+            var setting = {
+                async: {
+                    enable: true, type: "get",
+                    url: "/handler/root/getmantree.ashx",
+                    autoParam: ["id"],
+                    dataFilter: filter
+                }, callback: {
+                    onClick: ZOnClick//点击事件
+                }, view: {
+                    selectedMulti: false,
+                    fontCss: setFontCss//设置颜色
+                }
+            };
+            function filter(treeId, parentNode, childNodes) {
+                if (!childNodes) return null;
+                for (var i = 0, l = childNodes.length; i < l; i++) {
+                    childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+                } return childNodes;
+            }
+            function setFontCss(treeId, node) {
+                return node.valid != true ? { color: "red" } : {};
+            };
+            function ZOnClick(event, treeId, node) {
+                var addc = $('.addc'), start = $('.start'), stop = $('.stop');
+                if (node.valid) {
+                    start.addClass(dis);
+                    stop.removeClass(dis);
+                } else {
+                    stop.addClass(dis);
+                    start.removeClass(dis);
+                }
+                if (node.leved === 4 || !node.valid) {
+                    addc.addClass(dis);
+                }
+                else {
+                    addc.removeClass(dis);
+                }
+            };
+            function initzTree() {
+                $.fn.zTree.init($("#treeDom"), setting);
+                $('.addc,.start,.stop').addClass(dis);
+            }
+            $(function () {
+                initzTree();
+                bindEnvent();
+            });
+            form.on('submit(saveForm)', function (data) {
+                var conf = layer.confirm('确定保存？', { icon: 3 }, function () {
+                    save(data.field);
+                    layer.close(conf);
+                });
+                return false;
+            });
+            function bindEnvent() {
+                //添加大类
+                $('.addp').off().on('click', function () {
+                    openform('添加大类', function () {
+                        $('.flmc,.jsxx').hide();
+                    });
+                });
+                //添加小类
+                $('.addc').off().on('click', function () {
+                    if (!$(this).hasClass(dis)) {
+                        getNode(function (res) {
+                            openform('添加小类-' + (res.leved + 1), function () {
+                                if (res.leved !== 1) $('.jsxx').hide();
+                                $('#psname').text(res.mc);
+                                $('#pid').val(res.id);
+                                selected('levelID', res.levelID);
+                                $('#levelID option').attr('disabled', true);
+                                form.render('select');
+                            });
+                        });
+                    }
+                });
+                //启用
+                $('.start').off().on('click', function () {
+                    if (!$(this).hasClass(dis)) {
+                        getNode(function (res) {
+                            setvalit(true, res.id);
+                        });
+                    }
+                });
+                //停用
+                $('.stop').off().on('click', function () {
+                    if (!$(this).hasClass(dis)) {
+                        getNode(function (res) {
+                            setvalit(false, res.id);
+                        });
+                    }
+                });
+                //修改
+                $('.update').off().on('click', function () {
+                    getNode(function (res) {
+                        update(res);
+                    });
+                });
+                //删除
+                $('.delete').off().on('click', function () {
+                    getNode(function (res) {
+                        if (res.total > 0) {
+                            layer.alert('类型里已有' + res.total + '道题，删除类型同时会删除试题，若需要删除请与开发人员联系', { icon: 2 });
+                        }
+                        else {
+                            layer.confirm('确定删除？', { icon: 3 }, function () {
+                                $.ajax({
+                                    url: '/root/subclass/delete',
+                                    type: 'post', dataType: 'json', cache: false,
+                                    data: { id: res.id },
+                                    beforeSend: function () { layer.load(2); },
+                                    success: function (res) {
+                                        initzTree();
+                                        layer.msg('删除成功', { icon: 1 });
+                                    },
+                                    complete: function () { layer.closeAll('loading'); },
+                                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                                });
+                            });
+                        }
+                    });
+                });
+                //刷新
+                $('.refresh').off().on('click', function () {
+                    initzTree();
+                });
+            }
+            function openform(title, callback) {
+                $.get('/areas/root/static/subclassform.html', function (fhtml) {
+                    layer.open({
+                        type: 1, resize: false, area: ['350px', '450px'], offset: '100px',
+                        title: title,
+                        content: fhtml,
+                        success: function () {
+                            callback();
+                            form.render();
+                        }
+                    });
+                }, 'html');
+            }
+            function save(obj) {
+                var datas = {
+                    id: parseInt(obj.sid),
+                    pid: parseInt(obj.pid),
+                    sname: obj.sname,
+                    levelID: parseInt(obj.levelID),
+                    introduce: obj.introduce,
+                    valid: obj.valid === 'on' ? true : false,
+                };
+                $.ajax({
+                    url: '/root/subclass/save',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: datas,
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        $('#sname,#introduce').val('');
+                        if (datas.pid === 2) {
+                            layer.closeAll();
+                            initzTree();
+                        }
+                        layer.msg('保存成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function update(obj) {
+                $.ajax({
+                    url: '/root/subclass/getentity',
+                    type: 'get', dataType: 'json', cache: false,
+                    data: { id: obj.id },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        openform('编辑-' + obj.leved, function () {
+                            $('.flmc,.jsxx').hide();
+                            $('#sid').val(res.id);
+                            $('#pid').val(res.pid);
+                            selected('levelID', res.levelID);
+                            $('#levelID option').attr('disabled', true);
+                            $('#sname').val(res.sname);
+                            if (res.introduce !== null) $('#introduce').val(res.introduce);
+                            $("#valid").attr("checked", res.valid);
+                            form.render();
+                            if (obj.leved === 2) $('.jsxx').show();
+                        });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function setvalit(valid, id) {
+                $.ajax({
+                    url: '/root/subclass/setvalit',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: { valid: valid, id: id },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        initzTree();
+                        layer.msg('成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+            function getNode(callback) {
+                var treeObj = $.fn.zTree.getZTreeObj("treeDom"), nodes = treeObj.getSelectedNodes();
+                if (nodes.length > 0) {
+                    callback({
+                        id: nodes[0].id,
+                        mc: nodes[0].mc,
+                        leved: parseInt(nodes[0].leved),
+                        levelID: parseInt(nodes[0].levelID),
+                        total: parseInt(nodes[0].total)
+                    });
+                }
+                else {
+                    layer.msg('没有选择任何题型');
+                    return;
+                }
+            }
+        });
+    </script>
+}

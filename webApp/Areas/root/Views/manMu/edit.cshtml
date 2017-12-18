@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "试题编辑";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li><a href="/root/ch/list">试题列表</a></li>
+        <li class="layui-this">试题编辑</li>
+    </ul>
+    <div class="layui-tab-content layui-show">
+        <form class="layui-form editsub">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>类型</label>
+                <div class="layui-form-mid layui-word-aux">
+                    <span id="subnav">请选择题库类型</span>&ensp;<a class="layui-btn layui-btn-xs" id="selClass">选择</a>
+                    <input type="hidden" id="sid" name="sid" value="0" lay-verify="versid" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>标题</label>
+                <div class="layui-input-block">
+                    <input type="text" id="title" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>题目<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="subs" name="subs" placeholder="请输入题目" class="layui-textarea" required lay-verify="required"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>选项A<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="opA" name="opA" placeholder="请输入选项A" class="layui-textarea" required lay-verify="required"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>选项B<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="opB" name="opB" placeholder="请输入选项B" class="layui-textarea" required lay-verify="required"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>选项C<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="opC" name="opC" placeholder="请输入选项C" class="layui-textarea" required lay-verify="required"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b class="required">*</b>选项D<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="opD" name="opD" placeholder="请输入选项D" class="layui-textarea" required lay-verify="required"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">选项E<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="opE" name="opE" placeholder="请输入选项E" class="layui-textarea"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">解释<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                <div class="layui-input-block"><textarea id="explain" name="explain" placeholder="请输入解释" class="layui-textarea"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">答案</label>
+                <div class="layui-input-block" id="result">
+                    <input type="radio" name="result" value="A" title="A" checked>
+                    <input type="radio" name="result" value="B" title="B">
+                    <input type="radio" name="result" value="C" title="C">
+                    <input type="radio" name="result" value="D" title="D">
+                    <input type="radio" name="result" value="E" title="E">
+                    <input type="checkbox" id="instate" name="instate" lay-skin="switch" lay-text="入库|出库" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section js{
+    <script>
+        layui.config({ base: '/areas/root/js/' }).use(['form', 'glevent'], function () {
+            var form = layui.form, glevent = layui.glevent;
+            //监听提交
+            form.on('submit(saveForm)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+            form.verify({
+                versid: function (va) {
+                    if (va == 0) { return '请选择题库类型'; }
+                }
+            });
+            $(function () {
+                glevent.bindSel();
+                bindEvent();
+            });
+            function bindEvent() {
+                $("#title").bind('input propertychange', function () {
+                    $('#subs').val($(this).val());
+                    setTimeout(function () { $('#opA').focus(); }, 1200);
+                });
+                opFocus('A', 'B');
+                opFocus('B', 'C');
+                opFocus('C', 'D');
+                opFocus('D', 'E');
+                $("#opE").bind('input propertychange', function () {
+                    setTimeout(function () { $('#explain').focus(); }, 1200);
+                });
+                var time = null;
+                $('.editor').click(function () {
+                    clearTimeout(time);
+                    var nex = $(this).parent('label').next('div').children('textarea');
+                    time = setTimeout(function () {
+                        openEdit({
+                            url: '/root/common/edit_xheditor',
+                            elem: nex
+                        });
+                    }, 200);
+                }).dblclick(function () {
+                    clearTimeout(time);
+                    var nex = $(this).parent('label').next('div').children('textarea');
+                    openEdit({
+                        url: '/root/common/edit_kindeditor',
+                        elem: nex
+                    });
+                });
+            }
+            //{url:,elem}
+            function openEdit(options) {
+                layer.open({
+                    type: 2, title: '编辑器',
+                    shade: 0.3, area: ['750px', '95%'],
+                    content: options.url,
+                    btn: ['确定', '取消'],
+                    success: function (lo, i) {
+                        var iframeWin = window[lo.find('iframe')[0]['name']];
+                        if (options.elem.val().length > 0) {
+                            console.log('charu');
+                            iframeWin.set(options.elem.val());
+                        }
+                    },
+                    yes: function (i, lo) {
+                        var iframeWin = window[lo.find('iframe')[0]['name']];
+                        iframeWin.get(function (res) {
+                            if (res !== null) {
+                                options.elem.val(res);
+                                layer.closeAll();
+                            }
+                            else {
+                                options.elem.val('');
+                                layer.msg('没有编辑任何内容', {
+                                    time: 600,
+                                    end: function () {
+                                        layer.closeAll();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            function opFocus(I, Y) {
+                $("#op" + I).bind('input propertychange', function () {
+                    setTimeout(function () { $('#op' + Y).focus(); }, 1200);
+                });
+            }
+        });
+    </script>
+}

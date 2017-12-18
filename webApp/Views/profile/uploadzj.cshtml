@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "上传证件";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+@section css{
+<style>
+.layui-upload-drag {width: 160px;height: 220px;}
+.layui-upload-drag .layui-icon {font-size: 50px;color: #bbb;}
+</style>
+}
+<div style="text-align: center;padding: 50px 0;">
+    <div class="layui-upload-drag" id="selectpic">
+        <i class="layui-icon">&#xe67c;</i>
+        <p>点击或将文件拖拽到此处</p><br />
+        <p>支持jpeg、png、gif</p><br />
+        <p>大小不能大于30KB，建议尺寸220x160像素</p>
+    </div>
+    <div style="padding-top:10px;">
+        <button class="layui-btn" id="uploadpic" style="display:none;"><i class="layui-icon">&#xe609;</i>上传证件照</button>
+    </div>
+</div>
+@section js{
+    <script>
+        var uplpadurl = '/handler/mem_doctorphoto.ashx';
+        layui.use('upload', function () {
+            var upload = layui.upload;
+            $.ajax({
+                url: '/profile/getphoto',
+                type: 'get', dataType: 'json', cache: false,
+                data: null,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    if (res.msg !== 0) {
+                        uplpadurl += '?oldpic=' + res.pic;
+                        $('#selectpic').empty().append(
+                            $('<img/>', {
+                                src: res.pic,
+                                width: 160,
+                                height: 220
+                            })
+                        );
+                    }
+                },
+                complete: function () { layer.closeAll('loading'); bindUpload(); },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
+            });
+            function bindUpload() {
+                upload.render({
+                    elem: '#selectpic',
+                    url: uplpadurl, auto: false,
+                    accept: 'images', exts: 'jpg|jpeg|png|gif', size: 30,
+                    bindAction: '#uploadpic',
+                    choose: function (obj) {
+                        obj.preview(function (i, f, result) {
+                            $('#uploadpic').show();
+                            $('#selectpic').empty().append(
+                                $('<img/>', {
+                                    src: result,
+                                    width: 160,
+                                    height: 220
+                                })
+                            );
+                        });
+                    },
+                    before: function () {
+                        layer.load(2);
+                    },
+                    done: function (res) {
+                        layer.closeAll('loading');
+                        switch (res.state) {
+                            case 1:
+                                layer.msg('保存成功。', {
+                                    icon: 1, time: 1000, end: function () {
+                                        window.location.replace("/profile/core?rid=" + Math.random());
+                                    }
+                                });
+                                break;
+                            case 0:
+                                layer.msg(res.msg, { icon: 2 });
+                                break;
+                            case 4001:
+                                layer.msg(res.msg, {
+                                    icon: 2, time: 1000, end: function () {
+                                        window.location.replace("/account/login?rid=" + Math.random());
+                                    }
+                                });
+                                break;
+                            default:
+                                alert('error');
+                                console.log(res);
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

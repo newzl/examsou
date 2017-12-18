@@ -1,0 +1,275 @@
+﻿@{
+    ViewBag.Title = "论述题管理";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+<div class="layui-tab layui-tab-brief" lay-filter="tabView">
+    <ul class="layui-tab-title">
+        <li lay-id="list" class="layui-this">试题列表</li>
+        <li lay-id="edit">试题编辑</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+                <form class="layui-form layui-form-pane find-panel">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">题库类型</label>
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <input type="text" id="findsname" placeholder="请选择题库类型" class="layui-input" readonly="readonly">
+                                <input type="hidden" id="findsid" name="sid" value="0" />
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                <a href="javascript:;" id="findreset">清除</a>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">题目</label>
+                            <div class="layui-input-inline" style="width: 350px;">
+                                <input type="text" name="title" placeholder="请输入题目" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">是否入库</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <select name="inputState">
+                                    <option value="-1">全部</option>
+                                    <option value="1">已入库</option>
+                                    <option value="0">未入库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">添加时间</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" id="mindate" name="mindate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" id="maxdate" name="maxdate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="maxDateEve()" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn" lay-submit lay-filter="findForm"><i class="layui-icon">&#xe615;</i> 查询</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <table id="tableDom" lay-filter="tableView"></table>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form editsub">
+                <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>类型</label>
+                    <div class="layui-form-mid layui-word-aux">
+                        <span id="subnav">请选择题库类型</span>&ensp;<a class="layui-btn layui-btn-xs" id="selClass">选择</a>
+                        <input type="hidden" id="sid" name="sid" value="0" lay-verify="versid" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="title" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>题目<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="subs" name="subs" placeholder="请输入题目" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>答案<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="result" name="result" placeholder="请输入答案" class="layui-textarea" required lay-verify="required"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">解释<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
+                    <div class="layui-input-block"><textarea id="explain" name="explain" placeholder="请输入解释" class="layui-textarea"></textarea></div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="checkbox" id="instate" name="instate" lay-skin="switch" lay-text="入库|出库" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" id="saveForm" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
+                        <button type="reset" id="resetForm" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operate">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+<script type="text/html" id="stateTpl">
+    <input type="checkbox" value="{{d.id}}" title="入库" lay-filter="stateView" {{ d.state ? 'checked' : '' }}>
+</script>
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script>
+        layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'glevent'], function () {
+            var form = layui.form, table = layui.table, glevent = layui.glevent;
+            $(function () {
+                glevent.bindFind();
+                glevent.bindCommon();
+                glevent.bindEditor();
+            });
+            form.verify({
+                versid: function (va) {
+                    if (parseInt(va) <= 0) { return '请选择题库类型'; }
+                }
+            });
+            //tab切换事件
+            element.on('tab(tabView)', function (d) {
+                if (d.index === 0) glevent.bindKey(false);
+                else if (d.index === 1) {
+                    $('#kid,#sid').val(0);
+                    $('#subnav').text('请选择题库类型');
+                    $('#resetForm').click();
+                    glevent.bindKey(true);
+                }
+            });
+            //点击查询
+            form.on('submit(findForm)', function (d) {
+                table.reload('tableDom', {
+                    page: { hash: 'fenye', curr: 1 },
+                    where: { wherejson: JSON.stringify(d.field) }
+                });
+                return false;
+            });
+            //保存
+            form.on('submit(saveForm)', function (d) {
+                var ds = d.field;
+                $.ajax({
+                    url: '/root/manls/save',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: {
+                        id: parseInt(ds.id),
+                        sid: parseInt(ds.sid),
+                        title: ds.title,
+                        subs: ds.subs,
+                        result: ds.result,
+                        explain: ds.explain == '' ? null : ds.explain,
+                        instate: ds.instate === 'on' ? true : false
+                    },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        if (parseInt(ds.id) <= 0) {
+                            if (res <= 0) layer.msg('该题目在题库类型中已经存在', { icon: 2 });
+                            else {
+                                layer.msg('保存成功', { icon: 1 });
+                                $('#resetForm').click();
+                                $('#title').focus();
+                            }
+                        }
+                        else {
+                            layer.msg('修改成功', {
+                                icon: 1, time: 500, end: function () {
+                                    table.reload('tableDom', {
+                                        page: {
+                                            hash: 'fenye',
+                                            curr: location.hash.replace('#!fenye=', '') || 1
+                                        }
+                                    });
+                                    element.tabChange('tabView', 'list');
+                                }
+                            });
+                        }
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+                return false;
+            });
+            form.on('checkbox(stateView)', function (obj) {
+                var kid = parseInt(this.value);
+                $.ajax({
+                    url: '/root/manls/instate',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: {
+                        id: kid,
+                        state: obj.elem.checked
+                    },
+                    beforeSend: function () { layer.load(2); },
+                    success: function () {
+                        layer.msg('更新成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            });
+            table.render({
+                elem: '#tableDom', url: '/root/manls/listdata',
+                page: {
+                    hash: 'fenye',
+                    curr: location.hash.replace('#!fenye=', '') || 1
+                }, limits: [10],
+                cols: [[
+                    { field: 'rows', title: '序号', width: 80, align: 'center', unresize: true },
+                    { field: 'sname', title: '类型', width: 200 },
+                    { field: 'title', title: '题目', width: 400 },
+                    { field: 'result', title: '答案', width: 600 },
+                    { field: 'date', title: '添加日期', width: 110, unresize: true },
+                    { field: 'state', title: '是否入库', width: 110, templet: '#stateTpl', unresize: true },
+                    { fixed: 'right', width: 120, align: 'center', toolbar: '#operate' }
+                ]]
+            });
+            table.on('tool(tableView)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'detail') { //查看
+                    openDetail(data.id);
+                }
+                else if (obj.event === 'edit') {
+                    initentity(data.id)
+                }
+            });
+            function openDetail(id) {
+                layer.open({
+                    id: 'subDetail', type: 2,
+                    title: '查看试题', time: 20000,
+                    area: ['900px', '80%'],
+                    shadeClose: true,
+                    content: '/root/manls/detail/' + id
+                });
+            }
+            function initentity(did) {
+                element.tabChange('tabView', 'edit');
+                $.ajax({
+                    url: '/root/manls/getentity',
+                    type: 'get', dataType: 'json', cache: false,
+                    data: { id: did },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        $('#kid').val(res.id);
+                        $('#subnav').text(res.sname);
+                        $('#sid').val(res.sid);
+                        $('#title').val(res.title);
+                        $('#subs').val(res.subs);
+                        $('#result').val(res.result);
+                        if (res.explain !== null) $('#explain').val(res.explain);
+                        $('#instate').attr('checked', res.instate);
+                        form.render();
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+        });
+        function minDateEve() {
+            var maxD = $dp.$('maxdate');
+            WdatePicker({
+                onpicked: function () {
+                    maxD.focus();
+                },
+                maxDate: '#F{$dp.$D(\'maxdate\')}'
+            })
+        }
+        function maxDateEve() {
+            WdatePicker({
+                minDate: '#F{$dp.$D(\'mindate\')}'
+            })
+        }
+    </script>
+}
