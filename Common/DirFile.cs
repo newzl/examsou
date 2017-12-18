@@ -14,10 +14,10 @@ namespace Common
         public static string WriteInFileStream(string content, string curl)
         {
             string fileUrl, getUrl;
-            fileUrl = "/Files/" + DateTime.Now.ToString("yyMMdd") + "/";
+            fileUrl = "/upload/" + DateTime.Now.ToString("yyMMdd") + "/";
             // 生成随机文件名
             Random random = new Random(DateTime.Now.Millisecond);
-            string fileName = DateTime.Now.ToString("yyyyMMddhhmmss") + random.Next(10000) + ".html";
+            string fileName = DateTime.Now.ToString("hhmmss") + random.Next(10000) + ".html";
             getUrl = fileUrl + fileName;
             #region
             if (content != null)
