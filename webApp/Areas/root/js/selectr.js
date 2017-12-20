@@ -2,13 +2,13 @@
     "use strict";
     var $ = layui.$,
         selectr = {
-            cbm: function (typeid, dom) {
-                this.ajaxselect('/handler/root/sele_cbm.ashx', { type: typeid }, dom);
+            cbm: function (typeid, dom, isFind) {
+                this.ajaxselect('/handler/root/sele_cbm.ashx', { type: typeid }, dom, isFind || false);
             },
-            subjectClass: function (pid, dom) {
-                this.ajaxselect('/handler/root/sele_subjectclass.ashx', { pid: pid }, dom);
+            subjectClass: function (pid, dom, isFind) {
+                this.ajaxselect('/handler/root/sele_subjectclass.ashx', { pid: pid }, dom, isFind || false);
             },
-            ajaxselect: function (url, field, dom) {
+            ajaxselect: function (url, field, dom, isFind) {
                 $.ajax({
                     url: url,
                     type: 'get', dataType: 'json', cache: false, async: false,
@@ -19,7 +19,9 @@
                                 layer.msg(res.msg, { icon: 2, time: 1000, end: function () { window.location.replace("/account/login?rid=" + Math.random()); } });
                             }
                             else {
-                                dom.empty().append($('<option/>', { value: '', text: '' }));
+                                dom.empty();
+                                if (isFind) dom.append($('<option/>', { value: '-1', text: '全部' }));
+                                else dom.append($('<option/>', { value: '', text: '' }));
                                 $.each(res, function (i, o) {
                                     dom.append($('<option/>', {
                                         value: o.val,

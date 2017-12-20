@@ -2,7 +2,6 @@
     ViewBag.Title = "课件管理";
     Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
 }
-
 <div class="layui-tab layui-tab-brief" lay-filter="tabView">
     <ul class="layui-tab-title">
         <li lay-id="list" class="layui-this">课件列表</li>
@@ -14,28 +13,25 @@
                 <form class="layui-form layui-form-pane find-panel">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">职称</label>
-                            <div class="layui-input-inline">
-                                <select name="leid" id="jibiec" lay-filter="jibiec"></select>
-                            </div>
-                            <div class="layui-input-inline">
-                                <select name="zid" id="zhichengc"></select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
                             <label class="layui-form-label">标题</label>
-                            <div class="layui-input-inline" style="width: 350px;">
+                            <div class="layui-input-inline" style="width: 300px;">
                                 <input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input" />
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">课件类型</label>
+                            <label class="layui-form-label">修读类型</label>
                             <div class="layui-input-inline" style="width: 100px;">
-                                <select name="inputState">
+                                <select name="typ">
                                     <option value="-1">全部</option>
-                                    <option value="3">必修课</option>
-                                    <option value="4">选修课</option>
+                                    <option value="1">必修课</option>
+                                    <option value="2">选修课</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">课件内容</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <select id="contTyp" name="contTyp"></select>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -61,58 +57,70 @@
                 <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
                 <input type="hidden" id="kcurl" name="curl" value="0" autocomplete="off" />
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>级别</label>
-                    <div class="layui-input-inline">
-                        <select name="jibie" id="jibie" lay-verify="required" lay-filter="jibie"></select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>职称</label>
-                    <div class="layui-input-inline">
-                        <select name="zhicheng" id="zhicheng" lay-verify="required"></select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>课程类型</label>
-                    <div class="layui-input-inline">
-                        <select name="inputTyp" id="inputTyp" lay-verify="required">
-                            <option value=""></option>
-                            <option value="3">必修课</option>
-                            <option value="4">选修课</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>标题</label>
-                    <div class="layui-input-block">
+                    <div class="layui-input-inline" style="width:515px;">
                         <input type="text" id="title" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" autofocus class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>学时</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="xue" name="xue" required lay-verify="xue" placeholder="请输入学时" autocomplete="off" autofocus class="layui-input">
+                    <label class="layui-form-label"><b class="requ">*</b>继教项目</label>
+                    <div class="layui-input-inline" style="width:515px;">
+                        <select id="eduItem" name="itid" lay-search lay-verify="required"></select>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>学时时长</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="minute" name="minute" required lay-verify="minute" placeholder="请输入学时时长" autocomplete="off" autofocus class="layui-input">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">授课老师</label>
+                        <div class="layui-input-inline">
+                            <select id="teacher" name="teacher" lay-search></select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">作者</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="author" name="author" placeholder="请输入作者" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">内容类型</label>
-                    <div class="layui-input-inline">
-                        <select name="inputCont" id="inputCont" lay-verify="required">
-                            <option value=""></option>
-                            <option value="1">HTML文件</option>
-                            <option value="2">视频</option>
-                        </select>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><b class="requ">*</b>学时时长</label>
+                        <div class="layui-input-inline">
+                            <input type="number" id="minute" name="minute" required lay-verify="minute" placeholder="请输入学时时长" autocomplete="off" class="layui-input" value="60">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><b class="requ">*</b>学时</label>
+                        <div class="layui-input-inline">
+                            <input type="number" id="xue" name="xue" required lay-verify="xue" placeholder="请输入学时" autocomplete="off" class="layui-input" value="1">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">需学<b id="xueMinute">60</b>分钟</div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>内容<br /><a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a></label>
-                    <div class="layui-input-block"><textarea id="subs" name="subs" placeholder="请输入内容" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea></div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><b class="requ">*</b>课程类型</label>
+                        <div class="layui-input-inline">
+                            <select name="typ" id="edit_typ" lay-verify="required">
+                                <option value="1">必修课</option>
+                                <option value="2">选修课</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><b class="requ">*</b>内容类型</label>
+                        <div class="layui-input-inline">
+                            <select name="contTyp" id="edit_contTyp" lay-verify="required"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>内容<br />
+                        <a class="layui-btn layui-btn-xs layui-btn-primary editor"><i class="layui-icon">&#xe639;</i></a>
+                    </label>
+                    <div class="layui-input-inline" style="width:515px;">
+                        <textarea id="cont" name="cont" placeholder="请输入内容" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
+                    </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">

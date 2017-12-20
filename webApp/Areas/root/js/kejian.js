@@ -1,26 +1,33 @@
-﻿layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'glevent'], function () {
-    var form = layui.form, table = layui.table, glevent = layui.glevent;
+﻿layui.config({
+    base: '/areas/root/js/'
+}).use(['form', 'table', 'glevent', 'selectr'], function () {
+    var form = layui.form,
+        table = layui.table,
+        glevent = layui.glevent,
+        selectr = layui.selectr;
     $(function () {
         //glevent.bindCommon();
         glevent.bindEditor();
-        initSele.jbzc(0, $('#jibiec'));
+        selectr.cbm(12, $('#contTyp'), true);
+        selectr.cbm(12, $('#edit_contTyp'));
+
+        //initSele.jbzc(0, $('#jibiec'));
         form.render('select');//从新渲染select不然显示不出来
     });
     //tab切换事件
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
-            initSele.jbzc(0, $('#jibie'));
+            selectr.cbm(12, $('#edit_contTyp'));
             $('#kid').val(0);
             $('#kcurl').val(0);
             $('#resetForm').show();
             $('#resetForm').click();
             $('#saveForm').show();
-
             glevent.bindKey(true);
         }
         else {
-            initSele.jbzc(0, $('#jibiec'));
-            glevent.bindKey(false);
+            //initSele.jbzc(0, $('#jibiec'));
+            //glevent.bindKey(false);
             table.reload('tableDom', {
                 page: {
                     hash: 'fenye',
@@ -29,16 +36,16 @@
             });
         }
     });
-    form.on('select(jibie)', function (sd) {
-        if (sd.value !== '') initSele.jbzc(sd.value, $('#zhicheng'));
-        else $("#zhicheng").empty();
-        form.render('select');
-    });
-    form.on('select(jibiec)', function (sd) {
-        if (sd.value !== '') initSele.jbzc(sd.value, $('#zhichengc'));
-        else $("#zhichengc").empty();
-        form.render('select');
-    });
+    //form.on('select(jibie)', function (sd) {
+    //    if (sd.value !== '') initSele.jbzc(sd.value, $('#zhicheng'));
+    //    else $("#zhicheng").empty();
+    //    form.render('select');
+    //});
+    //form.on('select(jibiec)', function (sd) {
+    //    if (sd.value !== '') initSele.jbzc(sd.value, $('#zhichengc'));
+    //    else $("#zhichengc").empty();
+    //    form.render('select');
+    //});
 
     //验证
     form.verify({
@@ -55,40 +62,40 @@
     });
     //保存
     form.on('submit(saveForm)', function (d) {
-
-        var ds = d.field;
-        console.log(ds.data);
-        save({
-            id: parseInt(ds.id),
-            levelID: ds.jibie !== '' ? parseInt(ds.jibie) : null,
-            sid: ds.zhicheng !== '' ? parseInt(ds.zhicheng) : null,
-            title: ds.title,
-            cont: ds.subs,
-            cont_typ: ds.inputCont,
-            typ: ds.inputTyp,
-            xueshi: ds.xue,
-            xueshi_minute: ds.minute,
-            curl: ds.curl
-        }, function (res) {
-            if (parseInt(ds.id) == 0) {
-                layer.msg('保存成功', { icon: 1 });
-                $('#resetForm').click();
-                $('#title').focus();
-            }
-            else {
-                layer.msg('修改成功', {
-                    icon: 1, time: 500, end: function () {
-                        table.reload('tableDom', {
-                            page: {
-                                hash: 'fenye',
-                                curr: location.hash.replace('#!fenye=', '') || 1
-                            }
-                        });
-                        element.tabChange('tabView', 'list');
-                    }
-                });
-            }
-        });
+        var ds = d.field,
+            fd={
+                id: parseInt(ds.id),
+                title: ds.title,
+                teacher: ds.teacher.length > 0 ? parseInt(ds.teacher) : null,
+                author: ds.author.length > 0 ? ds.author : null,
+                xueshi_minute: parseInt(ds.minute),
+                xueshi: parseFloat(ds.xue),
+                typ: parseInt(ds.typ),
+                cont_typ: parseInt(ds.contTyp),
+                cont: ds.cont,
+                curl: ds.curl
+            };
+        console.log(fd);
+        //save(fd, function (res) {
+        //    if (parseInt(ds.id) == 0) {
+        //        layer.msg('保存成功', { icon: 1 });
+        //        $('#resetForm').click();
+        //        $('#title').focus();
+        //    }
+        //    else {
+        //        layer.msg('修改成功', {
+        //            icon: 1, time: 500, end: function () {
+        //                table.reload('tableDom', {
+        //                    page: {
+        //                        hash: 'fenye',
+        //                        curr: location.hash.replace('#!fenye=', '') || 1
+        //                    }
+        //                });
+        //                element.tabChange('tabView', 'list');
+        //            }
+        //        });
+        //    }
+        //});
         return false;
     });
     table.render({
@@ -173,34 +180,34 @@
 
     }
     //动态获取下拉选项框中的值
-    var initSele = {
+    //var initSele = {
 
-        jbzc: function (pidval, dom) {
-            initSele.ajaxselect('/root/kejian/datajian', { pid: pidval }, dom);
-        },
-        ajaxselect: function (url, field, dom) {
-            $.ajax({
-                url: url,
-                type: 'get', dataType: 'json', cache: false, async: false,
-                data: field,
-                success: function (res) {
-                    if (res !== null) {
-                        dom.empty().append($('<option/>', { value: '', text: '' }));
-                        $.each(res, function (i, o) {
-                            dom.append($('<option/>', {
-                                value: o.val,
-                                text: o.text
-                            }));
-                        });
-                    }
-                    else {
-                        dom.empty();
-                    }
-                },
-                error: function (msg) { alert('ajaxError:' + msg.responseText); console.log(msg); }
-            });
-        }
-    };
+    //    jbzc: function (pidval, dom) {
+    //        initSele.ajaxselect('/root/kejian/datajian', { pid: pidval }, dom);
+    //    },
+    //    ajaxselect: function (url, field, dom) {
+    //        $.ajax({
+    //            url: url,
+    //            type: 'get', dataType: 'json', cache: false, async: false,
+    //            data: field,
+    //            success: function (res) {
+    //                if (res !== null) {
+    //                    dom.empty().append($('<option/>', { value: '', text: '' }));
+    //                    $.each(res, function (i, o) {
+    //                        dom.append($('<option/>', {
+    //                            value: o.val,
+    //                            text: o.text
+    //                        }));
+    //                    });
+    //                }
+    //                else {
+    //                    dom.empty();
+    //                }
+    //            },
+    //            error: function (msg) { alert('ajaxError:' + msg.responseText); console.log(msg); }
+    //        });
+    //    }
+    //};
 });
 
 

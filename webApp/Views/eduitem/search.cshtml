@@ -78,19 +78,19 @@
 @*<div class="not-found"><i class="layui-icon">&#xe615;</i><h5>没有符合条件的记录</h5><p>没有查询到任何记录，您可以重新设置条件查询</p></div>*@
 
 <ul class="item-list">
-        @for (int i = 0; i < 10; i++)
-        {
-            <li>
-                <a href="/eduitem/detail" target="_blank" class="itemPic"><img src="/upload/171212/820.jpg" style="width: 200px;height: 120px"></a>
-                <a href="/eduitem/detail" target="_blank" class="itemName">住院病案首页的质量控制和检查</a>
-                <p>项目类型：国家I类<b class="xf">5</b>学分</p>
-                <p>学习人数：125人在学</p>
-                <p>项目编号：2017-14-05-071</p>
-                <p>负责单位：新智联医学技术培训中心</p>
-                <button class="layui-btn layui-btn-radius">立即学习</button>
-            </li>
-        }
-    </ul>
+    @for (int i = 0; i < 10; i++)
+    {
+        <li>
+            <a href="/eduitem/detail" target="_blank" class="itemPic"><img src="/upload/171212/820.jpg" style="width: 200px;height: 120px"></a>
+            <a href="/eduitem/detail" target="_blank" class="itemName">住院病案首页的质量控制和检查</a>
+            <p>项目类型：国家I类<b class="xf">5</b>学分</p>
+            <p>学习人数：125人在学</p>
+            <p>项目编号：2017-14-05-071</p>
+            <p>负责单位：新智联医学技术培训中心</p>
+            <button class="layui-btn layui-btn-radius">立即学习</button>
+        </li>
+    }
+</ul>
 @section js{
     <script>
         layui.config({
@@ -105,6 +105,16 @@
                 form.render('select');
             });
 
+            form.on('submit(findForm)', function (d) {
+                var fd = d.field,
+                    data = {
+                        scid: parseInt(fd.scid),
+                        title: fd.title,
+                        itemTyp: parseInt(fd.itemTyp)
+                    };
+                console.log(d.field);
+                return false;
+            });
             form.render('select');//临时刷新
         });
     </script>

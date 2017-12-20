@@ -7,10 +7,9 @@ using Common;
 
 namespace webApp.Areas.root.Controllers
 {
+    [Utility.adminAuthorize]
     public class keJianController : Controller
     {
-        [Utility.adminAuthorize]
-        //
         // GET: /root/keJian/
         public ActionResult list()
         {
