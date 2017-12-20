@@ -1,9 +1,8 @@
 ﻿"use strict";
 function getnav(emp, callback) {
-    var name = emp.name != null ? emp.name : '游客';
-    var photo = emp.photo != null ? emp.photo : '/images/face/face0001.png';
-    var nav =
-    [{
+    var name = emp.name !== null ? emp.name : '游客',
+        photo = emp.photo !== null ? emp.photo : '/images/face/face0001.png';
+    callback([{
         title: '在线考试',
         children: [
             {
@@ -25,16 +24,16 @@ function getnav(emp, callback) {
         children: [
             {
                 title: '我的学习',
-                href: '/learn'
-            }, {
-                title: '章节练习',
-                href: '/learn/chapter'
+                href: '/eduitem'
             }, {
                 title: '学习记录',
                 href: '/learn/record'
             }, {
-                title: '我的题库',
+                title: '我的项目',
                 href: '/subject/learnsubject'
+            }, {
+                title: '继教项目',
+                href: '/eduitem/search'
             }
         ]
     }, {
@@ -67,9 +66,6 @@ function getnav(emp, callback) {
                 title: '个人中心',
                 href: '/profile/core'
             }, {
-                title: '选择题库',
-                href: '/subject'
-            }, {
                 title: '意见反馈',
                 href: '/feedback'
             }, {
@@ -77,6 +73,5 @@ function getnav(emp, callback) {
                 href: '/account/quitlogin'
             }
         ]
-    }];
-    callback(nav);
+    }]);
 }

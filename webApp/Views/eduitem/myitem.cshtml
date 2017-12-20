@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "我的继教项目";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<br />
+<div class="layui-btn-group">
+    <a href="/eduitem" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe603;</i>我的学习</a>
+    <a href="/eduitem/search" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索继教项目</a>
+</div>
+<table id="tableDom" lay-filter="tableView"></table>
+<script type="text/html" id="snameLet">
+    <a href="/subject/detail/{{d.sid}}" title="{{d.sname}}" style="color: #01AAED;">{{d.sname}}</a>
+</script>
+<script type="text/html" id="operateLet">
+    <div class="layui-btn-group">
+        {{# if(d.inlearn){ }}
+        <a href="/learn" class="layui-btn layui-btn-xs layui-btn-normal"><i class="layui-icon">&#xe60e;</i>正在学习</a>
+        {{# } else { }}
+        <a class="layui-btn layui-btn-xs" lay-event="begin"><i class="layui-icon">&#xe609;</i>开始学习</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="cancel" title="取消学习"><i class="layui-icon">&#xe640;</i></a>
+        {{# } }}
+    </div>
+</script>
+@section js{
+    <script>
+        layui.use(['layer', 'table'], function () {
+            var layer = layui.layer, table = layui.table;
+            table.render({
+                elem: '#tableDom', id: 'tableData',
+                url: '/subject/tablelearnsubject',
+                cols: [[
+                    { field: 'rows', title: '序号', width: 60, align: 'center' },
+                    { title: '题库名称', width: 220, templet: '#snameLet' },
+                    { field: 'level', title: '题库类型', width: 100, align: 'center' },
+                    { field: 'createTime', title: '学习日期', sort: true, width: 120, align: 'center' },
+                    { title: '正在学习', width: 100, align: 'center', templet: '<span>{{ d.learns }}人</span>' },
+                    { field: 'counts', title: '题库数量', width: 100, align: 'center', sort: true },
+                    { field: 'total', title: '已学题数', width: 100, align: 'center', sort: true },
+                    { width: 141, toolbar: '#operateLet' }
+                ]]
+            });
+            table.on('tool(tableView)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'begin') { //开始学习
+                    $.ajax({
+                        url: '/subject/beginlearn',
+                        type: 'post', dataType: 'json', cache: false,
+                        data: { lid: data.id },
+                        beforeSend: function () { layer.load(2); },
+                        success: function (res) {
+                            layer.msg('已经切换题库', {
+                                icon: 1, time: 1000, end: function () {
+                                    window.location.replace("/learn?rid=" + Math.random());
+                                }
+                            });
+                        },
+                        complete: function () { layer.closeAll('loading'); },
+                        error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                    });
+                }
+                else if (obj.event === 'cancel') {//取消学习
+                    if (data.total > 0) {
+                        layer.open({
+                            type: 1, title: false, closeBtn: false,
+                            area: '300px;', resize: false,
+                            btn: ['确定取消', '继续学习'], anim: 6, time: 15000, shade: 0.8, shadeClose: true,
+                            btnAlign: 'c', scrollbar: false,
+                            content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">您确定要取消学习？<br/><br/>注意！<br/>取消学习将删除您所有数据，包括题库学习记录、进度、笔记、收藏、错题等，还有模拟考试记录。</div>',
+                            yes: function () {
+                                layer.closeAll();
+                                cancelLearn(data.id);
+                                obj.del();
+                            }
+                        });
+                    }
+                    else {
+                        layer.confirm('确定取消学习？', { icon: 3 }, function () {
+                            layer.closeAll();
+                            cancelLearn(data.id);
+                            obj.del();
+                        });
+                    }
+                }
+            });
+            function cancelLearn(lid) {
+                $.ajax({
+                    url: '/subject/cancel',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: { lid: lid },
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.msg('取消学习成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+        });
+    </script>
+}
+

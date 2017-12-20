@@ -24,7 +24,7 @@
                     {{# if(item.children != undefined && item.children.length > 0){ }}
                     <dl class="layui-nav-child">
                         {{# layui.each(item.children, function(j, chil){ }}
-                        <dd><a href="{{chil.href + '?rid=' + Math.random()}}">{{chil.title}}</a></dd>
+                        <dd><a href="{{chil.href}}">{{chil.title}}</a></dd>
                         {{# });}}
                     </dl>
                     {{# } }}

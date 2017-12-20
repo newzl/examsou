@@ -1,17 +1,12 @@
-﻿var loginacc = 'ZXXXLOGINCCOUNT', employee = 'ZXXXEMPLOYEECOOKIE', cookieAcc = $.cookie(loginacc);
-if (cookieAcc !== null) $('#account').val(cookieAcc);
-layui.use(['layer', 'form'], function () {
-    var layer = layui.layer,
-    form = layui.form;
-    $(function () {
-        if ($.cookie(employee) !== null) $.cookie(employee, null, { path: '/', expires: -1 });
-        $("#codeImg").on('click', function () { changeVCode(); });
-    });
+﻿"use strict";
+var empCookie = 'ZXXXEMPLOYEECOOKIE';
+layui.use('form', function () {
+    var form = layui.form;
+    if ($.cookie(empCookie) !== null) $.cookie(empCookie, null, { path: '/', expires: -1 });
+    $("#codeImg").on('click', function () { changeVCode(); });
     form.verify({
         account: function (value) {
-            if (value.length < 1) {
-                return '用户名不能为空';
-            }
+            if (value.length < 1) { return '用户名不能为空'; }
         },
         pwd: function (v) {
             if (v.length < 1) {
@@ -21,7 +16,12 @@ layui.use(['layer', 'form'], function () {
         code: [/^[0-9]{4}$/, '您输入的验证码可能有误']
     });
     form.on('submit(loginForm)', function (d) {
-        var fd = d.field;
+        var fd = {
+            account: d.field.account,
+            pwd: d.field.pwd,
+            code: d.field.code,
+            auto: d.field.auto === 'on' ? true : false
+        };
         $.ajax({
             url: "/account/loginform",
             type: "POST", dataType: 'JSON', cache: false,
@@ -38,16 +38,14 @@ layui.use(['layer', 'form'], function () {
                         changeVCode();
                         break;
                     case 1:
-                        $.cookie(employee, JSON.stringify(res), { path: '/' });
-                        window.location.replace("/learn?rid=" + Math.random().toString(36).substr(2));
+                        if (fd.auto) $.cookie(empCookie, JSON.stringify(res.info), { path: '/', expires: 62 });
+                        else $.cookie(empCookie, JSON.stringify(res.info), { path: '/' });
+                        window.location.replace("/eduitem?rid=" + Math.random().toString(36).substr(2));
                         break;
                     default:
                         layer.msg('服务器异常！' + res);
                         changeVCode();
                         break;
-                }
-                if (fd.isSave == 'on') {
-                    $.cookie(loginacc, fd.account, { expires: 360, path: '/' });
                 }
             },
             complete: function () { layer.closeAll('loading'); },

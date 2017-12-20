@@ -8,6 +8,9 @@
         //后台登录
         public const string SESSION_ADMIN_LOGININFO = "EXAMSESSIONADMINLOGININFO";
         //用户登录
-        public const string SESSION_EMPLOYEE_LOGININFO = "EXAMSESSIONEMPLOYEELOGININFO";
+        public const string __SESSION_EMPLOYEE_LOGININFO = "EXAMSESSIONEMPLOYEELOGININFO";
+        public const string COOKIE_EMPLOYEE = "EXAMCOOKIEEMPLOYEE";
+        //DES加密密钥  满足8位
+        public const string DES_KEY = "NEWZLKEY";
     }
 }
