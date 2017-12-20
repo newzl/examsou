@@ -10,8 +10,12 @@
         glevent.bindEditor();
         selectr.cbm(12, $('#contTyp'), true);
         selectr.cbm(12, $('#edit_contTyp'));
-
-        //initSele.jbzc(0, $('#jibiec'));
+        var xs = $('.xueshi'), xm = $('#xueMinute');
+        xs.off().on('input', function () {
+            if ($.isNumeric(xs[0].value) && $.isNumeric(xs[1].value)) {
+                xm.text(xs[0].value * xs[1].value);
+            }
+        });
         form.render('select');//从新渲染select不然显示不出来
     });
     //tab切换事件
@@ -36,17 +40,6 @@
             });
         }
     });
-    //form.on('select(jibie)', function (sd) {
-    //    if (sd.value !== '') initSele.jbzc(sd.value, $('#zhicheng'));
-    //    else $("#zhicheng").empty();
-    //    form.render('select');
-    //});
-    //form.on('select(jibiec)', function (sd) {
-    //    if (sd.value !== '') initSele.jbzc(sd.value, $('#zhichengc'));
-    //    else $("#zhichengc").empty();
-    //    form.render('select');
-    //});
-
     //验证
     form.verify({
         xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学时只能是正整数或正浮点数'],
@@ -75,7 +68,13 @@
                 cont: ds.cont,
                 curl: ds.curl
             };
-        console.log(fd);
+        if (fd.teacher!==null||fd.author!==null) {
+            console.log(fd);
+
+        }
+        else {
+            layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
+        }
         //save(fd, function (res) {
         //    if (parseInt(ds.id) == 0) {
         //        layer.msg('保存成功', { icon: 1 });
