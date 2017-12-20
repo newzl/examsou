@@ -1,32 +1,20 @@
-﻿layui.use(['element', 'laytpl'], function () {
+﻿"use strict";
+layui.use(['element', 'laytpl'], function () {
     var element = layui.element, laytpl = layui.laytpl;
     var cook = $.cookie('ZXXXEMPLOYEECOOKIE');
-    if (cook != undefined && cook != null) {
-        var emp = $.parseJSON(cook);
-        if (emp.state === 1) {
-            $.getScript('/scripts/nav/unav.js', function () {
-                getnav(emp, function (res) {
-                    loadnav(res);
+    if (cook !== undefined && cook !== null) {
+        $.getScript('/scripts/nav/unav.js', function () {
+            getnav($.parseJSON(cook), function (res) {
+                var getTpl = navDom.innerHTML;
+                laytpl(getTpl).render(res, function (html) {
+                    document.getElementById('navView').innerHTML = html;
                 });
+                element.render();
             });
-        }
-        else {
-            $.getScript('/scripts/nav/nnav.js', function () {
-                getnav(emp, function (res) {
-                    loadnav(res);
-                });
-            });
-        }
+        });
     }
     else {
-        window.location.replace('/account/login?ranid=' + Math.random());
-    }
-    function loadnav(nav) {
-        var getTpl = navDom.innerHTML;
-        laytpl(getTpl).render(nav, function (html) {
-            document.getElementById('navView').innerHTML = html;
-        });
-        element.render();
+        window.location.replace('/account/login?rid=' + Math.random());
     }
 });
 function selected(id, val) {

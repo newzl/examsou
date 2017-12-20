@@ -52,7 +52,7 @@
 
 .doctor{position:relative;height:120px;padding-left:150px}
 .doctor img{position:absolute;top:15px;left:15px; width:120px;height:120px;}
-.doctor .doc-name{font-size: 20px;color:#777;line-height: 30px;font-weight:bold;}
+.doctor .doc-name{font-size: 20px;color:#555;line-height: 30px;font-weight:bold;}
 .doctor .doc-zc{margin-left:10px;color: #777;}
 .doctor .doc-kj{margin-left:15px;color: #c2c2c2;}
 .doctor .doc-detail{color: #aaa;height:88px;font-size: 14px;cursor: default;}

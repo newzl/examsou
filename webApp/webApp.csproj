@@ -154,6 +154,7 @@
     <Compile Include="Controllers\courseController.cs" />
     <Compile Include="Controllers\defaultController.cs" />
     <Compile Include="Controllers\educateController.cs" />
+    <Compile Include="Controllers\eduitemController.cs" />
     <Compile Include="Controllers\feedbackController.cs" />
     <Compile Include="Controllers\homeController.cs" />
     <Compile Include="Controllers\learnController.cs" />
@@ -183,6 +184,12 @@
     </Compile>
     <Compile Include="handler\mem_doctorphoto.ashx.cs">
       <DependentUpon>mem_doctorphoto.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="handler\root\sele_cbm.ashx.cs">
+      <DependentUpon>sele_cbm.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="handler\root\sele_subjectClass.ashx.cs">
+      <DependentUpon>sele_subjectClass.ashx</DependentUpon>
     </Compile>
     <Compile Include="handler\sele_jb.ashx.cs">
       <DependentUpon>sele_jb.ashx</DependentUpon>
@@ -217,6 +224,9 @@
     <Compile Include="handler\sele_jb_zc.ashx.cs">
       <DependentUpon>sele_jb_zc.ashx</DependentUpon>
     </Compile>
+    <Compile Include="handler\sele_subjectClass.ashx.cs">
+      <DependentUpon>sele_subjectClass.ashx</DependentUpon>
+    </Compile>
     <Compile Include="handler\sele_xzbm.ashx.cs">
       <DependentUpon>sele_xzbm.ashx</DependentUpon>
     </Compile>
@@ -243,6 +253,7 @@
     <Content Include="Areas\root\js\manmc.js" />
     <Content Include="Areas\root\js\manmu.js" />
     <Content Include="Areas\root\js\manqa.js" />
+    <Content Include="Areas\root\js\selectr.js" />
     <Content Include="Areas\root\js\tool.js" />
     <Content Include="Areas\root\static\subclassform.html" />
     <Content Include="content\css\course.css" />
@@ -1366,11 +1377,18 @@
     <Content Include="Areas\admin\Views\sjzj\show.cshtml" />
     <Content Include="handler\sele_jb_zc.ashx" />
     <Content Include="Areas\root\Views\keJian\list.cshtml" />
+    <Content Include="handler\sele_subjectClass.ashx" />
+    <Content Include="handler\root\sele_subjectClass.ashx" />
+    <Content Include="handler\root\sele_cbm.ashx" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
     <Content Include="Views\default\index.cshtml" />
     <Content Include="Views\course\index.cshtml" />
     <Content Include="Views\profile\profession.cshtml" />
     <Content Include="Views\educate\index.cshtml" />
+    <Content Include="Views\eduitem\detail.cshtml" />
+    <Content Include="Views\eduitem\search.cshtml" />
+    <Content Include="Views\eduitem\index.cshtml" />
+    <Content Include="Views\eduitem\myitem.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

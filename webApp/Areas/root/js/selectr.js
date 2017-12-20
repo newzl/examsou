@@ -3,22 +3,10 @@
     var $ = layui.$,
         selectr = {
             cbm: function (typeid, dom) {
-                this.ajaxselect('/handler/sele_cbm.ashx', { type: typeid }, dom);
+                this.ajaxselect('/handler/root/sele_cbm.ashx', { type: typeid }, dom);
             },
-            subjectClass:function (pid,dom) {
-                this.ajaxselect('/handler/sele_subjectclass.ashx', { pid: pid }, dom);
-            },
-            xzbm: function (pval, dom) {
-                this.ajaxselect('/handler/sele_xzbm.ashx', { pxzbm: pval }, dom);
-            },
-            company: function (xzbm, dom) {
-                this.ajaxselect('/handler/sele_company.ashx', { xzbm: xzbm }, dom);
-            },
-            bmks: function (pid, dom) {
-                initSele.ajaxselect('/handler/sele_bmks.ashx', { companyid: companyID, pid: pid }, dom);
-            },
-            jbzc: function (pid, dom) {
-                this.ajaxselect('/handler/sele_jb_zc.ashx', { pid: pid }, dom);
+            subjectClass: function (pid, dom) {
+                this.ajaxselect('/handler/root/sele_subjectclass.ashx', { pid: pid }, dom);
             },
             ajaxselect: function (url, field, dom) {
                 $.ajax({

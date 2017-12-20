@@ -3,22 +3,21 @@ using System;
 
 namespace Models
 {
-    //后台session存储
-    public class employeeSession
-    {
-        //public int id { get; set; }
-        public string eid { get; set; }
+    //登录实体
+    public class loginfield {
+        public string account { get; set; }
+        public string pwd { get; set; }
+        public string code { get; set; }//验证码
+        public bool auto { get; set; }//下次自动登录
     }
     //用于前台cookie存储
     public class employeeCookie
     {
-        //public int state { get; set; }
         public string name { get; set; }
         public string photo { get; set; }
     }
     public class employeeLoginInfo
     {
-        //public int id { get; set; }
         public string eid { get; set; }
         public string name { get; set; }
         public string photo { get; set; }
