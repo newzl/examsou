@@ -185,13 +185,18 @@ namespace BLL
                 }
             }
         }
-        public static string Get_scid()
+        /// <summary>
+        /// 通过pid获得题库
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
+        public static string sele(int pid)
         {
             using (DAL.subjectClassDAL dal = new DAL.subjectClassDAL())
             {
                 using (Common.JsonParse jp = new Common.JsonParse())
                 {
-                    return jp.convert(dal.Get_scid());
+                    return jp.convert(dal.sel_pid(pid));
                 }
             }
         }

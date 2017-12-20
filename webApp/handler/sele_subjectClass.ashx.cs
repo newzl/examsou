@@ -6,9 +6,9 @@ using Utility;
 namespace webApp.handler
 {
     /// <summary>
-    /// sele_cbm 的摘要说明
+    /// sele_subjectClass 的摘要说明
     /// </summary>
-    public class sele_cbm : IHttpHandler
+    public class sele_subjectClass : IHttpHandler
     {
 
         public void ProcessRequest(HttpContext context)
@@ -19,8 +19,8 @@ namespace webApp.handler
                 context.Response.ContentType = "application/json";
                 if (employeeLogin.isLogin)
                 {
-                    int type = Convert.ToInt32(context.Request.QueryString["type"]);
-                    string data = BLL.publicBLL.getcbm(type);
+                    int pid = Convert.ToInt32(context.Request.QueryString["pid"]);
+                    string data = BLL.subjectClassBLL.sele(pid);
                     if (string.IsNullOrEmpty(data))
                     {
                         context.Response.Write("null");

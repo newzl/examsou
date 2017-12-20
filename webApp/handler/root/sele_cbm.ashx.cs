@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Web;
+using Utility;
 
-namespace webApp.handler.admin
+namespace webApp.handler.root
 {
     /// <summary>
-    /// sele_subjectClass 
-    /// pid<0：通过leve获得
-    /// level<0：通过pid获得
+    /// sele_cbm 的摘要说明
     /// </summary>
-    public class sele_subjectClass : IHttpHandler
+    public class sele_cbm : IHttpHandler
     {
 
         public void ProcessRequest(HttpContext context)
@@ -17,18 +17,8 @@ namespace webApp.handler.admin
             {
                 context.Response.Clear();
                 context.Response.ContentType = "application/json";
-                string req_level = context.Request.QueryString["level"];
-                string req_pid = context.Request.QueryString["pid"];
-                int level = -1, pid = -1;
-                if (!string.IsNullOrEmpty(req_level))
-                {
-                    level = Convert.ToInt32(req_level);
-                }
-                else if (!string.IsNullOrEmpty(req_pid))
-                {
-                    pid = Convert.ToInt32(req_pid);
-                }
-                string data = BLL.subjectClassBLL.sele(level, pid);
+                int type = Convert.ToInt32(context.Request.QueryString["type"]);
+                string data = BLL.publicBLL.getcbm(type);
                 if (string.IsNullOrEmpty(data))
                 {
                     context.Response.Write("null");
@@ -44,6 +34,7 @@ namespace webApp.handler.admin
             }
             finally { context.Response.End(); }
         }
+
         public bool IsReusable
         {
             get

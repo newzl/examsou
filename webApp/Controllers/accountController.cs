@@ -1,40 +1,46 @@
 ﻿using System;
 using System.Web.Mvc;
 using Models;
-
+using System.Web;
+using Utility;
 namespace webApp.Controllers
 {
     public class accountController : Controller
     {
         #region 视图
+        //登录
         public ActionResult login()
         {
-            if (Utility.employeeLogin.isLogin) return RedirectToAction("index", "learn");
-            else return View();
+            if (employeeLogin.isLogin) employeeLogin.removeLogin();
+            return View();
         }
         //退出
         public ActionResult quitlogin()
         {
-            Utility.employeeLogin.removeLogin();
+            employeeLogin.removeLogin();
             return View();
         }
+        //注册
         public ActionResult reg()
         {
             return View();
         }
+        //其他方式注册
         public ActionResult otherreg()
         {
             return View();
         }
+        //找回密码
         public ActionResult backpwd()
         {
             return View();
         }
+        //验证码--cookie形式
         public ActionResult verification()
         {
             Common.ValidateCode validate = new Common.ValidateCode();
             string code = validate.CreateValidateCode(4).ToUpper();
-            Session[Utility.globalValue.SESSION_VERIFY_CODE] = code;
+            Response.Cookies.Add(new HttpCookie(globalValue.COOKIE_VERIFY_CODE, code));
             Byte[] buffer = validate.CreateValidateGraphic(code);
             return File(buffer, "image/jpeg");
         }
@@ -43,22 +49,21 @@ namespace webApp.Controllers
         #region 表单
         //登录
         [HttpPost]
-        public JsonResult loginform(string account, string pwd, string code)
+        public JsonResult loginform(loginfield m)
         {
-            if (Session[Utility.globalValue.SESSION_VERIFY_CODE].ToString().Equals(code.ToUpper()))
+            if (Request.Cookies[globalValue.COOKIE_VERIFY_CODE].Value.Equals(m.code.ToUpper()))
             {
-                employeeLoginInfo employee = BLL.account.employeeBLL.login(account, Common.Encrypt.md5(pwd));
+                employeeLoginInfo employee = BLL.account.employeeBLL.login(m.account, Common.Encrypt.md5(m.pwd));
                 if (employee != null)
                 {
-                    employeeSession sessionObj = new employeeSession{
-                        eid = employee.eid
-                    };
-                    Utility.employeeLogin.setLoginSession(sessionObj);//设置Session
+                    employeeLogin.setLogin(employee.eid,m.auto);//设置cookie
                     return Json(new
                     {
                         state = 1,
-                        name = employee.name,
-                        photo = employee.photo
+                        info= new {
+                            name = employee.name,
+                            photo = employee.photo
+                        }
                     }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -71,7 +76,6 @@ namespace webApp.Controllers
                 return Json(new { state = -1 }, JsonRequestBehavior.AllowGet);
             }
         }
-
         //手机获得动态码
         [HttpPost]
         public int getphonecode(string phone)

@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 
 namespace Utility
 {
@@ -6,25 +7,35 @@ namespace Utility
     {
         public static bool isLogin
         {
-            get { return HttpContext.Current.Session[globalValue.SESSION_EMPLOYEE_LOGININFO] != null ? true : false; }
+            get { return HttpContext.Current.Request.Cookies[globalValue.COOKIE_EMPLOYEE] != null ? true : false; }
         }
-        //public static int id
-        //{
-        //    get { return (HttpContext.Current.Session[globalValue.SESSION_EMPLOYEE_LOGININFO] as Models.employeeSession).id; }
-        //}
         public static string eid
         {
-            get { return (HttpContext.Current.Session[globalValue.SESSION_EMPLOYEE_LOGININFO] as Models.employeeSession).eid; }
+            get
+            {
+                HttpCookie cookie = HttpContext.Current.Request.Cookies[globalValue.COOKIE_EMPLOYEE];
+                if (cookie != null) return Common.Encrypt.DESDecrypt(cookie.Value, globalValue.DES_KEY);
+                else return null;
+            }
         }
-        public static bool setLoginSession(Models.employeeSession entity)
+        public static bool setLogin(string eid, bool auto)
         {
-            HttpContext.Current.Session.Timeout = 480;//会话时间 单位分钟 8小时
-            HttpContext.Current.Session[globalValue.SESSION_EMPLOYEE_LOGININFO] = entity;
+            HttpCookie cookie = new HttpCookie(
+                globalValue.COOKIE_EMPLOYEE,
+                Common.Encrypt.DESEncrypt(eid, globalValue.DES_KEY)
+            );
+            if (auto) cookie.Expires = DateTime.Now.AddMonths(2);//两个月过期
+            HttpContext.Current.Response.Cookies.Add(cookie);
             return isLogin;
         }
         public static void removeLogin()
         {
-            HttpContext.Current.Session.Remove(globalValue.SESSION_EMPLOYEE_LOGININFO);
+            HttpCookie cookie = HttpContext.Current.Request.Cookies[globalValue.COOKIE_EMPLOYEE];
+            if (cookie != null)
+            {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
         }
     }
 }

@@ -1,11 +1,14 @@
-﻿@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta name="Keywords" content="新智联,新智联在线,新智联在线学习平台,新智联在线考试平台,在线学习,在线考试,贵阳市继续医学教育,贵阳市继教" />
+    <meta name="Description" content="贵州省,贵阳市,新智联,学习,在线学习,在线考试,在线学习考试,医师,执业医师,贵阳市继续医学教育,贵阳市继教" />
+    <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width" />
-    <title>新智联-医务人员在线学习考试平台</title>
+    <meta name="baidu-site-verification" content="hRfqc0mEvJ" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新智联在线学习平台</title>
     <link href="/layui/css/layui.css" rel="stylesheet" />
     <link href="/content/css/default.css" rel="stylesheet" />
 </head>
@@ -14,14 +17,21 @@
         <div class="layui-main">
             <a class="edu-logo" href="javascript:;">新智联</a>
             <ul class="layui-nav edu-nav">
-                <li class="layui-nav-item"><a href="#">首页</a></li>
-                <li class="layui-nav-item"><a href="#">医学资讯</a></li>
-                <li class="layui-nav-item"><a href="#">快速导航</a></li>
-                <li class="layui-nav-item"><a href="#" target="_blank">平台简介</a></li>
+                <li class="layui-nav-item"><a href="javascript:;">首页</a></li>
+                <li class="layui-nav-item"><a href="javascript:;">医学资讯</a></li>
+                <li class="layui-nav-item"><a href="javascript:;">快速导航</a></li>
+                <li class="layui-nav-item"><a href="javascript:;" target="_blank">平台简介</a></li>
             </ul>
             <ul class="layui-nav edu-nav-user">
-                <li class="layui-nav-item"><a href="/account/login">登录</a></li>
-                <li class="layui-nav-item"><a href="/account/reg">注册</a></li>
+                @if (Convert.ToBoolean(ViewBag.isLogin))
+                {
+                    <li class="layui-nav-item"><a href="/eduitem"><img src="/images/face/face1012.png" class="layui-nav-img" />王建国</a></li>
+                }
+                else
+                {
+                    <li class="layui-nav-item"><a href="/account/login">登录</a></li>
+                    <li class="layui-nav-item"><a href="/account/reg">注册</a></li>
+                }
             </ul>
         </div>
     </div>
@@ -38,7 +48,7 @@
                         <p class="userName">
                             <a href="#">王建国</a>
                             <i class="layui-icon sex nan">&#xe662;</i>
-                            <i class="layui-icon sex nv">&#xe661;</i>
+                            @*<i class="layui-icon sex nv">&#xe661;</i>*@
                             <b class="layui-badge">VIP3</b>
                         </p>
                         <p class="detail layui-elip">贵阳市第一人民医院</p>
@@ -70,7 +80,7 @@
                     </div>
                     <div class="layui-row layui-col-space5 menuNav" style="padding:0 5px;">
                         <div class="layui-col-md4">
-                            <a href="javascript:;" style="cursor: not-allowed">
+                            <a href="/eduitem/search" class="action" style="color: #009688">
                                 <i class="layui-icon">&#xe630;</i>
                                 <p>学科导航</p>
                             </a>

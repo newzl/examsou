@@ -3,12 +3,12 @@ using System;
 using System.Web;
 using Utility;
 
-namespace webApp.handler
+namespace webApp.handler.root
 {
     /// <summary>
-    /// sele_cbm 的摘要说明
+    /// sele_subjectClass 的摘要说明
     /// </summary>
-    public class sele_cbm : IHttpHandler
+    public class sele_subjectClass : IHttpHandler
     {
 
         public void ProcessRequest(HttpContext context)
@@ -17,10 +17,10 @@ namespace webApp.handler
             {
                 context.Response.Clear();
                 context.Response.ContentType = "application/json";
-                if (employeeLogin.isLogin)
-                {
-                    int type = Convert.ToInt32(context.Request.QueryString["type"]);
-                    string data = BLL.publicBLL.getcbm(type);
+                //if (employeeLogin.isLogin)
+                //{
+                    int pid = Convert.ToInt32(context.Request.QueryString["pid"]);
+                    string data = BLL.subjectClassBLL.sele(pid);
                     if (string.IsNullOrEmpty(data))
                     {
                         context.Response.Write("null");
@@ -29,8 +29,8 @@ namespace webApp.handler
                     {
                         context.Response.Write(data);
                     }
-                }
-                else throw new Exception(JsonConvert.SerializeObject(new { state = 4001, msg = "没有访问权限" }));
+                //}
+                //else throw new Exception(JsonConvert.SerializeObject(new { state = 4001, msg = "没有访问权限" }));
             }
             catch (Exception m)
             {
