@@ -60,6 +60,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="publicDAL.cs" />
     <Compile Include="reportDAL.cs" />
+    <Compile Include="root\edu_itemDAL.cs" />
+    <Compile Include="root\edu_teacherDAL.cs" />
     <Compile Include="root\keJianDAL.cs" />
     <Compile Include="root\toolDAL.cs" />
     <Compile Include="root\subchDAL.cs" />

@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "老师管理";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+
+<div class="layui-tab layui-tab-brief" lay-filter="tabView">
+    <ul class="layui-tab-title">
+        <li lay-id="list" class="layui-this">课件列表</li>
+        <li lay-id="edit">课件编辑</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+                <form class="layui-form layui-form-pane find-panel">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-inline" style="width: 350px;">
+                                <input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">课件类型</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <select name="inputState">
+                                    <option value="-1">全部</option>
+                                    <option value="3">必修课</option>
+                                    <option value="4">选修课</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn" lay-submit lay-filter="findForm"><i class="layui-icon">&#xe615;</i> 查询</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <table id="tableDom" lay-filter="tableView"></table>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form editsub">
+                <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
+                <input type="hidden" id="kcurl" name="curl" value="0" autocomplete="off" />
+                <div class="layui-form-item">
+                    <div class="layui-form-item" style="margin-left:110px">
+                        <img class="layui-upload-img" id="demo1" style="width: 100px; height:100px">
+                        <p id="demoText"></p>
+                    </div>
+                    <button type="button" style="margin-left:110px" class="layui-btn" id="test1">上传图片</button>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="name" name="name" required lay-verify="required" placeholder="请输入老师姓名" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>职称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="zc" name="zc" required lay-verify="xue" placeholder="请输入职称" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">首页显示</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">启用</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="opens" id="opens" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                        @*<input type="checkbox" checked lay-skin="switch">*@
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">介绍</label>
+                    <div class="layui-input-block">
+                        <textarea id="detail" name="detail" placeholder="请输入介绍" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" id="saveForm" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
+                        <button type="reset" id="resetForm" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operate">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+@section js{
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script src="/Areas/root/js/teacher.js?v=1.5.4"></script>
+    <script type="text/javascript">
+        var uplpadurl = '/handlers/UploadImage.ashx';
+        //alert(1);
+        layui.use('upload', function () {
+            var upload = layui.upload;
+            //普通图片上传
+            upload.render({
+                elem: '#test1',
+                url: uplpadurl, auto: false,
+                accept: 'images', exts: 'jpg|jpeg|png|gif', size: 30,
+                before: function (obj) {
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        $('#demo1').attr('src', result); //图片链接（base64）
+                    });
+                }
+              , done: function (res) {
+                  //如果上传失败
+                  if (res.code > 0) {
+                      return layer.msg('上传失败');
+                  }
+                  //上传成功
+              }
+              , error: function () {
+                  //演示失败状态，并实现重传
+                  var demoText = $('#demoText');
+                  demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                  demoText.find('.demo-reload').on('click', function () {
+                      uploadInst.upload();
+                  });
+              }
+            });
+        });
+    </script>
+}
+

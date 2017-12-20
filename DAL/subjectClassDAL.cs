@@ -152,7 +152,8 @@ namespace DAL
             return SqlHelper.ExcuteDataTable(sql, param);
         }
         //通过level值获得select--用于随机组卷
-        public DataTable sel_level(int level) {
+        public DataTable sel_level(int level)
+        {
             string sql = "select ID[val],name[text] from subjectClass where valid=1 and pId=2 and levelID=@level";
             SqlParameter[] param = new SqlParameter[] { 
                 new SqlParameter("@level",level)
@@ -166,6 +167,15 @@ namespace DAL
                 new SqlParameter("@pid",pid)
             };
             return SqlHelper.ExcuteDataTable(sql, param);
+        }
+        public DataTable GetLei()
+        {
+            string sql = "";
+        }
+        public DataTable Get_scid()
+        {
+            string sql = "select ID[val],name[text]  from subjectClass where leved=2";
+            return SqlHelper.ExcuteDataTable(sql);
         }
     }
 }

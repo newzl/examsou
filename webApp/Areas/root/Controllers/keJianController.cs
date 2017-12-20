@@ -74,7 +74,7 @@ namespace webApp.Areas.root.Controllers
             if (result != 0 && curl.Length != 0)
             {
                 DirFile.DeleteFile(curl);
-                DirFile.DeleteFiles(curl);
+                //DirFile.DeleteFiles(curl);
             }
             return result;
         }

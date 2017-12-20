@@ -6,6 +6,7 @@ namespace Common
 {
     public static class DirFile
     {
+
         /// <summary>
         /// 根据内容生成文件名
         /// </summary>
@@ -33,7 +34,7 @@ namespace Common
             if (curl != "" && curl != null && curl != "0")
             {
                 Common.DirFile.DeleteFile(curl);
-                DeleteFiles(curl);
+                //DeleteFiles(curl);
             }
             return getUrl;
         }

@@ -185,5 +185,15 @@ namespace BLL
                 }
             }
         }
+        public static string Get_scid()
+        {
+            using (DAL.subjectClassDAL dal = new DAL.subjectClassDAL())
+            {
+                using (Common.JsonParse jp = new Common.JsonParse())
+                {
+                    return jp.convert(dal.Get_scid());
+                }
+            }
+        }
     }
 }
