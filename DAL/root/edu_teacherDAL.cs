@@ -63,5 +63,16 @@ namespace DAL.root
             string sql = "select ID[val],name[text] from edu_teacher where isDel=0";
             return SqlHelper.ExcuteDataTable(sql);
         }
+        /// <summary>
+        /// 删除对象
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int DelTeacher(int id)
+        {
+            string sql = "update edu_teacher set isDel=1 where id=@id";
+            SqlParameter[] param = new SqlParameter[] { new SqlParameter("@id", id) };
+            return SqlHelper.ExcuteScalre(sql, param);
+        }
     }
 }

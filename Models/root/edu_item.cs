@@ -9,6 +9,7 @@ namespace Models
     public class edu_item
     {
         public int id { get; set; }
+        public int pid { get; set; }
         public string bh { get; set; }
         public string name { get; set; }
         public string pic { get; set; }

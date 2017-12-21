@@ -170,12 +170,17 @@ namespace DAL
         }
         public DataTable GetLei()
         {
-            string sql = "";
-        }
-        public DataTable Get_scid()
-        {
-            string sql = "select ID[val],name[text]  from subjectClass where leved=2";
+            string sql = "select ID[val],name[text]   from subjectClass where leved=1 ";
             return SqlHelper.ExcuteDataTable(sql);
+        }
+        public DataTable Get_scid(int sid)
+        {
+            string sql = "select ID[val],name[text]  from subjectClass where leved=2 and pid=@id";
+            //SqlParameter[] para =null;
+            //if (sid > 0) { 
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@id", sid) };
+           // }
+            return SqlHelper.ExcuteDataTable(sql, para);
         }
     }
 }

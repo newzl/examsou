@@ -33,7 +33,8 @@ namespace webApp.Areas.admin.Controllers
         [HttpPost]
         public JsonResult loginform(string account, string pwd, string code)
         {
-            if (Session[Utility.globalValue.SESSION_VERIFY_CODE].ToString().Equals(code.ToUpper()))
+            if (Request.Cookies[Utility.globalValue.COOKIE_VERIFY_CODE].Value.Equals(code.ToUpper()))
+            //if (Session[Utility.globalValue.SESSION_VERIFY_CODE].ToString().Equals(code.ToUpper()))
             {
                 users entity = BLL.Users.usersBLL.login(account, Common.Encrypt.md5(pwd));
                 if (entity != null)

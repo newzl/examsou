@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -44,23 +45,23 @@ namespace webApp.Areas.root.Controllers
                 Response.Clear();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("isDel=0");
-                //string wherejson = Request.QueryString["wherejson"];
-                //if (!string.IsNullOrEmpty(wherejson))
-                //{
-                //    Models.subFind m = JsonConvert.DeserializeObject<Models.subFind>(wherejson);
-                //    if (m.leid != "") sb.Append(" and k.levelID=" + m.leid);
-                //    if (m.zid != "") sb.Append(" and sid=" + m.zid);
-                //    if (m.title != "") sb.Append(" and Title like '%" + m.title.Trim() + "%'");
-                //    if (m.inputState != -1) sb.Append(" and typ=" + m.inputState);
-                //    if (m.mindate != "") sb.Append(" and k.createTime>='" + m.mindate.Trim() + "'");
-                //    if (m.maxdate != "") sb.Append(" and k.createTime<='" + m.maxdate.Trim() + " 23:59:59'");
-                //}
+                string wherejson = Request.QueryString["wherejson"];
+                if (!string.IsNullOrEmpty(wherejson))
+                {
+                    Models.subFind m = JsonConvert.DeserializeObject<Models.subFind>(wherejson);
+                    if (m.leid != "") sb.Append(" and zc='" + m.leid + "'");
+                    //if (m.zid != "") sb.Append(" and sid=" + m.zid);
+                    if (m.title != "") sb.Append(" and name like '%" + m.title.Trim() + "%'");
+                    //if (m.inputState != -1) sb.Append(" and typ=" + m.inputState);
+                    //if (m.mindate != "") sb.Append(" and k.createTime>='" + m.mindate.Trim() + "'");
+                    //if (m.maxdate != "") sb.Append(" and k.createTime<='" + m.maxdate.Trim() + " 23:59:59'");
+                }
 
                 Models.paging pag = new Models.paging()
                 {
                     table = "edu_teacher",
                     order = "createTime desc",
-                    field = " id, name,zc,detail,case when isHome=0 then '已显示' else '未显示' end as home,case when valid=0 then '启用' else '未启用' end as va ",
+                    field = " id, name,zc,detail,case when isHome=1 then '已显示' else '未显示' end as home,case when valid=1 then '启用' else '未启用' end as va ",
                     pageSize = Convert.ToInt32(Request.QueryString["limit"]),
                     pageNo = Convert.ToInt32(Request.QueryString["page"]),
                     where = sb.ToString()
@@ -91,6 +92,14 @@ namespace webApp.Areas.root.Controllers
             edu_teacher objList = new BLL.root.edu_teacherBLL().getTeacher(id);
             return Json(objList, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public int Del(int id)
+        {
+            int result = new BLL.root.edu_teacherBLL().DelTeacher(id);
+            return result;
+        }
+
         [HttpPost]
         public string GetImg(string img)
         {

@@ -13,7 +13,7 @@
             $('#resetForm').show();
             $('#resetForm').click();
             $('#saveForm').show();
-           
+
         }
         else {
             table.reload('tableDom', {
@@ -24,8 +24,6 @@
             });
         }
     });
-
-
 
     //点击查询
     form.on('submit(findForm)', function (d) {
@@ -97,9 +95,9 @@
         else if (obj.event === 'del') {
             layer.confirm('确认删除', { icon: 3 }, function () {
                 $.ajax({
-                    url: '/root/kejian/del',
+                    url: '/root/teacher/Del',
                     type: 'post', dataType: 'json', cache: false,
-                    data: { id: data.id, curl: data.curl },
+                    data: { id: data.id },
                     success: function (res) {
                         obj.del(); //删除对应行（tr）的DOM结构
                         layer.msg('删除成功', { icon: 1 });

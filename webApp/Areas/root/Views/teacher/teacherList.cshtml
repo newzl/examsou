@@ -5,8 +5,8 @@
 
 <div class="layui-tab layui-tab-brief" lay-filter="tabView">
     <ul class="layui-tab-title">
-        <li lay-id="list" class="layui-this">课件列表</li>
-        <li lay-id="edit">课件编辑</li>
+        <li lay-id="list" class="layui-this">老师列表</li>
+        <li lay-id="edit">老师编辑</li>
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
@@ -15,20 +15,26 @@
                     <div class="layui-form-item">
                         <div class="layui-inline">
                             <label class="layui-form-label">姓名</label>
-                            <div class="layui-input-inline" style="width: 350px;">
-                                <input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input" />
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <input type="text" name="title" placeholder="请输入姓名" autocomplete="off" class="layui-input" />
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">课件类型</label>
-                            <div class="layui-input-inline" style="width: 100px;">
-                                <select name="inputState">
-                                    <option value="-1">全部</option>
-                                    <option value="3">必修课</option>
-                                    <option value="4">选修课</option>
-                                </select>
+                            <label class="layui-form-label">职称</label>
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <input type="text" name="leid" placeholder="请输入职称" autocomplete="off" class="layui-input" />
                             </div>
                         </div>
+                        @*<div class="layui-inline">
+                                <label class="layui-form-label">课件类型</label>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <select name="inputState">
+                                        <option value="-1">全部</option>
+                                        <option value="3">必修课</option>
+                                        <option value="4">选修课</option>
+                                    </select>
+                                </div>
+                            </div>*@
                         <div class="layui-inline">
                             <a href="javascript:;" class="layui-btn" lay-submit lay-filter="findForm"><i class="layui-icon">&#xe615;</i> 查询</a>
                         </div>
@@ -97,40 +103,43 @@
 </script>
 @section js{
     <script src="/content/my97date/WdatePicker.js"></script>
-    <script src="/Areas/root/js/teacher.js?v=1.5.4"></script>
+    <script src="/Areas/root/js/teacher.js?v=1.5.5"></script>
     <script type="text/javascript">
-        var uplpadurl = '/handlers/UploadImage.ashx';
-        //alert(1);
-        layui.use('upload', function () {
-            var upload = layui.upload;
-            //普通图片上传
-            upload.render({
-                elem: '#test1',
-                url: uplpadurl, auto: false,
-                accept: 'images', exts: 'jpg|jpeg|png|gif', size: 30,
-                before: function (obj) {
-                    //预读本地文件示例，不支持ie8
-                    obj.preview(function (index, file, result) {
-                        $('#demo1').attr('src', result); //图片链接（base64）
-                    });
-                }
-              , done: function (res) {
-                  //如果上传失败
-                  if (res.code > 0) {
-                      return layer.msg('上传失败');
+        var uplpadurl = '~/handlers/root/UploadImage.ashx';
+        //$("#test1").onclick(function () {
+            layui.use('upload', function () {
+                var upload = layui.upload;
+                //alert(1);
+                //普通图片上传
+                upload.render({
+                    elem: '#test1',
+                    url: uplpadurl, auto: false,
+                    accept: 'images', exts: 'jpg|jpeg|png|gif', size: 30,
+                    before: function (obj) {
+                        //alert(obj);
+                        //预读本地文件示例，不支持ie8
+                        obj.preview(function (index, file, result) {
+                            $('#demo1').attr('src', result); //图片链接（base64）
+                        });
+                    }
+                  , done: function (res) {
+                      //如果上传失败
+                      if (res.code > 0) {
+                          return layer.msg('上传失败');
+                      }
+                      //上传成功
                   }
-                  //上传成功
-              }
-              , error: function () {
-                  //演示失败状态，并实现重传
-                  var demoText = $('#demoText');
-                  demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
-                  demoText.find('.demo-reload').on('click', function () {
-                      uploadInst.upload();
-                  });
-              }
+                  , error: function () {
+                      //演示失败状态，并实现重传
+                      var demoText = $('#demoText');
+                      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                      demoText.find('.demo-reload').on('click', function () {
+                          uploadInst.upload();
+                      });
+                  }
+                });
             });
-        });
+        //});
     </script>
 }
 
