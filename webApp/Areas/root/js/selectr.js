@@ -2,37 +2,33 @@
     "use strict";
     var $ = layui.$,
         selectr = {
-            cbm: function (typeid, dom, isFind) {
-                this.ajaxselect('/handler/root/sele_cbm.ashx', { type: typeid }, dom, isFind || false);
+            cbm: function (typeid, dom, first) {
+                this.ajaxselect('/handler/root/sele_cbm.ashx', { type: typeid }, dom, first || 1);
             },
-            subjectClass: function (pid, dom, isFind) {
-                this.ajaxselect('/handler/root/sele_subjectclass.ashx', { pid: pid }, dom, isFind || false);
+            subjectClass: function (pid, dom, first) {
+                this.ajaxselect('/handler/root/sele_subjectclass.ashx', { pid: pid }, dom, first || 1);
             },
-            ajaxselect: function (url, field, dom, isFind) {
+            ajaxselect: function (url, data, dom, first) {
                 $.ajax({
-                    url: url,
-                    type: 'get', dataType: 'json', cache: false, async: false,
-                    data: field,
+                    url: url, type: 'get', dataType: 'json',
+                    cache: false, async: false, data: data,
                     success: function (res) {
                         if (res !== null) {
-                            if (res.state !== undefined && res.state === 4001) {
-                                layer.msg(res.msg, { icon: 2, time: 1000, end: function () { window.location.replace("/account/login?rid=" + Math.random()); } });
-                            }
-                            else {
-                                dom.empty();
-                                if (isFind) dom.append($('<option/>', { value: '-1', text: '全部' }));
-                                else dom.append($('<option/>', { value: '', text: '' }));
-                                $.each(res, function (i, o) {
-                                    dom.append($('<option/>', {
-                                        value: o.val,
-                                        text: o.text
-                                    }));
-                                });
-                            }
-                        }
-                        else {
                             dom.empty();
+                            switch (first) {
+                                case 1: dom.append($('<option/>', { value: '', text: '' }));
+                                    break;
+                                case 2: dom.append($('<option/>', { value: '-1', text: '全部' }));
+                                    break;
+                            }
+                            $.each(res, function (i, o) {
+                                dom.append($('<option/>', {
+                                    value: o.val,
+                                    text: o.text
+                                }));
+                            });
                         }
+                        else dom.empty();
                     },
                     error: function (msg) { alert('ajaxError:' + msg.responseText); console.log(msg); }
                 });

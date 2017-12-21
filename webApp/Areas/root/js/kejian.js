@@ -6,32 +6,38 @@
         glevent = layui.glevent,
         selectr = layui.selectr;
     $(function () {
-        //glevent.bindCommon();
         glevent.bindEditor();
-        selectr.cbm(12, $('#contTyp'), true);
-        selectr.cbm(12, $('#edit_contTyp'));
-        var xs = $('.xueshi'), xm = $('#xueMinute');
-        xs.off().on('input', function () {
-            if ($.isNumeric(xs[0].value) && $.isNumeric(xs[1].value)) {
-                xm.text(xs[0].value * xs[1].value);
-            }
-        });
-        form.render('select');//从新渲染select不然显示不出来
+        selectr.cbm(12, $('#contTyp'), 2);
+        selectr.cbm(12, $('#edit_contTyp'), 3);
+        form.render('select');
+        eve.inputr();
+
+        $.get('/upload/171212/105123.html', null, function (htm) {
+            $('#cont').val(htm);
+            //console.log(htm);
+        }, 'html');
     });
+    var eve = {
+        //输入学时时长计算需学分钟
+        inputr: function () {
+            var xs = $('.xueshi'), xm = $('#xueMinute');
+            xs.off().on('input', function () {
+                if ($.isNumeric(xs[0].value) && $.isNumeric(xs[1].value)) {
+                    xm.text(xs[0].value * xs[1].value);
+                }
+            });
+        }
+    };
     //tab切换事件
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
-            selectr.cbm(12, $('#edit_contTyp'));
-            $('#kid').val(0);
-            $('#kcurl').val(0);
-            $('#resetForm').show();
-            $('#resetForm').click();
-            $('#saveForm').show();
-            glevent.bindKey(true);
+            //$('#kid').val(0);
+            //$('#kcurl').val(0);
+            //$('#resetForm').show();
+            //$('#resetForm').click();
+            //$('#saveForm').show();
         }
         else {
-            //initSele.jbzc(0, $('#jibiec'));
-            //glevent.bindKey(false);
             table.reload('tableDom', {
                 page: {
                     hash: 'fenye',
@@ -40,12 +46,11 @@
             });
         }
     });
-    //验证
     form.verify({
         xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学时只能是正整数或正浮点数'],
         minute: [/^[1-9]\d*$/, '学时时长只能是正整数']
     });
-    //点击查询
+    //查询
     form.on('submit(findForm)', function (d) {
         table.reload('tableDom', {
             page: { hash: 'fenye', curr: 1 },
@@ -178,35 +183,6 @@
         });
 
     }
-    //动态获取下拉选项框中的值
-    //var initSele = {
-
-    //    jbzc: function (pidval, dom) {
-    //        initSele.ajaxselect('/root/kejian/datajian', { pid: pidval }, dom);
-    //    },
-    //    ajaxselect: function (url, field, dom) {
-    //        $.ajax({
-    //            url: url,
-    //            type: 'get', dataType: 'json', cache: false, async: false,
-    //            data: field,
-    //            success: function (res) {
-    //                if (res !== null) {
-    //                    dom.empty().append($('<option/>', { value: '', text: '' }));
-    //                    $.each(res, function (i, o) {
-    //                        dom.append($('<option/>', {
-    //                            value: o.val,
-    //                            text: o.text
-    //                        }));
-    //                    });
-    //                }
-    //                else {
-    //                    dom.empty();
-    //                }
-    //            },
-    //            error: function (msg) { alert('ajaxError:' + msg.responseText); console.log(msg); }
-    //        });
-    //    }
-    //};
 });
 
 
