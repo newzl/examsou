@@ -200,5 +200,26 @@ namespace BLL
                 }
             }
         }
+
+        public static string GetScid(int sid)
+        {
+            using (DAL.subjectClassDAL dal = new DAL.subjectClassDAL())
+            {
+                using (Common.JsonParse jp = new Common.JsonParse())
+                {
+                    return jp.convert(dal.Get_scid(sid));
+                }
+            }
+        }
+        public static string GetLei()
+        {
+            using (DAL.subjectClassDAL dal = new DAL.subjectClassDAL())
+            {
+                using (Common.JsonParse jp = new Common.JsonParse())
+                {
+                    return jp.convert(dal.GetLei());
+                }
+            }
+        }
     }
 }

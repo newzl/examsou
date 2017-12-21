@@ -121,6 +121,10 @@
     <Compile Include="Areas\admin\Controllers\reportController.cs" />
     <Compile Include="Areas\admin\Controllers\sgzjController.cs" />
     <Compile Include="Areas\admin\Controllers\sjzjController.cs" />
+    <Compile Include="handler\root\UploadImage.ashx.cs">
+      <DependentUpon>UploadImage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\root\Controllers\edu_itemController.cs" />
     <Compile Include="Areas\root\Controllers\keJianController.cs" />
     <Compile Include="Areas\root\Controllers\manChController.cs" />
     <Compile Include="Areas\root\Controllers\commonController.cs" />
@@ -133,6 +137,7 @@
     <Compile Include="Areas\root\Controllers\manMuController.cs" />
     <Compile Include="Areas\root\Controllers\manQaController.cs" />
     <Compile Include="Areas\root\Controllers\subClassController.cs" />
+    <Compile Include="Areas\root\Controllers\teacherController.cs" />
     <Compile Include="Areas\root\Controllers\toolController.cs" />
     <Compile Include="Areas\root\rootAreaRegistration.cs" />
     <Compile Include="content\report\page\authorizesReport.aspx.cs">
@@ -244,6 +249,7 @@
     <Content Include="Areas\admin\static\bmform.html" />
     <Content Include="Areas\admin\static\ksform.html" />
     <Content Include="Areas\admin\static\zcform.html" />
+    <Content Include="Areas\root\js\edu_item.js" />
     <Content Include="Areas\root\js\glevent.js" />
     <Content Include="Areas\root\js\global.js" />
     <Content Include="Areas\root\js\kejian.js" />
@@ -254,6 +260,7 @@
     <Content Include="Areas\root\js\manmu.js" />
     <Content Include="Areas\root\js\manqa.js" />
     <Content Include="Areas\root\js\selectr.js" />
+    <Content Include="Areas\root\js\teacher.js" />
     <Content Include="Areas\root\js\tool.js" />
     <Content Include="Areas\root\static\subclassform.html" />
     <Content Include="content\css\course.css" />
@@ -1380,6 +1387,9 @@
     <Content Include="handler\sele_subjectClass.ashx" />
     <Content Include="handler\root\sele_subjectClass.ashx" />
     <Content Include="handler\root\sele_cbm.ashx" />
+    <Content Include="Areas\root\Views\edu_item\edu_itemList.cshtml" />
+    <Content Include="Areas\root\Views\teacher\teacherList.cshtml" />
+    <Content Include="handler\root\UploadImage.ashx" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
     <Content Include="Views\default\index.cshtml" />
     <Content Include="Views\course\index.cshtml" />

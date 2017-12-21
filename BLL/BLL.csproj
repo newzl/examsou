@@ -59,6 +59,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="publicBLL.cs" />
     <Compile Include="reportBLL.cs" />
+    <Compile Include="root\edu_itemBLL.cs" />
+    <Compile Include="root\edu_teacherBLL.cs" />
     <Compile Include="root\keJianBLL.cs" />
     <Compile Include="root\toolBLL.cs" />
     <Compile Include="root\subchBLL.cs" />

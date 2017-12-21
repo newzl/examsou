@@ -26,10 +26,17 @@
 }, {
     title: '课件管理',
     icon: '&#xe60e',
-    children: [{
-        title: '课件操作',
-        href: '/root/keJian/list'
-    }]
+    children: [
+        {
+            title: '老师管理',
+            href: '/root/teacher/teacherList'
+        }, {
+            title: '项目管理',
+            href: '/root/edu_item/edu_itemList'
+        }, {
+            title: '课件操作',
+            href: '/root/keJian/list'
+        }]
 }, {
     title: '学习管理',
     icon: '&#xe705',

@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "项目管理";
+    Layout = "~/Areas/root/Views/_layoutRoot.cshtml";
+}
+
+<div class="layui-tab layui-tab-brief" lay-filter="tabView">
+    <ul class="layui-tab-title">
+        <li lay-id="list" class="layui-this">项目列表</li>
+        <li lay-id="edit">项目编辑</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+                <form class="layui-form layui-form-pane find-panel">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">编号</label>
+                            <div class="layui-input-inline" style="width: 120px;">
+                                <input type="text" name="leid" placeholder="请输入项目编号" required lay-verify="bh" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">名称</label>
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <input type="text" name="title" placeholder="请输入项目名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">添加时间</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" id="mindate" name="mindate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" id="maxdate" name="maxdate" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="maxDateEve()" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn" lay-submit lay-filter="findForm"><i class="layui-icon">&#xe615;</i> 查询</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <table id="tableDom" lay-filter="tableView"></table>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form editsub">
+                <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
+                <input type="hidden" id="kcurl" name="curl" value="0" autocomplete="off" />
+                @*<div class="layui-form-item">
+                        <div class="layui-form-item" style="margin-left:110px">
+                            <img class="layui-upload-img" id="demo1" style="width: 100px; height:100px">
+                            <p id="demoText"></p>
+                        </div>
+                        <button type="button" style="margin-left:110px" class="layui-btn" id="test1">上传图片</button>
+                    </div>*@
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>项目编号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="bh" name="bh" required lay-verify="required" required lay-verify="bh" placeholder="请输入项目编号" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>项目名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="name" name="name" required lay-verify="required" placeholder="请输入项目名称" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>项目类型</label>
+                    <div class="layui-input-inline">
+                        <select name="typ" id="typ"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>学分</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="xf" name="xf" placeholder="请输入学分" required lay-verify="bh" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>负责人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="fzr" name="fzr"   value="新智联" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>负责单位</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="fzdw" name="fzdw" value="新智联" autocomplete=" off" autofocus class="layui-input">
+                    </div>
+                </div>
+                @*<div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">授课老师</label>
+                            <div class="layui-input-inline">
+                                <select name="teacher" id="teacher"></select>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="layui-form-item">
+                    <label class="layui-form-label">练习试题集</label>
+                    <div class="layui-input-inline">
+                        <select name="scidt" id="scidt" lay-filter="scidt"></select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select name="scid" id="scid"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">首页显示</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">启用</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="opens" id="opens" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                            @*<input type="checkbox" checked lay-skin="switch">*@
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">介绍</label>
+                    <div class="layui-input-block">
+                        <textarea id="detail" name="detail" placeholder="请输入介绍" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" id="saveForm" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
+                        <button type="reset" id="resetForm" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operate">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+@section js{
+<script src="/content/my97date/WdatePicker.js"></script>
+    <script src="/Areas/root/js/edu_item.js?v=1.6.2"></script>
+}
