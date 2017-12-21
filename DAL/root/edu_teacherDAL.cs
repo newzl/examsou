@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Models;
@@ -25,36 +21,36 @@ namespace DAL.root
         }
         ~edu_teacherDAL() { Dispose(false); }
         #endregion
-        public int AddEdu_teacher(edu_teacher objedu_teacher)
+        public int AddEdu_teacher(edu_teacher m)
         {
             string sql = "insert into edu_teacher(pic,name,zc,detail,isHome,valid)values(@pic,@name,@zc,@detail,@isHome,@valid)";
             SqlParameter[] param = new SqlParameter[]{ 
-                       new SqlParameter("@pic",""),
-                       new SqlParameter("@name",objedu_teacher.name),
-                       new SqlParameter("@zc",objedu_teacher.zc),
-                       new SqlParameter("@detail",objedu_teacher.detail),
-                       new SqlParameter("@isHome",objedu_teacher.isHome),
-                       new SqlParameter("@valid",objedu_teacher.valid)
+                       new SqlParameter("@pic",m.pic),
+                       new SqlParameter("@name",m.name),
+                       new SqlParameter("@zc",m.zc),
+                       new SqlParameter("@detail",m.detail),
+                       new SqlParameter("@isHome",m.isHome),
+                       new SqlParameter("@valid",m.valid)
             };
             return SqlHelper.ExcuteNonQuery(sql, param);
         }
-        public int UpdateKeJian(edu_teacher objedu_teacher)
+        public int UpdateKeJian(edu_teacher m)
         {
             string sql = "update edu_teacher set pic=@pic,name=@name,zc=@zc,detail=@detail,isHome=@isHome,valid=@valid where id=@id";
             SqlParameter[] param = new SqlParameter[]{ 
-                       new SqlParameter("@pic",""),
-                       new SqlParameter("@name",objedu_teacher.name),
-                       new SqlParameter("@zc",objedu_teacher.zc),
-                       new SqlParameter("@detail",objedu_teacher.detail),
-                       new SqlParameter("@isHome",objedu_teacher.isHome),
-                       new SqlParameter("@valid",objedu_teacher.valid),
-                       new SqlParameter("@id",objedu_teacher.id)
+                       new SqlParameter("@pic",m.pic),
+                       new SqlParameter("@name",m.name),
+                       new SqlParameter("@zc",m.zc),
+                       new SqlParameter("@detail",m.detail),
+                       new SqlParameter("@isHome",m.isHome),
+                       new SqlParameter("@valid",m.valid),
+                       new SqlParameter("@id",m.id)
             };
             return SqlHelper.ExcuteNonQuery(sql, param);
         }
         public edu_teacher getTeacher(int id)
         {
-            string sql = "select id,pic,name,zc,detail,isHome,valid  from edu_teacher where id=@id";
+            string sql = "select id,pic,name,zc,detail,isHome,valid from edu_teacher where id=@id";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@id", id) };
             return SqlHelper.ExecuteEntity<edu_teacher>(sql, param);
         }

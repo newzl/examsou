@@ -121,9 +121,6 @@
     <Compile Include="Areas\admin\Controllers\reportController.cs" />
     <Compile Include="Areas\admin\Controllers\sgzjController.cs" />
     <Compile Include="Areas\admin\Controllers\sjzjController.cs" />
-    <Compile Include="handler\root\UploadImage.ashx.cs">
-      <DependentUpon>UploadImage.ashx</DependentUpon>
-    </Compile>
     <Compile Include="Areas\root\Controllers\edu_itemController.cs" />
     <Compile Include="Areas\root\Controllers\keJianController.cs" />
     <Compile Include="Areas\root\Controllers\manChController.cs" />
@@ -196,6 +193,9 @@
     <Compile Include="handler\root\sele_subjectClass.ashx.cs">
       <DependentUpon>sele_subjectClass.ashx</DependentUpon>
     </Compile>
+    <Compile Include="handler\root\upload_image.ashx.cs">
+      <DependentUpon>upload_image.ashx</DependentUpon>
+    </Compile>
     <Compile Include="handler\sele_jb.ashx.cs">
       <DependentUpon>sele_jb.ashx</DependentUpon>
     </Compile>
@@ -262,6 +262,7 @@
     <Content Include="Areas\root\js\selectr.js" />
     <Content Include="Areas\root\js\teacher.js" />
     <Content Include="Areas\root\js\tool.js" />
+    <Content Include="Areas\modules\uploadpic.js" />
     <Content Include="Areas\root\static\subclassform.html" />
     <Content Include="content\css\course.css" />
     <Content Include="content\css\default.css" />
@@ -1389,7 +1390,8 @@
     <Content Include="handler\root\sele_cbm.ashx" />
     <Content Include="Areas\root\Views\edu_item\edu_itemList.cshtml" />
     <Content Include="Areas\root\Views\teacher\teacherList.cshtml" />
-    <Content Include="handler\root\UploadImage.ashx" />
+    <Content Include="handler\root\upload_image.ashx" />
+    <Content Include="Areas\root\Views\teacher\detail.cshtml" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
     <Content Include="Views\default\index.cshtml" />
     <Content Include="Views\course\index.cshtml" />
