@@ -1,16 +1,14 @@
-﻿///// <reference path="../../../scripts/modules/selectr.js" />
+﻿
 layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], function () {
     var form = layui.form, table = layui.table, selectr = layui.selectr;
     $(function () {
-        initSele.typ(0,$('#typ'));
-        //initSele.skls(0,$('#teacher'));
-        initSele.stjs(0,$('#scidt'));
+        selectr.cbm(14, $('#typ'));
+        selectr.subjectClass(2, $('#scidt'));
         form.render('select');//从新渲染select不然显示不出来    
     });
     //tab切换事件
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
-            //initSele.jbzc(0, $('#jibie'));
             $('#kid').val(0);
             $('#kcurl').val(0);
             $('#resetForm').show();
@@ -18,7 +16,6 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
             $('#saveForm').show();
         }
         else {
-            //initSele.jbzc(0, $('#jibiec'));
             table.reload('tableDom', {
                 page: {
                     hash: 'fenye',
@@ -28,14 +25,14 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
         }
     });
     form.on('select(scidt)', function (sd) {
-        if (sd.value !== '') initSele.stj(sd.value, $('#scid'));
+        if (sd.value !== '') selectr.subjectClass(sd.value, $('#scid'));
         else $("#scid").empty();
         form.render('select');
     });
     //验证
     form.verify({
-       // xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学时只能是正整数或正浮点数'],
-       bh: [/^[1-9]\d*$/, '项目编号只能是正整数']
+        xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学分只能是正整数或正浮点数'],
+       //bh: [/^[1-9]\d*$/, '项目编号只能是正整数']
     });
     //点击查询
     form.on('submit(findForm)', function (d) {
@@ -171,43 +168,6 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
         });
 
     }
-    //动态获取下拉选项框中的值
-    var initSele = {
-        typ: function (vals,dom) {
-            initSele.ajaxselect('/root/edu_item/DataTyp', { pid: vals }, dom);
-        },
-        //skls: function (vals, dom) {
-        //    initSele.ajaxselect('/root/edu_item/dataTeacher', { pid: vals }, dom);
-        //},
-        stjs: function (vals, dom) {
-            initSele.ajaxselect('/root/edu_item/datastks', { pid: vals }, dom);
-        },
-        stj: function (vals, dom) {
-            initSele.ajaxselect('/root/edu_item/datastk', { pid: vals }, dom);
-        },
-        ajaxselect: function (url,field, dom) {
-            $.ajax({
-                url: url,
-                type: 'get', dataType: 'json', cache: false, async: false,
-                data: field,
-                success: function (res) {
-                    if (res !== null) {
-                        dom.empty().append($('<option/>', { value: '', text: '' }));
-                        $.each(res, function (i, o) {
-                            dom.append($('<option/>', {
-                                value: o.val,
-                                text: o.text
-                            }));
-                        });
-                    }
-                    else {
-                        dom.empty();
-                    }
-                },
-                error: function (msg) { alert('ajaxError:' + msg.responseText); console.log(msg); }
-            });
-        }
-    };
 });
 
 
