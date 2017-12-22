@@ -28,19 +28,19 @@ namespace webApp.Areas.root.Controllers
                 if (!string.IsNullOrEmpty(wherejson))
                 {
                     Models.subFind m = JsonConvert.DeserializeObject<Models.subFind>(wherejson);
-                    if (m.leid != "") sb.Append(" and k.levelID=" + m.leid);
-                    if (m.zid != "") sb.Append(" and sid=" + m.zid);
-                    if (m.title != "") sb.Append(" and Title like '%" + m.title.Trim() + "%'");
-                    if (m.inputState != -1) sb.Append(" and typ=" + m.inputState);
+                    //if (m.leid != "") sb.Append(" and k.typ=" + m.leid);
+                    if (m.zid != "-1") sb.Append(" and cont_typ=" + m.zid);
+                    if (m.title != "") sb.Append(" and title like '%" + m.title.Trim() + "%'");
+                    if (m.inputState != -1) sb.Append(" and k.typ=" + m.inputState);
                     if (m.mindate != "") sb.Append(" and k.createTime>='" + m.mindate.Trim() + "'");
                     if (m.maxdate != "") sb.Append(" and k.createTime<='" + m.maxdate.Trim() + " 23:59:59'");
                 }
 
                 Models.paging pag = new Models.paging()
                 {
-                    table = "keJian k join subjectLevel l on k.levelID=l.ID  join JobInfo j on k.sid=j.ID join(select id kid,mc kmc from sys_code where typ=2)o on k.typ=o.kid",
+                    table = "keJian k inner join edu_item e on k.itid=e.id left join edu_teacher t on k.teacher=t.id inner join (select type_bm,name as xxlx from c_bm where type=13)c on k.typ=c.type_bm",
                     order = "k.createTime desc",
-                    field = "k.id, l.name,j.jobName, title,kmc, xueshi, xueshi_minute,cont as curl",
+                    field = "k.id,e.name,t.name as teachers, title,cont,xueshi,xueshi_minute,author,xxlx,cont as curl",
                     pageSize = Convert.ToInt32(Request.QueryString["limit"]),
                     pageNo = Convert.ToInt32(Request.QueryString["page"]),
                     where = sb.ToString()

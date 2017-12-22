@@ -7,15 +7,17 @@
         selectr = layui.selectr;
     $(function () {
         glevent.bindEditor();
+        selectr.eduitem($('#eduItem'), 1);
+        selectr.eduteacher($('#teacher'), 1)
         selectr.cbm(12, $('#contTyp'), 2);
         selectr.cbm(12, $('#edit_contTyp'), 3);
         form.render('select');
         eve.inputr();
 
-        $.get('/upload/171212/105123.html', null, function (htm) {
-            $('#cont').val(htm);
-            //console.log(htm);
-        }, 'html');
+        //$.get('/upload/171212/105123.html', null, function (htm) {
+        //    $('#cont').val(htm);
+        //    //console.log(htm);
+        //}, 'html');
     });
     var eve = {
         //输入学时时长计算需学分钟
@@ -31,11 +33,11 @@
     //tab切换事件
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
-            //$('#kid').val(0);
-            //$('#kcurl').val(0);
-            //$('#resetForm').show();
-            //$('#resetForm').click();
-            //$('#saveForm').show();
+            $('#kid').val(0);
+            $('#kcurl').val(0);
+            $('#resetForm').show();
+            $('#resetForm').click();
+            $('#saveForm').show();
         }
         else {
             table.reload('tableDom', {
@@ -60,47 +62,62 @@
     });
     //保存
     form.on('submit(saveForm)', function (d) {
-        var ds = d.field,
-            fd={
-                id: parseInt(ds.id),
-                title: ds.title,
-                teacher: ds.teacher.length > 0 ? parseInt(ds.teacher) : null,
-                author: ds.author.length > 0 ? ds.author : null,
-                xueshi_minute: parseInt(ds.minute),
-                xueshi: parseFloat(ds.xue),
-                typ: parseInt(ds.typ),
-                cont_typ: parseInt(ds.contTyp),
-                cont: ds.cont,
-                curl: ds.curl
-            };
-        if (fd.teacher!==null||fd.author!==null) {
-            console.log(fd);
 
+
+        // alert(d.field.title.length);
+        //alert(d.field.teacher.value);
+        if (d.field.teacher.length == 0 && d.field.author.length == 0) {
+            layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
+            return false;
         }
         else {
-            layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
+            var ds = d.field,
+
+                fd = {
+                    id: parseInt(ds.id),
+                    title: ds.title,
+                    itid: ds.itid,
+                    teacher: ds.teacher,
+                    author: ds.author,
+                    xueshi_minute: parseInt(ds.minute),
+                    xueshi: parseFloat(ds.xue),
+                    typ: parseInt(ds.typ),
+                    cont_typ: parseInt(ds.contTyp),
+                    cont: ds.cont,
+                    curl: ds.curl
+                };
+            save(fd, function (res) {
+                if (parseInt(ds.id) == 0) {
+                    layer.msg('保存成功', { icon: 1 });
+                    $('#resetForm').click();
+                    $('#title').focus();
+                }
+                else {
+                    layer.msg('修改成功', {
+                        icon: 1, time: 500, end: function () {
+                            table.reload('tableDom', {
+                                page: {
+                                    hash: 'fenye',
+                                    curr: location.hash.replace('#!fenye=', '') || 1
+                                }
+                            });
+                            element.tabChange('tabView', 'list');
+                        }
+                    });
+                }
+            });
         }
-        //save(fd, function (res) {
-        //    if (parseInt(ds.id) == 0) {
-        //        layer.msg('保存成功', { icon: 1 });
-        //        $('#resetForm').click();
-        //        $('#title').focus();
-        //    }
-        //    else {
-        //        layer.msg('修改成功', {
-        //            icon: 1, time: 500, end: function () {
-        //                table.reload('tableDom', {
-        //                    page: {
-        //                        hash: 'fenye',
-        //                        curr: location.hash.replace('#!fenye=', '') || 1
-        //                    }
-        //                });
-        //                element.tabChange('tabView', 'list');
-        //            }
-        //        });
-        //    }
-        //});
-        return false;
+        ////alert(ds.teacher.val);
+        ////alert(ds.author);
+        //if (fd.teacher==0 && fd.author == null) {
+        //    //console.log(fd);
+        //    layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
+        //}
+        ////else {
+        ////    layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
+        ////}
+
+        //return false;
     });
     table.render({
         elem: '#tableDom', url: '/root/kejian/listdata',
@@ -110,10 +127,11 @@
         }, limits: [10, 15],
         cols: [[
             { field: 'rows', title: '序号', width: 90, align: 'center', unresize: true },
-            { field: 'kmc', title: '课件类型', width: 120 },
-            { field: 'title', title: '标题', width: 400 },
-            { field: 'name', title: '级别', width: 120 },
-            { field: 'jobName', title: '职称', width: 120 },
+            { field: 'xxlx', title: '课件类型', width: 120 },
+            { field: 'name', title: '继教项目', width: 210 },
+            { field: 'teachers', title: '授课老师', width: 120 },
+            { field: 'title', title: '标题', width: 250 },
+            { field: 'author', title: '作者', width: 120 },
             { field: 'xueshi', title: '学时', width: 100 },
             { field: 'xueshi_minute', title: '学时时长', width: 100 },
             { fixed: 'right', width: 200, align: 'center', toolbar: '#operate' }
@@ -166,16 +184,26 @@
             beforeSend: function () { layer.load(2); },
             success: function (res) {
                 $('#kid').val(res.id);
-                $('#jibie').val(res.levelID);
-                initSele.jbzc(res.levelID, $('#zhicheng'));
-                $('#zhicheng').val(res.sid);
+                $('#eduItem').val(res.itid);
                 $('#title').val(res.title);
-                $('#subs').val(res.cont);
-                $('#inputCont').val(res.cont_typ);
-                $('#inputTyp').val(res.typ);
-                $('#xue').val(res.xueshi);
+                $('#teacher').val(res.teacher);
+                $('#author').val(res.author);
                 $('#minute').val(res.xueshi_minute);
-                $('#kcurl').val(res.curl);
+                $('#xue').val(res.xueshi);
+                $('#edit_contTyp').val(res.cont_typ);
+                $('#edit_typ').val(res.typ);
+                $('#kcurl').val(res.curl)
+                //$('#kid').val(res.id);
+                //$('#eduItem').val(res.itid);
+                //initSele.jbzc(res.levelID, $('#zhicheng'));
+                //$('#zhicheng').val(res.sid);
+                //$('#title').val(res.title);
+                //$('#subs').val(res.cont);
+                //$('#inputCont').val(res.cont_typ);
+                //$('#inputTyp').val(res.typ);
+                //$('#xue').val(res.xueshi);
+                //$('#minute').val(res.xueshi_minute);
+                //$('#kcurl').val(res.curl);
                 form.render();
             },
             complete: function () { layer.closeAll('loading'); },

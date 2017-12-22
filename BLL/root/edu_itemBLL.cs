@@ -60,17 +60,19 @@ namespace BLL.root
                 return dal.DelEduItem(id);
             }
         }
-        ///// <summary>
-        ///// 修改
-        ///// </summary>
-        ///// <param name="objEdu_item"></param>
-        ///// <returns></returns>
-        //public int UpdateEduItem(edu_item objEdu_item)
-        //{
-        //    using (DAL.root.edu_itemDAL dal = new DAL.root.edu_itemDAL())
-        //    {
-        //        return dal.UpdateEduItem(objEdu_item);
-        //    }
-        //}
+        /// <summary>
+        /// 获取项目
+        /// </summary>
+        /// <returns></returns>
+        public static string GetName()
+        {
+            using (DAL.root.edu_itemDAL dal = new DAL.root.edu_itemDAL())
+            {
+                using (Common.JsonParse jp = new Common.JsonParse())
+                {
+                    return jp.convert(dal.GetName());
+                }
+            }
+        }
     }
 }

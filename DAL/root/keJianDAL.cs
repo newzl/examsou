@@ -31,16 +31,17 @@ namespace DAL.root
         /// <returns></returns>
         public int AddKeJian(keJian objkeJian)
         {
-            string sql = "insert into keJian(levelID, sid, title, cont, cont_typ, typ, xueshi, xueshi_minute)";
-            sql += "values(@levelID, @sid, @title, @cont, @cont_typ, @typ, @xueshi, @xueshi_minute)";
+            string sql = "insert into keJian(teacher, itid, title, cont, cont_typ, typ, xueshi, xueshi_minute,author)";
+            sql += "values(@teacher, @itid, @title, @cont, @cont_typ, @typ, @xueshi, @xueshi_minute,@author)";
             SqlParameter[] para = new SqlParameter[] { 
-            new SqlParameter("@levelID",objkeJian.levelID),
-            new SqlParameter("@sid",objkeJian.sid),
+            new SqlParameter("@teacher",objkeJian.teacher),
+            new SqlParameter("@itid",objkeJian.itid),
             new SqlParameter("@title",objkeJian.title),
             new SqlParameter("@cont",objkeJian.cont),
             new SqlParameter("@cont_typ",objkeJian.cont_typ),
             new SqlParameter("@typ",objkeJian.typ),
             new SqlParameter("@xueshi",objkeJian.xueshi),
+            new SqlParameter("@author",objkeJian.author!=null?objkeJian.author:""),
             new SqlParameter("@xueshi_minute",objkeJian.xueshi_minute)
             };
             return SqlHelper.ExcuteNonQuery(sql, para);
@@ -52,7 +53,7 @@ namespace DAL.root
         /// <returns></returns>
         public keJian getEntity(int id)
         {
-            string sql = "select id, levelID, sid, title,cont as curl, cont, cont_typ, typ, xueshi, xueshi_minute from keJian where id=@id";
+            string sql = "select id,teacher, itid, title,cont as curl, cont, cont_typ, typ, xueshi, xueshi_minute,author from keJian where id=@id";
             SqlParameter[] pars = { 
                 new SqlParameter("@id", id)
             };
@@ -65,17 +66,18 @@ namespace DAL.root
         /// <returns></returns>
         public int UpdateKeJian(keJian objkeJian)
         {
-            string sql = "update keJian set levelID=@levelID, sid=@sid, title=@title, cont=@cont,";
-            sql += " cont_typ=@cont_typ, typ=@typ, xueshi=@xueshi, xueshi_minute=@xueshi_minute where id=@id";
+            string sql = "update keJian set teacher=@teacher, itid=@itid, title=@title, cont=@cont,";
+            sql += " cont_typ=@cont_typ, typ=@typ, xueshi=@xueshi, xueshi_minute=@xueshi_minute,author=@author where id=@id";
             SqlParameter[] para = new SqlParameter[] { 
-            new SqlParameter("@levelID",objkeJian.levelID),
-            new SqlParameter("@sid",objkeJian.sid),
+            new SqlParameter("@teacher",objkeJian.teacher),
+            new SqlParameter("@itid",objkeJian.itid),
             new SqlParameter("@title",objkeJian.title),
             new SqlParameter("@cont",objkeJian.cont),
             new SqlParameter("@cont_typ",objkeJian.cont_typ),
             new SqlParameter("@typ",objkeJian.typ),
             new SqlParameter("@xueshi",objkeJian.xueshi),
             new SqlParameter("@xueshi_minute",objkeJian.xueshi_minute),
+            new SqlParameter("@author",objkeJian.author!=null?objkeJian.author:""),
             new SqlParameter("@id",objkeJian.id)
             };
             return SqlHelper.ExcuteNonQuery(sql, para);

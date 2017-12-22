@@ -111,5 +111,14 @@ namespace DAL.root
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@id", id) };
             return SqlHelper.ExcuteScalre(sql, param);
         }
+        /// <summary>
+        /// 获取项目名称
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetName()
+        {
+            string sql = "select id[val],name[text] from edu_item where isHome=1 and isDel=0";
+            return SqlHelper.ExcuteDataTable(sql);
+        }
     }
 }

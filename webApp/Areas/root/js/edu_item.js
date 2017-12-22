@@ -157,7 +157,7 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
                 $('#fzdw').val(res.fzdw);
                 $('#detail').val(res.detail);
                 $('#scidt').val(res.pid);
-                initSele.stj(res.pid, $('#scid'));
+                selectr.subjectClass(res.pid, $('#scid'));
                 $('#scid').val(res.scid);
                 document.getElementById('open').checked = res.isHome;
                 document.getElementById('opens').checked = res.valid;

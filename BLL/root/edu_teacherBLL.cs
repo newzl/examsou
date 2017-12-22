@@ -49,5 +49,15 @@ namespace BLL.root
                 return dal.DelTeacher(id);
             }
         }
+        public static string GetName()
+        {
+            using (DAL.root.edu_teacherDAL dal = new DAL.root.edu_teacherDAL())
+            {
+                using (Common.JsonParse js = new Common.JsonParse())
+                {
+                    return js.convert(dal.GetName());
+                }
+            }
+        }
     }
 }

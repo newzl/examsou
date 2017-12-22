@@ -8,6 +8,12 @@
             subjectClass: function (pid, dom, first) {
                 this.ajaxselect('/handler/root/sele_subjectclass.ashx', { pid: pid }, dom, first || 1);
             },
+            eduitem: function (dom, first) {
+                this.ajaxselect('/handler/root/sele_eduitemName.ashx', 0, dom, first || 1)
+            },
+            eduteacher: function (dom, first) {
+                this.ajaxselect('/handler/root/sele_eduteacher.ashx', 0, dom, first || 1)
+            },
             ajaxselect: function (url, data, dom, first) {
                 $.ajax({
                     url: url, type: 'get', dataType: 'json',
