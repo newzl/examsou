@@ -1,6 +1,8 @@
 ﻿
-layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], function () {
-    var form = layui.form, table = layui.table, selectr = layui.selectr;
+layui.config({
+    base: '/areas/root/js/'
+}).use(['form', 'table', 'selectr', 'uploadpic'], function () {
+    var form = layui.form, table = layui.table, selectr = layui.selectr, uploadpic = layui.uploadpic;
     $(function () {
         selectr.cbm(14, $('#typ'));
         selectr.subjectClass(2, $('#scidt'));
@@ -10,10 +12,11 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
             $('#kid').val(0);
-            $('#kcurl').val(0);
-            $('#resetForm').show();
+            //$('#kcurl').val(0);
+            //$('#resetForm').show();
             $('#resetForm').click();
-            $('#saveForm').show();
+            //$('#saveForm').show();
+            uploadpic.init({ elem: '#upPic', hw: '300x180' });
         }
         else {
             table.reload('tableDom', {
@@ -32,7 +35,7 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
     //验证
     form.verify({
         xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学分只能是正整数或正浮点数'],
-       //bh: [/^[1-9]\d*$/, '项目编号只能是正整数']
+        //bh: [/^[1-9]\d*$/, '项目编号只能是正整数']
     });
     //点击查询
     form.on('submit(findForm)', function (d) {
@@ -50,14 +53,14 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
         save({
             id: parseInt(ds.id),
             bh: ds.bh,
-            name: ds.name ,
+            name: ds.name,
             typ: ds.typ,
             xf: ds.xf,
             fzr: ds.fzr,
             fzdw: ds.fzdw,
-            pic: '',
+            pic: ds.picurl,
             scid: ds.scid,
-            detail:ds.detail,
+            detail: ds.detail,
             isHome: ds.open != null ? true : false,
             valid: ds.opens != null ? true : false
         }, function (res) {
@@ -103,9 +106,16 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
     table.on('tool(tableView)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') { //查看
-            initentity(data.id);
-            $('#saveForm').hide();
-            $('#resetForm').hide();
+            layer.open({
+                id: 'subDetail', type: 2,
+                title: '查看项目', time: 20000,
+                area: ['700px', '300px'],
+                shadeClose: true,
+                content: '/root/edu_item/detail/' + data.id
+            });
+            //initentity(data.id);
+            //$('#saveForm').hide();
+            //$('#resetForm').hide();
         }
         else if (obj.event === 'edit') {
             initentity(data.id)
@@ -150,7 +160,7 @@ layui.config({ base: '/areas/root/js/' }).use(['form', 'table', 'selectr'], func
                 $('#kid').val(res.id);
                 $('#bh').val(res.bh);
                 $('#name').val(res.name);
-                //$('#title').val(res.title);
+                uploadpic.init({ elem: '#upPic', oldpic: res.pic });
                 $('#typ').val(res.typ);
                 $('#xf').val(res.xf);
                 $('#fzr').val(res.fzr);

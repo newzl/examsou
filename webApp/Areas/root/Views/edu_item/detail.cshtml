@@ -1,0 +1,28 @@
+﻿@model Models.edu_item
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>detail</title>
+</head>
+<body>
+    <div style="position: relative;height: 120px;padding: 15px;padding-left: 150px;">
+        @if (Model.pic != null)
+        {
+            <img src="@Model.pic" style="position: absolute; top: 15px; left: 15px; width: 120px; height: 120px;" />
+        }
+        else
+        {
+            <div style="position: absolute; top: 15px; left: 15px; width: 120px; height: 120px; text-align:center;border:1px solid #ccc; color:#555;background-color:#eee"><br />暂无图片</div>
+        }
+        <div>
+            <span style="font-size: 20px;color: #555;line-height: 30px;font-weight: bold;">@Model.name</span>
+            <span style="margin-left: 10px;color: #777;">@Model.bh</span>
+        </div>
+        <div style="color: #aaa;height: 88px;font-size: 14px;cursor: default;">
+            @Model.detail
+        </div>
+    </div>
+</body>
+</html>
