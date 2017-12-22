@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models
 {
+
     public class edu_teacher
     {
         public int id { get; set; }
@@ -14,9 +11,9 @@ namespace Models
         public string zc { get; set; }
         public string detail { get; set; }
         public bool isHome { get; set; }
-        public DateTime createTime { get; set; }
+        //public DateTime createTime { get; set; }
         public bool valid { get; set; }
-        public bool isDel { get; set; }
+        //public bool isDel { get; set; }
 
     }
 }

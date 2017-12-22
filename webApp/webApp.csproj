@@ -127,9 +127,6 @@
     <Compile Include="handler\root\sele_eduteacher.ashx.cs">
       <DependentUpon>sele_eduteacher.ashx</DependentUpon>
     </Compile>
-    <Compile Include="handler\root\UploadImage.ashx.cs">
-      <DependentUpon>UploadImage.ashx</DependentUpon>
-    </Compile>
     <Compile Include="Areas\root\Controllers\edu_itemController.cs" />
     <Compile Include="Areas\root\Controllers\keJianController.cs" />
     <Compile Include="Areas\root\Controllers\manChController.cs" />
@@ -1395,7 +1392,6 @@
     <Content Include="handler\root\sele_cbm.ashx" />
     <Content Include="Areas\root\Views\edu_item\edu_itemList.cshtml" />
     <Content Include="Areas\root\Views\teacher\teacherList.cshtml" />
-    <Content Include="handler\root\UploadImage.ashx" />
     <Content Include="handler\root\sele_eduitemName.ashx" />
     <Content Include="handler\root\sele_eduteacher.ashx" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
