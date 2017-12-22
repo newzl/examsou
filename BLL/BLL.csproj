@@ -45,6 +45,8 @@
     <Compile Include="commentBLL.cs" />
     <Compile Include="companyBLL.cs" />
     <Compile Include="departmentBLL.cs" />
+    <Compile Include="edu_myitemBLL.cs" />
+    <Compile Include="edu_recordBLL.cs" />
     <Compile Include="examPlanBLL.cs" />
     <Compile Include="exam\examTestBLL.cs" />
     <Compile Include="feedbackBLL.cs" />

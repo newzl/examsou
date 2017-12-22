@@ -23,7 +23,7 @@
 
     .item-list .itemName {
         font-size: 20px;
-        display: block;
+        /*display: block;*/
         color: #2F4056;
         padding-bottom: 10px;
     }
@@ -39,7 +39,7 @@
         color: #FF5722;
     }
 
-    .item-list li button {
+    .item-list li .layui-btn {
         position: absolute;
         top: 56px;
         right: 15px;
@@ -51,7 +51,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">学科</label>
                 <div class="layui-input-inline" style="width: 120px;">
-                    <select id="sclass1" lay-filter="sclass1"></select>
+                    <select id="sclass1" name="scid1" lay-filter="sclass1"></select>
                 </div>
                 <div class="layui-input-inline" style="width: 120px;">
                     <select id="sclass2" name="scid"></select>
@@ -60,13 +60,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-inline" style="width: 200px;">
-                    <input type="text" name="title" placeholder="请输入继教项目名称或编号" autocomplete="off" class="layui-input" />
+                    <input type="text" name="name" placeholder="请输入继教项目名称或编号" autocomplete="off" class="layui-input" />
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">类型</label>
                 <div class="layui-input-inline" style="width: 100px;">
-                    <select name="itemTyp" id="itemTyp"></select>
+                    <select name="typ" id="typ"></select>
                 </div>
             </div>
             <div class="layui-inline">
@@ -75,47 +75,126 @@
         </div>
     </form>
 </blockquote>
-@*<div class="not-found"><i class="layui-icon">&#xe615;</i><h5>没有符合条件的记录</h5><p>没有查询到任何记录，您可以重新设置条件查询</p></div>*@
 
-<ul class="item-list">
-    @for (int i = 0; i < 10; i++)
-    {
-        <li>
-            <a href="/eduitem/detail" target="_blank" class="itemPic"><img src="/upload/171212/820.jpg" style="width: 200px;height: 120px"></a>
-            <a href="/eduitem/detail" target="_blank" class="itemName">住院病案首页的质量控制和检查</a>
-            <p>项目类型：国家I类<b class="xf">5</b>学分</p>
-            <p>学习人数：125人在学</p>
-            <p>项目编号：2017-14-05-071</p>
-            <p>负责单位：新智联医学技术培训中心</p>
-            <button class="layui-btn layui-btn-radius">立即学习</button>
-        </li>
-    }
-</ul>
+
+
+<ul class="item-list" id="itemView"></ul>
+<script type="text/html" id="itemTpl">
+    {{# if(d.count > 0){ }}
+        {{# layui.each(d.data, function(i,item){ }}
+            <li>
+                <a href="/eduitem/detail/{{item.id}}" target="_blank" class="itemPic"><img src="{{item.pic}}" style="width: 200px;height: 120px"></a>
+                <a href="/eduitem/detail/{{item.id}}" target="_blank" class="itemName">{{item.name}}</a>
+                <p>项目类型：{{item.itemTyp}}<b class="xf">{{item.xf}}</b>学分</p>
+                <p>学习人数：{{item.learns}}人在学</p>
+                <p>项目编号：{{item.bh}}</p>
+                <p>负责单位：{{item.fzdw}}</p>
+                {{# if(item.miid === null){ }}
+                    <a href="javascript:;" class="layui-btn layui-btn-radius beginLearn" data-itid="{{item.id}}">立即学习</a>
+                {{# } else { }}
+                    <a href="/eduitem/myitem" class="layui-btn layui-btn-radius layui-btn-normal">正在学习</a>
+                {{# } }}
+            </li>
+        {{# }); }}
+    {{# } else { }}
+        <div class="not-found"><i class="layui-icon">&#xe615;</i><h5>没有符合条件的记录</h5><p>没有查询到任何记录，您可以重新设置条件查询</p></div>
+    {{# } }}
+</script>
+<div id="paging"></div>
 @section js{
     <script>
         layui.config({
             base: '/scripts/modules/'
-        }).use(['form', 'selectr'], function () {
-            var form = layui.form, selectr = layui.selectr;
-            selectr.cbm(14, $('#itemTyp'));
-
+        }).use(['form', 'laypage', 'laytpl', 'selectr'], function () {
+            var form = layui.form,
+                laypage = layui.laypage,
+                laytpl = layui.laytpl,
+                selectr = layui.selectr,
+                whereStr = null;
+            
+            selectr.cbm(14, $('#typ'), 2);
             selectr.subjectClass(2, $('#sclass1'));
+            form.render('select');
+
             form.on('select(sclass1)', function (d) {
-                selectr.subjectClass(d.value, $('#sclass2'));
+                var dom = $('#sclass2');
+                if (d.value.length > 0) selectr.subjectClass(d.value, dom);
+                else dom.empty();
                 form.render('select');
             });
-
             form.on('submit(findForm)', function (d) {
-                var fd = d.field,
-                    data = {
-                        scid: parseInt(fd.scid),
-                        title: fd.title,
-                        itemTyp: parseInt(fd.itemTyp)
-                    };
-                console.log(d.field);
+                var fd = d.field;
+                if (fd.scid1.length > 0 && fd.scid.length <= 0) {
+                    layer.msg('请选择学科', { icon: 2, anim: 6 })
+                }
+                else {
+                    whereStr = JSON.stringify({
+                        scid: fd.scid.length > 0 ? parseInt(fd.scid) : -1,
+                        name: fd.name,
+                        typ: parseInt(fd.typ)
+                    });
+                    load.list(1);
+                }
                 return false;
             });
-            form.render('select');//临时刷新
+
+            var load = {
+                list: function (page) {
+                    var self = this, data;
+                    if (whereStr !== null) data = { page: page, wherejson: whereStr };
+                    else data = { page: page }
+                    $.ajax({
+                        url: '/eduitem/searchlist',
+                        type: 'get', dataType: 'json', cache: false,
+                        data: data,
+                        beforeSend: function () { layer.load(2); },
+                        success: function (res) {
+                            var dom = $('#itemList');
+                            dom.empty();
+                            if (res.count > 10) self.page(res.count, page);
+                            var getTpl = itemTpl.innerHTML, view = document.getElementById('itemView');
+                            laytpl(getTpl).render(res, function (htm) {
+                                view.innerHTML = htm;
+                            });
+                            eve.learn();
+                        },
+                        complete: function () { layer.closeAll('loading'); },
+                        error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                    });
+                },
+                page: function (count, curr) {
+                    var self = this;
+                    laypage.render({
+                        elem: 'paging', count: count, curr: curr,
+                        jump: function (obj, first) {
+                            if (!first) self.list(obj.curr);
+                        }
+                    });
+                }
+            };
+            var eve = {
+                learn: function () {
+                    $('.beginLearn').off().on('click', function () {
+                        $.ajax({
+                            url: '/eduitem/saveLearn',
+                            type: 'POST', dataType: 'json', cache: false,
+                            data: { itid: $(this).data('itid') },
+                            beforeSend: function () { layer.load(2); },
+                            success: function (res) {
+                                layer.msg('成功添加学习。', {
+                                    icon: 1, time: 1000, end: function () {
+                                        window.location.replace("/eduitem?rid=" + Math.random());
+                                    }
+                                });
+                            },
+                            complete: function () { layer.closeAll('loading'); },
+                            error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                        });
+                        console.log();
+                    });
+                }
+            };
+            load.list(1);
         });
     </script>
 }
