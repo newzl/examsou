@@ -15,6 +15,16 @@ namespace webApp.Areas.root.Controllers
         {
             return View();
         }
+        public ActionResult detail(int id)
+        {
+            keJian objkeJian = new BLL.root.keJianBLL().getEntity(id);
+            if (objkeJian.curl.Length > 0)
+            {
+                objkeJian.curl = objkeJian.cont;
+                objkeJian.cont = DirFile.ReaderInFileStream(objkeJian.cont);
+            }
+            return View(objkeJian);
+        }
 
         [HttpGet]
         public void listdata()
@@ -61,8 +71,6 @@ namespace webApp.Areas.root.Controllers
         {
             objkeJian.cont = DirFile.WriteInFileStream(objkeJian.cont, objkeJian.curl);
             int result = new BLL.root.keJianBLL().save(objkeJian);
-            //if (result != 0 && objkeJian.curl != "0")
-            //    DirFile.DeleteFile(objkeJian.curl);
             return result;
 
         }

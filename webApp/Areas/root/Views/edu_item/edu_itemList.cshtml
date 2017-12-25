@@ -47,13 +47,10 @@
             <form class="layui-form editsub">
                 <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
                 <input type="hidden" id="kcurl" name="curl" value="0" autocomplete="off" />
-                @*<div class="layui-form-item">
-                        <div class="layui-form-item" style="margin-left:110px">
-                            <img class="layui-upload-img" id="demo1" style="width: 100px; height:100px">
-                            <p id="demoText"></p>
-                        </div>
-                        <button type="button" style="margin-left:110px" class="layui-btn" id="test1">上传图片</button>
-                    </div>*@
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>上传图片</label>
+                    <div class="layui-input-block" id="upPic"></div>
+                </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>项目编号</label>
                     <div class="layui-input-inline">
@@ -145,5 +142,5 @@
 </script>
 @section js{
 <script src="/content/my97date/WdatePicker.js"></script>
-    <script src="/Areas/root/js/edu_item.js?v=1.6.2"></script>
+    <script src="/Areas/root/js/edu_item.js?v=1.6.4"></script>
 }

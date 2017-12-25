@@ -13,11 +13,6 @@
         selectr.cbm(12, $('#edit_contTyp'), 3);
         form.render('select');
         eve.inputr();
-
-        //$.get('/upload/171212/105123.html', null, function (htm) {
-        //    $('#cont').val(htm);
-        //    //console.log(htm);
-        //}, 'html');
     });
     var eve = {
         //输入学时时长计算需学分钟
@@ -35,9 +30,7 @@
         if (d.index === 1) {
             $('#kid').val(0);
             $('#kcurl').val(0);
-            $('#resetForm').show();
             $('#resetForm').click();
-            $('#saveForm').show();
         }
         else {
             table.reload('tableDom', {
@@ -63,9 +56,6 @@
     //保存
     form.on('submit(saveForm)', function (d) {
 
-
-        // alert(d.field.title.length);
-        //alert(d.field.teacher.value);
         if (d.field.teacher.length == 0 && d.field.author.length == 0) {
             layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
             return false;
@@ -93,31 +83,22 @@
                     $('#title').focus();
                 }
                 else {
-                    layer.msg('修改成功', {
-                        icon: 1, time: 500, end: function () {
-                            table.reload('tableDom', {
-                                page: {
-                                    hash: 'fenye',
-                                    curr: location.hash.replace('#!fenye=', '') || 1
-                                }
-                            });
-                            element.tabChange('tabView', 'list');
-                        }
-                    });
+                    layer.msg('修改成功', { icon: 1 });
+                    //layer.msg('修改成功', {
+                    //    icon: 1, 
+                        //time: 500, end: function () {
+                        //    table.reload('tableDom', {
+                        //        page: {
+                        //            hash: 'fenye',
+                        //            curr: 1
+                        //        }
+                        //    });
+                        //    element.tabChange('tabView', 'list');
+                        //}
+                   // });
                 }
             });
         }
-        ////alert(ds.teacher.val);
-        ////alert(ds.author);
-        //if (fd.teacher==0 && fd.author == null) {
-        //    //console.log(fd);
-        //    layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
-        //}
-        ////else {
-        ////    layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
-        ////}
-
-        //return false;
     });
     table.render({
         elem: '#tableDom', url: '/root/kejian/listdata',
@@ -140,9 +121,13 @@
     table.on('tool(tableView)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') { //查看
-            initentity(data.id);
-            $('#saveForm').hide();
-            $('#resetForm').hide();
+            layer.open({
+                id: 'subDetail', type: 2,
+                title: '查看课件', time: 20000,
+                area: ['700px', '400px'],
+                shadeClose: true,
+                content: '/root/kejian/detail/' + data.id
+            });
         }
         else if (obj.event === 'edit') {
             initentity(data.id)
@@ -192,18 +177,8 @@
                 $('#xue').val(res.xueshi);
                 $('#edit_contTyp').val(res.cont_typ);
                 $('#edit_typ').val(res.typ);
+                $('#cont').val(res.cont);
                 $('#kcurl').val(res.curl)
-                //$('#kid').val(res.id);
-                //$('#eduItem').val(res.itid);
-                //initSele.jbzc(res.levelID, $('#zhicheng'));
-                //$('#zhicheng').val(res.sid);
-                //$('#title').val(res.title);
-                //$('#subs').val(res.cont);
-                //$('#inputCont').val(res.cont_typ);
-                //$('#inputTyp').val(res.typ);
-                //$('#xue').val(res.xueshi);
-                //$('#minute').val(res.xueshi_minute);
-                //$('#kcurl').val(res.curl);
                 form.render();
             },
             complete: function () { layer.closeAll('loading'); },

@@ -15,7 +15,10 @@ namespace webApp.Areas.root.Controllers
         {
             return View();
         }
-
+        public ActionResult detail(int id)
+        {
+            return View(new BLL.root.edu_itemBLL().ByIdEduItem(id));
+        }
         [HttpGet]
         public void ListData()
         {
@@ -69,6 +72,7 @@ namespace webApp.Areas.root.Controllers
             edu_item objList = new BLL.root.edu_itemBLL().ByIdEduItem(id);
             return Json(objList, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public int Del(int id)

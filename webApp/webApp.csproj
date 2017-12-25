@@ -260,7 +260,6 @@
     <Content Include="Areas\admin\static\bmform.html" />
     <Content Include="Areas\admin\static\ksform.html" />
     <Content Include="Areas\admin\static\zcform.html" />
-    <Content Include="Areas\modules\uploadpic.js" />
     <Content Include="Areas\root\js\edu_item.js" />
     <Content Include="Areas\root\js\glevent.js" />
     <Content Include="Areas\root\js\global.js" />
@@ -274,6 +273,7 @@
     <Content Include="Areas\root\js\selectr.js" />
     <Content Include="Areas\root\js\teacher.js" />
     <Content Include="Areas\root\js\tool.js" />
+    <Content Include="Areas\root\js\uploadpic.js" />
     <Content Include="Areas\root\static\subclassform.html" />
     <Content Include="content\css\course.css" />
     <Content Include="content\css\default.css" />
@@ -1101,6 +1101,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Views\exammsg\" />
     <Folder Include="Areas\admin\Views\Shared\" />
+    <Folder Include="Areas\modules\" />
     <Folder Include="Areas\root\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -1406,6 +1407,8 @@
     <Content Include="handler\root\upload_image.ashx" />
     <Content Include="Areas\root\Views\teacher\detail.cshtml" />
     <Content Include="handler\edu_saverecord.ashx" />
+    <Content Include="Areas\root\Views\keJian\detail.cshtml" />
+    <Content Include="Areas\root\Views\edu_item\detail.cshtml" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
     <Content Include="Views\default\index.cshtml" />
     <Content Include="Views\profile\profession.cshtml" />

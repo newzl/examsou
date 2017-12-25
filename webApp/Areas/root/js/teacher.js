@@ -1,5 +1,5 @@
 ﻿layui.config({
-    base: '/areas/modules/'
+    base: '/areas/root/js/'
 }).use(['form', 'table', 'uploadpic'], function () {
     var form = layui.form,
         table = layui.table,
@@ -8,6 +8,7 @@
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
             $('#resetForm').click();
+           
             uploadpic.init({ elem: '#upPic' });
         }
         else {
@@ -87,6 +88,7 @@
             });
         }
         else if (obj.event === 'edit') {
+            
             initentity(data.id);
         }
         else if (obj.event === 'del') {
