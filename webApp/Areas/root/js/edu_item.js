@@ -113,9 +113,6 @@ layui.config({
                 shadeClose: true,
                 content: '/root/edu_item/detail/' + data.id
             });
-            //initentity(data.id);
-            //$('#saveForm').hide();
-            //$('#resetForm').hide();
         }
         else if (obj.event === 'edit') {
             initentity(data.id)

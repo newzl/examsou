@@ -2,45 +2,15 @@
     ViewBag.Title = "继教项目详情";
     Layout = "~/Views/_layoutMember.cshtml";
 }
-<style>
-    .item-info {
-        position: relative;
-        height: 200px;
-        padding: 15px 15px 15px 330px;
-    }
-
-        .item-info img {
-            position: absolute;
-            left: 15px;
-            top: 15px;
-        }
-
-        .item-info .name {
-            font-size: 20px;
-            display: block;
-            color: #01AAED;
-            padding-bottom: 10px;
-        }
-
-        .item-info p {
-            font-size: 14px;
-            color: #777;
-            line-height: 22px;
-        }
-
-        .item-info .xf {
-            padding: 0 3px 0 8px;
-            color: #FF5722;
-        }
-</style>
+@model Models.edu_item_detail
 <div class="item-info">
-    <img src="/upload/171212/820.jpg" style="width: 300px;height: 200px">
-    <p class="name">住院病案首页的质量控制和检查</p>
-    <p>项目类型：国家I类<b class="xf">5</b>学分</p>
-    <p>项目编号：2017-14-05-071</p>
-    <p>负责单位：新智联医学技术培训中心</p>
+    <img src="@Model.pic" style="width: 300px;height: 200px">
+    <p class="name">@Model.name</p>
+    <p>项目类型：@Model.typ<b class="xf">@Model.xf</b>学分</p>
+    <p>项目编号：@Model.bh</p>
+    <p>负责单位：@Model.fzdw</p>
     <p>项目介绍：</p>
-    <p style="color:#c2c2c2">本项目主要介绍抑郁症伴有躯体症状的治疗，内容包括主要临床表现、不同科室抑郁症、抑郁症的神经生物学机制、常用治疗量表、常用治疗方案等。</p>
+    <p style="color:#c2c2c2">@Model.detail</p>
 </div>
 <table class="layui-table" lay-skin="line">
     <thead>
@@ -52,14 +22,14 @@
         </tr>
     </thead>
     <tbody class="layui-form">
-        @for (int i = 0; i < 10; i++)
+        @foreach (var item in @Model.keJian)
         {
             <tr>
-                <td>基础医学综合-生物化</td>
-                <td>必修课</td>
-                <td>王建国</td>
-                <td>0.5 / 60</td>
+                <td>@item.title</td>
+                <td>@item.typ</td>
+                <td>@item.teacher</td>
+                <td>@item.xs / @item.sc</td>
             </tr>
         }
-        
+    </tbody>
 </table>

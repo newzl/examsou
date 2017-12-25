@@ -1,5 +1,5 @@
 ﻿layui.config({
-    base: '/areas/modules/'
+    base: '/areas/root/js/'
 }).use(['form', 'table', 'uploadpic'], function () {
     var form = layui.form,
         table = layui.table,

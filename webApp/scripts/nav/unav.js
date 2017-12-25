@@ -30,7 +30,7 @@ function getnav(emp, callback) {
                 href: '/learn/record'
             }, {
                 title: '我的项目',
-                href: '/subject/learnsubject'
+                href: '/eduitem/myitem'
             }, {
                 title: '继教项目',
                 href: '/eduitem/search'

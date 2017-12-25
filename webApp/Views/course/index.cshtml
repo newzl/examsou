@@ -61,13 +61,14 @@
                         var inter = timer.counts(tielem, $.cookie(timeCook));
                         $('#quit').click(function () {
                             window.clearInterval(inter);
-                            var data = {
-                                minute: timer.minuteAgo(tielem.text()),
-                                scroll: mdom.scrollTop()
-                            };
-                            console.log(data);
+                            requ.save({
+                                miid: 5,
+                                kjid:23,
+                                minut: timer.minuteAgo(tielem.text()),
+                                timer: tielem.text(),
+                                position: mdom.scrollTop()
+                            });
                         });
-
                     });
                 },
                 //初始化设置
@@ -147,6 +148,21 @@
                     window.onbeforeunload = function (b) {
                         $.cookie(timeCook, tielem.text(), { expires: 5, path: '/' });
                     }
+                }
+            },
+            requ = {
+                save: function (field) {
+                    $.ajax({
+                        url: '/handler/edu_saverecord.ashx',
+                        type: 'POST', dataType: 'json', cache: false,
+                        data: field,
+                        beforeSend: function () { layer.load(2); },
+                        success: function (res) {
+                            window.location.replace('/eduitem');
+                        },
+                        complete: function () { layer.closeAll('loading'); },
+                        error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                    });
                 }
             };
             $(function () {

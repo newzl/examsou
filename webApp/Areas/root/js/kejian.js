@@ -83,17 +83,19 @@
                     $('#title').focus();
                 }
                 else {
-                    layer.msg('修改成功', {
-                        icon: 1, time: 500, end: function () {
-                            table.reload('tableDom', {
-                                page: {
-                                    hash: 'fenye',
-                                    curr: location.hash.replace('#!fenye=', '') || 1
-                                }
-                            });
-                            element.tabChange('tabView', 'list');
-                        }
-                    });
+                    layer.msg('修改成功', { icon: 1 });
+                    //layer.msg('修改成功', {
+                    //    icon: 1, 
+                        //time: 500, end: function () {
+                        //    table.reload('tableDom', {
+                        //        page: {
+                        //            hash: 'fenye',
+                        //            curr: 1
+                        //        }
+                        //    });
+                        //    element.tabChange('tabView', 'list');
+                        //}
+                   // });
                 }
             });
         }

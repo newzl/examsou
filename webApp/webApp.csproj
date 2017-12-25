@@ -121,6 +121,9 @@
     <Compile Include="Areas\admin\Controllers\reportController.cs" />
     <Compile Include="Areas\admin\Controllers\sgzjController.cs" />
     <Compile Include="Areas\admin\Controllers\sjzjController.cs" />
+    <Compile Include="handler\edu_saverecord.ashx.cs">
+      <DependentUpon>edu_saverecord.ashx</DependentUpon>
+    </Compile>
     <Compile Include="handler\root\sele_eduitemName.ashx.cs">
       <DependentUpon>sele_eduitemName.ashx</DependentUpon>
     </Compile>
@@ -255,7 +258,6 @@
     <Content Include="Areas\admin\static\bmform.html" />
     <Content Include="Areas\admin\static\ksform.html" />
     <Content Include="Areas\admin\static\zcform.html" />
-    <Content Include="Areas\root\js\uploadpic.js" />
     <Content Include="Areas\root\js\edu_item.js" />
     <Content Include="Areas\root\js\glevent.js" />
     <Content Include="Areas\root\js\global.js" />
@@ -269,6 +271,7 @@
     <Content Include="Areas\root\js\selectr.js" />
     <Content Include="Areas\root\js\teacher.js" />
     <Content Include="Areas\root\js\tool.js" />
+    <Content Include="Areas\root\js\uploadpic.js" />
     <Content Include="Areas\root\static\subclassform.html" />
     <Content Include="content\css\course.css" />
     <Content Include="content\css\default.css" />
@@ -900,7 +903,6 @@
     <Content Include="content\zTree\js\jquery.ztree.exhide.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="handler\Picture\image\171117\201711170948025236.jpg" />
     <Content Include="images\dispose.png" />
     <Content Include="images\face\face0001.png" />
     <Content Include="images\face\face1001.png" />
@@ -1097,7 +1099,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Views\exammsg\" />
     <Folder Include="Areas\admin\Views\Shared\" />
+    <Folder Include="Areas\modules\" />
     <Folder Include="Areas\root\Views\Shared\" />
+    <Folder Include="Controllers\api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1399,10 +1403,11 @@
     <Content Include="Areas\root\Views\teacher\teacherList.cshtml" />
     <Content Include="handler\root\sele_eduitemName.ashx" />
     <Content Include="handler\root\sele_eduteacher.ashx" />
-    <Content Include="Areas\root\Views\teacher\detail.cshtml" />
     <Content Include="handler\root\upload_image.ashx" />
-    <Content Include="Areas\root\Views\edu_item\detail.cshtml" />
+    <Content Include="Areas\root\Views\teacher\detail.cshtml" />
+    <Content Include="handler\edu_saverecord.ashx" />
     <Content Include="Areas\root\Views\keJian\detail.cshtml" />
+    <Content Include="Areas\root\Views\edu_item\detail.cshtml" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
     <Content Include="Views\default\index.cshtml" />
     <Content Include="Views\course\index.cshtml" />

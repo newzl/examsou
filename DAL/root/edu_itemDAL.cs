@@ -120,5 +120,17 @@ namespace DAL.root
             string sql = "select id[val],name[text] from edu_item where isHome=1 and isDel=0";
             return SqlHelper.ExcuteDataTable(sql);
         }
+        /// <summary>
+        /// 查看继教项目详细信息
+        /// </summary>
+        /// <param name="itid"></param>
+        /// <returns></returns>
+        public DataSet detail(int itid)
+        {
+            string sql = "select pic,a.name,b.name[typ],xf,bh,fzdw,a.detail from edu_item a left join vp_itemTyp b on a.typ=b.id where a.id=@itid";
+            sql += " select title,b.name[typ],case when c.name is not null then c.name else a.author end[teacher],xueshi[xs],xueshi_minute[sc] from keJian a left join vp_learnTyp b on a.typ=b.id left join edu_teacher c on a.teacher=c.id where a.itid=@itid";
+            SqlParameter[] param = new SqlParameter[] { new SqlParameter("@itid", itid) };
+            return SqlHelper.ExcuteDataSet(sql, param);
+        }
     }
 }

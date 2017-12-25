@@ -2,25 +2,25 @@
     "use strict";
     var $ = layui.$,
         selectr = {
-            cbm: function (typeid, dom) {
-                this.ajaxselect('/handler/sele_cbm.ashx', { type: typeid }, dom);
+            cbm: function (typeid, dom, first) {
+                this.ajaxselect('/handler/sele_cbm.ashx', { type: typeid }, dom, first || 1);
             },
-            subjectClass:function (pid,dom) {
-                this.ajaxselect('/handler/sele_subjectclass.ashx', { pid: pid }, dom);
+            subjectClass: function (pid, dom, first) {
+                this.ajaxselect('/handler/sele_subjectclass.ashx', { pid: pid }, dom, first || 1);
             },
-            xzbm: function (pval, dom) {
-                this.ajaxselect('/handler/sele_xzbm.ashx', { pxzbm: pval }, dom);
+            xzbm: function (pval, dom, first) {
+                this.ajaxselect('/handler/sele_xzbm.ashx', { pxzbm: pval }, dom, first || 1);
             },
-            company: function (xzbm, dom) {
-                this.ajaxselect('/handler/sele_company.ashx', { xzbm: xzbm }, dom);
+            company: function (xzbm, dom, first) {
+                this.ajaxselect('/handler/sele_company.ashx', { xzbm: xzbm }, dom, first || 1);
             },
-            bmks: function (pid, dom) {
-                initSele.ajaxselect('/handler/sele_bmks.ashx', { companyid: companyID, pid: pid }, dom);
+            bmks: function (pid, dom, first) {
+                initSele.ajaxselect('/handler/sele_bmks.ashx', { companyid: companyID, pid: pid }, dom, first || 1);
             },
-            jbzc: function (pid, dom) {
-                this.ajaxselect('/handler/sele_jb_zc.ashx', { pid: pid }, dom);
+            jbzc: function (pid, dom, first) {
+                this.ajaxselect('/handler/sele_jb_zc.ashx', { pid: pid }, dom, first || 1);
             },
-            ajaxselect: function (url, field, dom) {
+            ajaxselect: function (url, field, dom, first) {
                 $.ajax({
                     url: url,
                     type: 'get', dataType: 'json', cache: false, async: false,
@@ -31,7 +31,13 @@
                                 layer.msg(res.msg, { icon: 2, time: 1000, end: function () { window.location.replace("/account/login?rid=" + Math.random()); } });
                             }
                             else {
-                                dom.empty().append($('<option/>', { value: '', text: '' }));
+                                dom.empty();
+                                switch (first) {
+                                    case 1: dom.append($('<option/>', { value: '', text: '' }));
+                                        break;
+                                    case 2: dom.append($('<option/>', { value: '-1', text: '全部' }));
+                                        break;
+                                }
                                 $.each(res, function (i, o) {
                                     dom.append($('<option/>', {
                                         value: o.val,

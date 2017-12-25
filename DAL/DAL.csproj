@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="account\employeeDAL.cs" />
     <Compile Include="account\validateEmailDAL.cs" />
+    <Compile Include="edu_myitemDAL.cs" />
+    <Compile Include="edu_recordDAL.cs" />
     <Compile Include="examPlanDAL.cs" />
     <Compile Include="commentDAL.cs" />
     <Compile Include="companyDAL.cs" />

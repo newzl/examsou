@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
+using System.Data;
 
 namespace BLL.root
 {
@@ -71,6 +72,24 @@ namespace BLL.root
                 using (Common.JsonParse jp = new Common.JsonParse())
                 {
                     return jp.convert(dal.GetName());
+                }
+            }
+        }
+        /// <summary>
+        /// 查看继教项目详细信息
+        /// </summary>
+        /// <param name="itid"></param>
+        /// <returns></returns>
+        public edu_item_detail detail(int itid)
+        {
+            using (DAL.root.edu_itemDAL dal = new DAL.root.edu_itemDAL())
+            {
+                DataSet ds = dal.detail(itid);
+                using (Common.DataParse dp = new Common.DataParse())
+                {
+                    edu_item_detail m = dp.DataRowToEntity<edu_item_detail>(ds.Tables[0].Rows[0]);
+                    m.keJian = dp.DataTableToList<edu_item_detail_keJian>(ds.Tables[1]);
+                    return m;
                 }
             }
         }
