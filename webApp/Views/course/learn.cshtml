@@ -42,6 +42,7 @@
             </ul>
         </div>
     </div>
+    <input type="hidden" id="data" value="@ViewBag.data" />
     <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
     <script src="/scripts/jquery.cookie.js"></script>
     <script src="/layui/layui.js?v=2.2.4"></script>
@@ -58,12 +59,12 @@
                     $('.cou-heig').css('height', $(window).height() - 104);
                     mdom.css('height', $(window).height() - 144);
                     mdom.load('/upload/171212/105123.html', function () {
-                        var inter = timer.counts(tielem, $.cookie(timeCook));
+                        var inter = timer.counts(tielem, '00:60:23');
                         $('#quit').click(function () {
                             window.clearInterval(inter);
                             requ.save({
                                 miid: 5,
-                                kjid:23,
+                                kjid: 23,
                                 minut: timer.minuteAgo(tielem.text()),
                                 timer: tielem.text(),
                                 position: mdom.scrollTop()

@@ -4,7 +4,7 @@
 }
 <br />
 <div class="layui-btn-group">
-    <a href="/eduitem" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe603;</i>我的学习</a>
+    <a href="/myitem" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe603;</i>我的学习</a>
     <a href="/eduitem/search" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索继教项目</a>
 </div>
 <table id="tableDom" lay-filter="tableView"></table>
@@ -27,7 +27,7 @@
             var layer = layui.layer, table = layui.table;
             table.render({
                 elem: '#tableDom', id: 'tableData',
-                url: '/eduitem/myitemlist',
+                url: '/api/myitem',
                 cols: [[
                     { field: 'rows', title: '序号', width: 60, align: 'center' },
                     { title: '项目名称', width: 250, templet: '#nameLet' },
@@ -43,14 +43,14 @@
                 var data = obj.data;
                 if (obj.event === 'begin') { //开始学习
                     $.ajax({
-                        url: '/eduitem/beginlearn',
+                        url: '/api/myitem',
                         type: 'post', dataType: 'json', cache: false,
                         data: { miid: data.id },
                         beforeSend: function () { layer.load(2); },
                         success: function (res) {
                             layer.msg('已经切换项目', {
                                 icon: 1, time: 1000, end: function () {
-                                    window.location.replace("/eduitem?rid=" + Math.random());
+                                    window.location.replace("/myitem?rid=" + Math.random());
                                 }
                             });
                         },
@@ -75,8 +75,8 @@
             });
             function cancelLearn(miid) {
                 $.ajax({
-                    url: '/eduitem/cancel',
-                    type: 'post', dataType: 'json', cache: false,
+                    url: '/api/myitem',
+                    type: 'DELETE', dataType: 'json', cache: false,
                     data: { miid: miid },
                     beforeSend: function () { layer.load(2); },
                     success: function (res) {
@@ -89,4 +89,3 @@
         });
     </script>
 }
-

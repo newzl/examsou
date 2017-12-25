@@ -121,6 +121,9 @@
     <Compile Include="Areas\admin\Controllers\reportController.cs" />
     <Compile Include="Areas\admin\Controllers\sgzjController.cs" />
     <Compile Include="Areas\admin\Controllers\sjzjController.cs" />
+    <Compile Include="Controllers\api\eduindexController.cs" />
+    <Compile Include="Controllers\api\myitemController.cs" />
+    <Compile Include="Controllers\myitemController.cs" />
     <Compile Include="handler\edu_saverecord.ashx.cs">
       <DependentUpon>edu_saverecord.ashx</DependentUpon>
     </Compile>
@@ -164,7 +167,6 @@
     <Compile Include="Controllers\attemptController.cs" />
     <Compile Include="Controllers\courseController.cs" />
     <Compile Include="Controllers\defaultController.cs" />
-    <Compile Include="Controllers\educateController.cs" />
     <Compile Include="Controllers\eduitemController.cs" />
     <Compile Include="Controllers\feedbackController.cs" />
     <Compile Include="Controllers\homeController.cs" />
@@ -1100,7 +1102,6 @@
     <Folder Include="Areas\admin\Views\exammsg\" />
     <Folder Include="Areas\admin\Views\Shared\" />
     <Folder Include="Areas\root\Views\Shared\" />
-    <Folder Include="Controllers\api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1407,13 +1408,12 @@
     <Content Include="handler\edu_saverecord.ashx" />
     <None Include="Properties\PublishProfiles\examWeb.pubxml" />
     <Content Include="Views\default\index.cshtml" />
-    <Content Include="Views\course\index.cshtml" />
     <Content Include="Views\profile\profession.cshtml" />
-    <Content Include="Views\educate\index.cshtml" />
     <Content Include="Views\eduitem\detail.cshtml" />
     <Content Include="Views\eduitem\search.cshtml" />
-    <Content Include="Views\eduitem\index.cshtml" />
-    <Content Include="Views\eduitem\myitem.cshtml" />
+    <Content Include="Views\myitem\index.cshtml" />
+    <Content Include="Views\course\learn.cshtml" />
+    <Content Include="Views\myitem\list.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

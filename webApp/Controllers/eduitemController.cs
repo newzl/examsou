@@ -9,10 +9,10 @@ namespace webApp.Controllers
     {
         #region view
         // GET: eduitem
-        public ActionResult index()
-        {
-            return View();
-        }
+        //public ActionResult index()
+        //{
+        //    return View();
+        //}
         public ActionResult search()
         {
             return View();
@@ -21,10 +21,10 @@ namespace webApp.Controllers
         {
             return View(new BLL.root.edu_itemBLL().detail(id));
         }
-        public ActionResult myitem()
-        {
-            return View();
-        }
+        //public ActionResult myitem()
+        //{
+        //    return View();
+        //}
         #endregion
 
         //GET:/eduitem/searchlist
@@ -61,31 +61,31 @@ namespace webApp.Controllers
             }
             finally { Response.End(); }
         }
-        //我的继教项目list
-        //GET:/eduitem/myitemlist
-        [HttpGet]
-        public void myitemList()
-        {
-            try
-            {
-                Response.Clear();
-                Models.paging pag = new Models.paging()
-                {
-                    table = "edu_myitem a left join edu_item b on a.itid=b.id left join vp_itemTyp c on b.typ=c.id",
-                    order = "a.createTime desc",
-                    field = "a.id,a.itid,b.name,c.name[typ],nian,xf,isSucceed,a.createTime,a.inlearn",
-                    pageSize = 50,
-                    pageNo = 1,
-                    where = "a.eid='" + Utility.employeeLogin.eid + "'"
-                };
-                Response.Write(BLL.pagingBLL.runLaypage(pag));
-            }
-            catch (Exception m)
-            {
-                Response.Write(m.Message);
-            }
-            finally { Response.End(); }
-        }
+        ////我的继教项目list
+        ////GET:/eduitem/myitemlist
+        //[HttpGet]
+        //public void myitemList()
+        //{
+        //    try
+        //    {
+        //        Response.Clear();
+        //        Models.paging pag = new Models.paging()
+        //        {
+        //            table = "edu_myitem a left join edu_item b on a.itid=b.id left join vp_itemTyp c on b.typ=c.id",
+        //            order = "a.createTime desc",
+        //            field = "a.id,a.itid,b.name,c.name[typ],nian,xf,isSucceed,a.createTime,a.inlearn",
+        //            pageSize = 50,
+        //            pageNo = 1,
+        //            where = "a.eid='" + Utility.employeeLogin.eid + "'"
+        //        };
+        //        Response.Write(BLL.pagingBLL.runLaypage(pag));
+        //    }
+        //    catch (Exception m)
+        //    {
+        //        Response.Write(m.Message);
+        //    }
+        //    finally { Response.End(); }
+        //}
         /// <summary>
         /// 立即学习保存
         /// </summary>
@@ -102,21 +102,21 @@ namespace webApp.Controllers
         /// </summary>
         /// <param name="miid"></param>
         /// <returns></returns>
-        [HttpPost]
-        public int beginlearn(int miid)
-        {
-            new BLL.edu_myitemBLL().beginLearn(miid, Utility.employeeLogin.eid);
-            return 1;
-        }
+        //[HttpPost]
+        //public int beginlearn(int miid)
+        //{
+        //    new BLL.edu_myitemBLL().beginLearn(miid, Utility.employeeLogin.eid);
+        //    return 1;
+        //}
         /// <summary>
         /// 取消学习
         /// </summary>
         /// <param name="miid"></param>
         /// <returns></returns>
-        public int cancel(int miid) {
-            new BLL.edu_myitemBLL().delete(miid);
-            return 1;
-        }
+        //public int cancel(int miid) {
+        //    new BLL.edu_myitemBLL().delete(miid);
+        //    return 1;
+        //}
     }
 
     public class eduItemSearchFind

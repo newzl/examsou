@@ -2,49 +2,6 @@
     ViewBag.Title = "搜索继教项目";
     Layout = "~/Views/_layoutMember.cshtml";
 }
-<style>
-    .item-list li {
-        position: relative;
-        height: 120px;
-        padding: 15px 15px 15px 230px;
-        border-bottom: 1px dotted #e2e2e2;
-    }
-
-    .item-list .itemPic {
-        position: absolute;
-        left: 15px;
-        top: 15px;
-    }
-
-        .item-list .itemPic img {
-            vertical-align: middle;
-            border: 0;
-        }
-
-    .item-list .itemName {
-        font-size: 20px;
-        /*display: block;*/
-        color: #2F4056;
-        padding-bottom: 10px;
-    }
-
-    .item-list li p {
-        font-size: 14px;
-        color: #999;
-        line-height: 22px;
-    }
-
-    .item-list li .xf {
-        padding: 0 3px 0 8px;
-        color: #FF5722;
-    }
-
-    .item-list li .layui-btn {
-        position: absolute;
-        top: 56px;
-        right: 15px;
-    }
-</style>
 <blockquote class="layui-elem-quote layui-quote-nm">
     <form class="layui-form layui-form-pane find-panel">
         <div class="layui-form-item">
@@ -75,9 +32,6 @@
         </div>
     </form>
 </blockquote>
-
-
-
 <ul class="item-list" id="itemView"></ul>
 <script type="text/html" id="itemTpl">
     {{# if(d.count > 0){ }}
@@ -92,7 +46,7 @@
                 {{# if(item.miid === null){ }}
                     <a href="javascript:;" class="layui-btn layui-btn-radius beginLearn" data-itid="{{item.id}}">立即学习</a>
                 {{# } else { }}
-                    <a href="/eduitem/myitem" class="layui-btn layui-btn-radius layui-btn-normal">正在学习</a>
+                    <a href="/myitem/list" class="layui-btn layui-btn-radius layui-btn-normal">正在学习</a>
                 {{# } }}
             </li>
         {{# }); }}

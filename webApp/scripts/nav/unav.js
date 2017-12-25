@@ -24,15 +24,15 @@ function getnav(emp, callback) {
         children: [
             {
                 title: '我的学习',
-                href: '/eduitem'
+                href: '/myitem'
             }, {
                 title: '学习记录',
-                href: '/learn/record'
+                href: '/myitem/record'
             }, {
                 title: '我的项目',
-                href: '/eduitem/myitem'
+                href: '/myitem/list'
             }, {
-                title: '继教项目',
+                title: '搜索项目',
                 href: '/eduitem/search'
             }
         ]
