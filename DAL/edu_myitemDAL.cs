@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DAL
@@ -48,6 +49,13 @@ namespace DAL
                                 new SqlParameter("@eid",eid)
                                 };
             SqlHelper.RunProcedure("edu_beginLearn", pars);
+        }
+        //我的学习页获得数据
+        public DataSet edu_index(string eid) {
+            SqlParameter[] pars = {
+                new SqlParameter("@eid",eid)
+            };
+           return SqlHelper.RunProcedure("edu_index", pars,"eduIndes");
         }
     }
 }

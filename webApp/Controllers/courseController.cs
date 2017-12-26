@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace webApp.Controllers
 {
+    [Utility.employeeAuthorize]
     public class courseController : Controller
     {
-        // GET: course
-        public ActionResult index()
+        [Route("course/learn/{kjid:int}/{miid:int}")]
+        public ActionResult learn(int kjid, int miid)
         {
+            ViewBag.data = JsonConvert.SerializeObject(new
+            {
+                miid = miid,
+                kjin = kjid
+            });
             return View();
         }
     }

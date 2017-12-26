@@ -13,11 +13,11 @@ namespace webApp
                 defaults: new { id = RouteParameter.Optional }
             );
             //匹配到action
-            config.Routes.MapHttpRoute(
-                name: "ActionApi",
-                routeTemplate: "actionapi/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            //config.Routes.MapHttpRoute(
+            //    name: "ActionApi",
+            //    routeTemplate: "actionapi/{controller}/{action}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
         }
     }
 }

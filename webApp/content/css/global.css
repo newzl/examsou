@@ -107,6 +107,15 @@
 .find-panel .layui-form-label {width: auto !important;}
 .find-panel .layui-form-item{margin-bottom:0px;}
 
+/*搜索继教项目*/
+.item-list li {position:relative;height:120px;padding:15px 15px 15px 230px;border-bottom:1px dotted #e2e2e2;}
+.item-list .itemPic {position:absolute;left:15px;top:15px;}
+.item-list .itemPic img {vertical-align:middle;border:0;}
+.item-list .itemName {font-size:20px;color:#2F4056;padding-bottom:10px;}
+.item-list li p {font-size:14px;color:#999;line-height:22px;}
+.item-list li .xf {padding:0 3px 0 8px;color:#FF5722;}
+.item-list li .layui-btn {position:absolute;top:56px;right:15px;}
+
 .item-info {position: relative;height: 200px;padding: 15px 15px 15px 330px;}
 .item-info img {position: absolute;left: 15px;top: 15px;}
 .item-info .name {font-size: 20px;display: block;color: #01AAED;padding-bottom: 10px;}

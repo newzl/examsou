@@ -40,7 +40,7 @@ layui.use('form', function () {
                     case 1:
                         if (fd.auto) $.cookie(empCookie, JSON.stringify(res.info), { path: '/', expires: 62 });
                         else $.cookie(empCookie, JSON.stringify(res.info), { path: '/' });
-                        window.location.replace("/eduitem?rid=" + Math.random().toString(36).substr(2));
+                        window.location.replace("/myitem?rid=" + Math.random().toString(36).substr(2));
                         break;
                     default:
                         layer.msg('服务器异常！' + res);
