@@ -14,5 +14,9 @@ namespace webApp.Controllers
         {
             return View();
         }
+        public ActionResult record()
+        {
+            return View();
+        }
     }
 }

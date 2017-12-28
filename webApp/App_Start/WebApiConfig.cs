@@ -6,6 +6,7 @@ namespace webApp
     {
         public static void Register(HttpConfiguration config)
         {
+            config.MapHttpAttributeRoutes();//启用特性路由
             //默认路由
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

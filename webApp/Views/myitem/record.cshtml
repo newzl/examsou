@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "学习记录";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+@section css{
+    <style>
+        .laytable-cell-1-xxjd {height: auto;line-height: initial;overflow: visible;}
+    </style>
+}
+<br />
+<div class="layui-btn-group">
+    <a href="/myitem" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe603;</i>我的学习</a>
+</div>
+<table id="tableView" lay-filter="tableFilter"></table>
+<script type="text/html" id="xxjdTpl">
+    <div class="layui-progress" lay-showpercent="yes">
+        <div class="layui-progress-bar" lay-percent="{{d.minut >= d.total ? '100' : d.minut = 0 ? 0 : (d.minut * 100.0 / d.total).toFixed(2)}}%"></div>
+    </div>
+</script>
+<script type="text/html" id="operTpl">
+    <a href="/course/learn/{{d.miid}}?rid={{Math.random().toString(36).substr(2)}}#!kj={{d.kjid}}" class="layui-btn layui-btn-xs">开始学习</a>
+</script>
+@section js{
+    <script>
+        layui.use(['layer', 'table', 'element'], function () {
+            var layer = layui.layer,
+                table = layui.table,
+                element = layui.element;
+            $.cookie('COURSETIME', null, { path: '/', expires: -1 });//删除正在学习cookie
+            $.ajax({
+                url: '/api/myitem/record',
+                type: 'get', dataType: 'json', cache: false,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    if (res !== null) {
+                        table.render({
+                            elem: '#tableView',
+                            cols: [[
+                              { field: 'title', title: '课件目录', width: 350 },
+                              { field: 'typ', title: '修读类型', width: 90, unresize: true, align: 'center' },
+                              { title: '学时/时长', width: 90, unresize: true, align: 'right', templet: '<span>{{d.xs}} / {{d.sc}}</span>' },
+                              { field: 'timer', title: '学习时间', width: 100, unresize: true, sort: true, style: 'color:red' },
+                              { field: 'xxjd', title: '学习进度', width: 150, unresize: true, templet: '#xxjdTpl' },
+                              { title: '应学', width: 85, align: 'right', unresize: true, templet: '<span>{{d.total}}分钟</span>' },
+                              { title: '已学', width: 85, align: 'right', unresize: true, templet: '<span>{{d.minut}}分钟</span>' },
+                              { field: 'addDate', title: '首次学习', unresize: true, width: 105 },
+                              { field: 'mendTime', title: '最后学习', unresize: true, width: 145 },
+                              { fixed: 'right', width: 90, align: 'center', unresize: true, templet: '#operTpl' }
+                            ]],
+                            data: res,
+                            done: function () {
+                                element.render('progress');
+                            }
+                        });
+                    }
+                    else {
+                        $('.member-content').empty();
+                        layer.alert('没有任何学习记录，现在就开始学习。', { icon: 5, closeBtn: 0, offset: '100px' }, function () {
+                            window.location.replace('/myitem');
+                        });
+                    }
+                },
+                complete: function () { layer.closeAll('loading'); },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
+            });
+            table.on('sort(tableFilter)', function () {
+                element.render('progress');
+            });
+        });
+    </script>
+}

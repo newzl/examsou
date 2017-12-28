@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using Models;
+using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using Utility;
@@ -18,13 +19,27 @@ namespace webApp.Controllers.api
                 field = "a.id,a.itid,b.name,c.name[typ],nian,xf,isSucceed,a.createTime,a.inlearn",
                 pageSize = 50,
                 pageNo = 1,
-                where = "a.eid='" + employeeLogin.eid + "'"
+                where = "b.valid=1 and b.isDel=0 and a.eid='" + employeeLogin.eid + "'"
             };
             return ResponseMessage(
             new HttpResponseMessage
             {
                 Content = new StringContent(
                 BLL.pagingBLL.runLaypage(pag),
+                Encoding.GetEncoding("UTF-8"), "application/json")
+            });
+        }
+        //学习记录
+        [Route("api/myitem/record")]
+        [HttpGet]
+        public IHttpActionResult learnRecord()
+        {
+            string data = new BLL.edu_myitemBLL().learnRecord(employeeLogin.eid);
+            return ResponseMessage(
+            new HttpResponseMessage
+            {
+                Content = new StringContent(
+                string.IsNullOrEmpty(data) ? "null" : data,
                 Encoding.GetEncoding("UTF-8"), "application/json")
             });
         }
@@ -42,9 +57,5 @@ namespace webApp.Controllers.api
             new BLL.edu_myitemBLL().delete(m.miid);
             return Ok(1);
         }
-    }
-    public class myItemPost
-    {
-        public int miid { get; set; }
     }
 }

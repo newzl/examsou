@@ -27,4 +27,8 @@ namespace Models
         public int minut { get; set; }
         public decimal perc { get; set; }
     }
+    public class myItemPost
+    {
+        public int miid { get; set; }
+    }
 }

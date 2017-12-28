@@ -6,14 +6,10 @@ namespace webApp.Controllers
     [Utility.employeeAuthorize]
     public class courseController : Controller
     {
-        [Route("course/learn/{kjid:int}/{miid:int}")]
-        public ActionResult learn(int kjid, int miid)
+        //[Route("course/learn/{kjid:int}/{miid:int}")]
+        public ActionResult learn(int id)
         {
-            ViewBag.data = JsonConvert.SerializeObject(new
-            {
-                miid = miid,
-                kjin = kjid
-            });
+            ViewBag.miid = id;
             return View();
         }
     }

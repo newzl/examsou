@@ -59,5 +59,20 @@ namespace BLL
                 }
             }
         }
+        /// <summary>
+        /// 学习记录list
+        /// </summary>/myitem/record
+        /// <param name="eid"></param>
+        /// <returns></returns>
+        public string learnRecord(string eid)
+        {
+            using (edu_myitemDAL dal = new edu_myitemDAL())
+            {
+                using (Common.JsonParse jp = new Common.JsonParse())
+                {
+                    return jp.ToJson(dal.learnRecord(eid), null);
+                }
+            }
+        }
     }
 }
