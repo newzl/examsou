@@ -48,13 +48,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>职称</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="zc" name="zc" required lay-verify="xue" placeholder="请输入职称" autocomplete="off" autofocus class="layui-input">
+                        <input type="text" id="zc" name="zc" required lay-verify="required" placeholder="请输入职称" autocomplete="off" autofocus class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">首页显示</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                        <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">介绍</label>
+                    <label class="layui-form-label"><b class="requ">*</b>介绍</label>
                     <div class="layui-input-block">
                         <textarea id="detail" name="detail" placeholder="请输入介绍" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
                     </div>

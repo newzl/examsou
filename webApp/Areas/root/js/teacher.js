@@ -43,7 +43,7 @@
             if (parseInt(ds.id) == 0) {
                 layer.msg('保存成功', { icon: 1 });
                 $('#resetForm').click();
-                $('#title').focus();
+                //$('#title').focus();
             }
             else {
                 layer.msg('修改成功', {

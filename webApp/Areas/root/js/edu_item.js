@@ -12,10 +12,7 @@ layui.config({
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
             $('#kid').val(0);
-            //$('#kcurl').val(0);
-            //$('#resetForm').show();
             $('#resetForm').click();
-            //$('#saveForm').show();
             uploadpic.init({ elem: '#upPic', hw: '300x180' });
         }
         else {
@@ -67,7 +64,6 @@ layui.config({
             if (parseInt(ds.id) == 0) {
                 layer.msg('保存成功', { icon: 1 });
                 $('#resetForm').click();
-                $('#title').focus();
             }
             else {
                 layer.msg('修改成功', {

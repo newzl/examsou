@@ -66,7 +66,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>项目类型</label>
                     <div class="layui-input-inline">
-                        <select name="typ" id="typ"></select>
+                        <select name="typ" id="typ" required lay-verify="required"></select>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -96,31 +96,31 @@
                         </div>
                     </div>*@
                 <div class="layui-form-item">
-                    <label class="layui-form-label">练习试题集</label>
+                    <label class="layui-form-label"><b class="requ">*</b>练习试题集</label>
                     <div class="layui-input-inline">
-                        <select name="scidt" id="scidt" lay-filter="scidt"></select>
+                        <select name="scidt" id="scidt" lay-filter="scidt" required lay-verify="required"></select>
                     </div>
                     <div class="layui-input-inline">
-                        <select name="scid" id="scid"></select>
+                        <select name="scid" id="scid" required lay-verify="required"></select>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">首页显示</label>
                         <div class="layui-input-block">
-                            <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                            <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">启用</label>
                         <div class="layui-input-block">
-                            <input type="checkbox" name="opens" id="opens" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用">
+                            <input type="checkbox" name="opens" id="opens" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
                             @*<input type="checkbox" checked lay-skin="switch">*@
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">介绍</label>
+                    <label class="layui-form-label"><b class="requ">*</b>介绍</label>
                     <div class="layui-input-block">
                         <textarea id="detail" name="detail" placeholder="请输入介绍" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
                     </div>

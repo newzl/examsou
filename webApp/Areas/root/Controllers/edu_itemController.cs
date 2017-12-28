@@ -31,7 +31,7 @@ namespace webApp.Areas.root.Controllers
                 if (!string.IsNullOrEmpty(wherejson))
                 {
                     Models.subFind m = JsonConvert.DeserializeObject<Models.subFind>(wherejson);
-                    if (m.leid != "") sb.Append(" and bh='" + m.leid + "'");
+                    if (m.leid != "") sb.Append(" and bh like '%" + m.leid + "%'");
                     //if (m.zid != "") sb.Append(" and sid=" + m.zid);
                     if (m.title != "") sb.Append(" and name like '%" + m.title.Trim() + "%'");
                     //if (m.inputState != -1) sb.Append(" and typ=" + m.inputState);

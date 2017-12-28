@@ -42,7 +42,7 @@
         }
     });
     form.verify({
-        xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学时只能是正整数或正浮点数'],
+        xue: [/^(([0-9]+[\.]?[0-9]{1,1})|[1-9])$/, '学时只能是正整数或小数，并且小数点后面只能有一位数。'],
         minute: [/^[1-9]\d*$/, '学时时长只能是正整数']
     });
     //查询
@@ -55,15 +55,13 @@
     });
     //保存
     form.on('submit(saveForm)', function (d) {
-
         if (d.field.teacher.length == 0 && d.field.author.length == 0) {
             layer.msg('至少选填一个授课老师或作者', { icon: 2, anim: 6 });
             return false;
         }
         else {
-            var ds = d.field,
-
-                fd = {
+            var ds = d.field;
+            save({
                     id: parseInt(ds.id),
                     title: ds.title,
                     itid: ds.itid,
@@ -75,30 +73,27 @@
                     cont_typ: parseInt(ds.contTyp),
                     cont: ds.cont,
                     curl: ds.curl
-                };
-            save(fd, function (res) {
+            }, function (res) {
                 if (parseInt(ds.id) == 0) {
                     layer.msg('保存成功', { icon: 1 });
                     $('#resetForm').click();
-                    $('#title').focus();
                 }
                 else {
-                    layer.msg('修改成功', { icon: 1 });
-                    //layer.msg('修改成功', {
-                    //    icon: 1, 
-                        //time: 500, end: function () {
-                        //    table.reload('tableDom', {
-                        //        page: {
-                        //            hash: 'fenye',
-                        //            curr: 1
-                        //        }
-                        //    });
-                        //    element.tabChange('tabView', 'list');
-                        //}
-                   // });
+                    layer.msg('修改成功', {
+                        icon: 1, time: 500, end: function () {
+                            table.reload('tableDom', {
+                                page: {
+                                    hash: 'fenye',
+                                    curr: location.hash.replace('#!fenye=', '') || 1
+                                }
+                            });
+                            element.tabChange('tabView', 'list');
                 }
             });
         }
+    });
+        };
+        return false;
     });
     table.render({
         elem: '#tableDom', url: '/root/kejian/listdata',
@@ -112,7 +107,7 @@
             { field: 'name', title: '继教项目', width: 210 },
             { field: 'teachers', title: '授课老师', width: 120 },
             { field: 'title', title: '标题', width: 250 },
-            { field: 'author', title: '作者', width: 120 },
+            { field: 'author', title: '作者', width: 100 },
             { field: 'xueshi', title: '学时', width: 100 },
             { field: 'xueshi_minute', title: '学时时长', width: 100 },
             { fixed: 'right', width: 200, align: 'center', toolbar: '#operate' }
