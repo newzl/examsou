@@ -260,6 +260,7 @@
     <Content Include="Areas\admin\static\bmform.html" />
     <Content Include="Areas\admin\static\ksform.html" />
     <Content Include="Areas\admin\static\zcform.html" />
+    <Content Include="Areas\root\js\checks.js" />
     <Content Include="Areas\root\js\edu_item.js" />
     <Content Include="Areas\root\js\glevent.js" />
     <Content Include="Areas\root\js\global.js" />

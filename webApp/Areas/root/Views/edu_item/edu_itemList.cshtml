@@ -70,6 +70,13 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label"><b class="requ">*</b>学时记分</label>
+                    <div class="layui-input-inline">
+                        <input type="number" id="xsNumber" name="xsNumber" required lay-verify="xsNumber" value="6" autocomplete="off" autofocus class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux"><b id="xueMinute">6</b>学时记1学分</div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>学分</label>
                     <div class="layui-input-inline">
                         <input type="text" id="xf" name="xf" placeholder="请输入学分" required lay-verify="xue" autocomplete="off" autofocus class="layui-input">
@@ -84,7 +91,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>负责单位</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="fzdw" name="fzdw" value="新智联" autocomplete=" off" autofocus class="layui-input">
+                        <input type="text" id="fzdw" name="fzdw" value="新智联" autocomplete="off" autofocus class="layui-input">
                     </div>
                 </div>
                 @*<div class="layui-form-item">
@@ -101,7 +108,15 @@
                         <select name="scidt" id="scidt" lay-filter="scidt" required lay-verify="required"></select>
                     </div>
                     <div class="layui-input-inline">
-                        <select name="scid" id="scid" required lay-verify="required"></select>
+                        <select name="scid" id="scid" lay-filter="scid" required lay-verify="required"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item" id="checs">
+                    <label class="layui-form-label">具体题库</label>
+                    <div class="layui-input-block" id="chec">
+                        @*<input type="checkbox" name="like[write]" title="写作">
+                <input type="checkbox" name="like[read]" title="阅读" checked="">
+                <input type="checkbox" name="like[game]" title="游戏">*@
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -142,5 +157,5 @@
 </script>
 @section js{
 <script src="/content/my97date/WdatePicker.js"></script>
-    <script src="/Areas/root/js/edu_item.js?v=1.6.4"></script>
+    <script src="/Areas/root/js/edu_item.js?v=1.6.5"></script>
 }

@@ -23,6 +23,8 @@ namespace Models
         public DateTime createTime { get; set; }
         public bool valid { get; set; }
         public bool isDel { get; set; }
+        public int xsNumber { get; set; }
+        public string scidArr { get; set; }
     }
     //查看继教项目详细信息
     public class edu_item_detail
@@ -37,7 +39,8 @@ namespace Models
         public List<edu_item_detail_keJian> keJian { get; set; }
 
     }
-    public class edu_item_detail_keJian{
+    public class edu_item_detail_keJian
+    {
         public string title { get; set; }
         public string typ { get; set; }
         public string teacher { get; set; }

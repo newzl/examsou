@@ -1,13 +1,26 @@
 ﻿
 layui.config({
     base: '/areas/root/js/'
-}).use(['form', 'table', 'selectr', 'uploadpic'], function () {
-    var form = layui.form, table = layui.table, selectr = layui.selectr, uploadpic = layui.uploadpic;
+}).use(['form', 'table', 'selectr', 'uploadpic', 'checks'], function () {
+    var form = layui.form, table = layui.table, selectr = layui.selectr, uploadpic = layui.uploadpic, check = layui.checks;
     $(function () {
+        $("#checs").hide();
         selectr.cbm(14, $('#typ'));
         selectr.subjectClass(2, $('#scidt'));
-        form.render('select');//从新渲染select不然显示不出来    
+        form.render('select');//从新渲染select不然显示不出来 
+        eve.inputr();
     });
+    var eve = {
+        //输入多少学时记1学分
+        inputr: function () {
+            var xs = $('#xf'), xm = $('#xueMinute');
+            xs.off().on('input', function () {
+                if ($.isNumeric(xs[0].value)) {
+                    xm.text(xs[0].value);
+                }
+            });
+        }
+    };
     //tab切换事件
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
@@ -29,10 +42,17 @@ layui.config({
         else $("#scid").empty();
         form.render('select');
     });
+    form.on('select(scid)', function (sd) {
+        if (sd.value !== '') {
+            $("#checs").show();
+            check.subjectClass(sd.value, $('#chec'));
+        } else $("#chec").empty();
+        form.render('checkbox');
+    });
     //验证
     form.verify({
         xue: [/^(([0-9]+[\.]?[0-9]+)|[1-9])$/, '学分只能是正整数或正浮点数'],
-        //bh: [/^[1-9]\d*$/, '项目编号只能是正整数']
+        xsNumber: [/^[1-9]\d*$/, '学时记分只能是正整数']
     });
     //点击查询
     form.on('submit(findForm)', function (d) {
@@ -46,12 +66,22 @@ layui.config({
     form.on('submit(saveForm)', function (d) {
 
         var ds = d.field;
-        console.log(ds.data);
+        var checkbox_info = document.getElementsByName("like");
+        var check_list = [];
+        for (var key in checkbox_info) {
+            if (checkbox_info[key].checked) {
+                check_list = check_list + checkbox_info[key].value + ',';
+            }
+        }
+        //alert(scidArrs);
+        //console.log(ds);
         save({
             id: parseInt(ds.id),
             bh: ds.bh,
             name: ds.name,
             typ: ds.typ,
+            xsNumber: ds.xsNumber,
+            scidArr: check_list,
             xf: ds.xf,
             fzr: ds.fzr,
             fzdw: ds.fzdw,
@@ -64,6 +94,8 @@ layui.config({
             if (parseInt(ds.id) == 0) {
                 layer.msg('保存成功', { icon: 1 });
                 $('#resetForm').click();
+                $("#checs").hide();
+                uploadpic.init({ elem: '#upPic', hw: '300x180' });
             }
             else {
                 layer.msg('修改成功', {
@@ -131,7 +163,7 @@ layui.config({
     });
     //提交
     function save(d, callback) {
-        //alert(1);
+        console.log(d)
         $.ajax({
             url: '/root/edu_item/save',
             type: 'post', dataType: 'json', cache: false, async: false, data: d,
@@ -155,6 +187,7 @@ layui.config({
                 $('#name').val(res.name);
                 uploadpic.init({ elem: '#upPic', oldpic: res.pic });
                 $('#typ').val(res.typ);
+                $('#xsNumber').val(res.xsNumber);
                 $('#xf').val(res.xf);
                 $('#fzr').val(res.fzr);
                 $('#fzdw').val(res.fzdw);
@@ -162,6 +195,7 @@ layui.config({
                 $('#scidt').val(res.pid);
                 selectr.subjectClass(res.pid, $('#scid'));
                 $('#scid').val(res.scid);
+                checkse(res.scid, res.scidArr);
                 document.getElementById('open').checked = res.isHome;
                 document.getElementById('opens').checked = res.valid;
                 form.render();
@@ -169,7 +203,21 @@ layui.config({
             complete: function () { layer.closeAll('loading'); },
             error: function (msg) { alert('ajaxError:' + msg.responseText); }
         });
-
+    }
+    //获取复选框、给已经选择的复选框加状态
+    function checkse(id, re) {
+        $("#checs").show();
+        check.subjectClass(id, $('#chec'));
+        if (re != null) {
+            var scidArrs = re.split(",");
+            var che = $("input[name='like']")
+            for (var key in che) {
+                $.each(scidArrs, function (index, value) {
+                    if (value == che[key].value)
+                        che[key].checked = true;
+                })
+            }
+        }
     }
 });
 
