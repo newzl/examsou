@@ -60,7 +60,7 @@ namespace webApp.Areas.root.Controllers
         [HttpPost]
         public int Save(edu_item objedu_item)
         {
-            objedu_item.scidArr =objedu_item.scidArr!=null?objedu_item.scidArr.Substring(0, objedu_item.scidArr.Length - 1):"";
+            objedu_item.scidArr = objedu_item.scidArr != null ? objedu_item.scidArr.Substring(0, objedu_item.scidArr.Length - 1) : "";
             int result = new BLL.root.edu_itemBLL().save(objedu_item);
             return result;
 

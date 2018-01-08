@@ -23,6 +23,9 @@
                     xm.text(xs[0].value * xs[1].value);
                 }
             });
+            if ($.isNumeric(xs[0].value) && $.isNumeric(xs[1].value)) {
+                xm.text(xs[0].value * xs[1].value);
+            }
         }
     };
     //tab切换事件
@@ -31,6 +34,7 @@
             $('#kid').val(0);
             $('#kcurl').val(0);
             $('#resetForm').click();
+            eve.inputr();
         }
         else {
             table.reload('tableDom', {
@@ -77,6 +81,7 @@
                 if (parseInt(ds.id) == 0) {
                     layer.msg('保存成功', { icon: 1 });
                     $('#resetForm').click();
+                    eve.inputr();
                 }
                 else {
                     layer.msg('修改成功', {
@@ -173,7 +178,8 @@
                 $('#edit_contTyp').val(res.cont_typ);
                 $('#edit_typ').val(res.typ);
                 $('#cont').val(res.cont);
-                $('#kcurl').val(res.curl)
+                $('#kcurl').val(res.curl);
+                eve.inputr()
                 form.render();
             },
             complete: function () { layer.closeAll('loading'); },

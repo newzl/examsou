@@ -8,24 +8,26 @@ layui.config({
         selectr.cbm(14, $('#typ'));
         selectr.subjectClass(2, $('#scidt'));
         form.render('select');//从新渲染select不然显示不出来 
-        eve.inputr();
+        eve();
     });
-    var eve = {
-        //输入多少学时记1学分
-        inputr: function () {
-            var xs = $('#xf'), xm = $('#xueMinute');
-            xs.off().on('input', function () {
-                if ($.isNumeric(xs[0].value)) {
-                    xm.text(xs[0].value);
-                }
-            });
+    function eve() {
+        var xs = $('#xsNumber'), xm = $('#xueMinute');
+        xs.off().on('input', function () {
+            if ($.isNumeric(xs[0].value)) {
+                xm.text(xs[0].value);
+            }
+        });
+        if ($.isNumeric(xs[0].value)) {
+            xm.text(xs[0].value);
         }
     };
     //tab切换事件
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
+            $("#checs").hide();
             $('#kid').val(0);
             $('#resetForm').click();
+            eve();
             uploadpic.init({ elem: '#upPic', hw: '300x180' });
         }
         else {
@@ -40,13 +42,17 @@ layui.config({
     form.on('select(scidt)', function (sd) {
         if (sd.value !== '') selectr.subjectClass(sd.value, $('#scid'));
         else $("#scid").empty();
+        $("#checs").hide();
         form.render('select');
     });
     form.on('select(scid)', function (sd) {
         if (sd.value !== '') {
             $("#checs").show();
             check.subjectClass(sd.value, $('#chec'));
-        } else $("#chec").empty();
+        } else {
+            $("#chec").empty();
+            $("#checs").hide()
+        }
         form.render('checkbox');
     });
     //验证
@@ -95,6 +101,7 @@ layui.config({
                 layer.msg('保存成功', { icon: 1 });
                 $('#resetForm').click();
                 $("#checs").hide();
+                eve();
                 uploadpic.init({ elem: '#upPic', hw: '300x180' });
             }
             else {
@@ -198,7 +205,9 @@ layui.config({
                 checkse(res.scid, res.scidArr);
                 document.getElementById('open').checked = res.isHome;
                 document.getElementById('opens').checked = res.valid;
+                eve();
                 form.render();
+
             },
             complete: function () { layer.closeAll('loading'); },
             error: function (msg) { alert('ajaxError:' + msg.responseText); }
@@ -206,6 +215,7 @@ layui.config({
     }
     //获取复选框、给已经选择的复选框加状态
     function checkse(id, re) {
+
         $("#checs").show();
         check.subjectClass(id, $('#chec'));
         if (re != null) {

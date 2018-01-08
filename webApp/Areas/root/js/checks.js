@@ -16,6 +16,9 @@
                             $.each(res, function (i, o) {
                                 html = html + "<input type='checkbox' name='like' title='" + o.text + "' value='" + o.val + "' >";
                             });
+                        } else {
+                            dom.empty();
+                            html = html + "<div class='layui-form-mid layui-word-aux'>当前练习试题集中没有题库</div>";
                         }
                         dom.append(html);
                     },
