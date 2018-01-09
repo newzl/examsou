@@ -79,6 +79,11 @@ layui.config({
                 check_list = check_list + checkbox_info[key].value + ',';
             }
         }
+        if (d.field.startDate >= d.field.cutOffDate)
+        {
+            layer.msg('项目开始执行时间不能大于或等于项目截止时间', { icon: 2, anim: 6 });
+            return false;
+        }
         //alert(scidArrs);
         //console.log(ds);
         save({
@@ -94,6 +99,8 @@ layui.config({
             pic: ds.picurl,
             scid: ds.scid,
             detail: ds.detail,
+            startDate: ds.startDate,
+            cutOffDate: ds.cutOffDate,
             isHome: ds.open != null ? true : false,
             valid: ds.opens != null ? true : false
         }, function (res) {
@@ -205,6 +212,12 @@ layui.config({
                 checkse(res.scid, res.scidArr);
                 document.getElementById('open').checked = res.isHome;
                 document.getElementById('opens').checked = res.valid;
+                var date = new Date(parseInt(res.startDate.slice(6)));   //获取到时间  年月日时分秒
+                var result = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();   //获取年月日
+                $('#startDate').val(result == '1-1-1' ? '' : result);
+                var datec = new Date(parseInt(res.cutOffDate.slice(6)));   //获取到时间  年月日时分秒
+                var resultc = datec.getFullYear() + '-' + (datec.getMonth() + 1) + '-' + datec.getDate();   //获取年月日
+                $('#cutOffDate').val(resultc == '1-1-1' ? '' : resultc);
                 eve();
                 form.render();
 

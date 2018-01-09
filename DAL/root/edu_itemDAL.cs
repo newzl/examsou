@@ -33,7 +33,7 @@ namespace DAL.root
         /// <returns></returns>
         public edu_item ByIdEduItem(int id)
         {
-            string sql = "select e.id,s.pId,e.bh,e.name,e.pic,e.typ,e.xsNumber,e.scidArr,e.xf,e.fzr,e.fzdw,e.detail,e.scid,e.isHome,e.valid from edu_item e inner join subjectClass s on e.scid=s.ID where e.id=@id ";
+            string sql = "select e.id,s.pId,e.bh,e.name,e.pic,e.typ,e.xsNumber,e.startDate,e.cutOffDate,e.scidArr,e.xf,e.fzr,e.fzdw,e.detail,e.scid,e.isHome,e.valid from edu_item e inner join subjectClass s on e.scid=s.ID where e.id=@id ";
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@id", id) };
             return SqlHelper.ExecuteEntity<edu_item>(sql, para);
         }
@@ -54,8 +54,8 @@ namespace DAL.root
         /// <returns></returns>
         public int AddEduItem(edu_item objEdu_item)
         {
-            string sql = "insert into edu_item(bh,name,pic,typ,xf,fzr,fzdw,detail,scid,isHome,valid,xsNumber,scidArr)";
-            sql += " values(@bh,@name,@pic,@typ,@xf,@fzr,@fzdw,@detail,@scid,@isHome,@valid,@xsNumber,@scidArr)";
+            string sql = "insert into edu_item(bh,name,pic,typ,xf,fzr,fzdw,detail,scid,isHome,valid,xsNumber,scidArr,startDate,cutOffDate)";
+            sql += " values(@bh,@name,@pic,@typ,@xf,@fzr,@fzdw,@detail,@scid,@isHome,@valid,@xsNumber,@scidArr,@startDate,@cutOffDate)";
             SqlParameter[] para = new SqlParameter[] 
             { 
                       new SqlParameter("@bh",objEdu_item.bh),
@@ -70,6 +70,8 @@ namespace DAL.root
                       new SqlParameter("@scid",objEdu_item.scid),
                       new SqlParameter("@isHome",objEdu_item.isHome),
                       new SqlParameter("@scidArr",objEdu_item.scidArr),
+                      new SqlParameter("@startDate",objEdu_item.startDate),
+                      new SqlParameter("@cutOffDate",objEdu_item.cutOffDate), 
                       new SqlParameter("@valid",objEdu_item.valid)
             };
             return SqlHelper.ExcuteNonQuery(sql, para);
@@ -82,7 +84,7 @@ namespace DAL.root
         public int UpdateEduItem(edu_item objEdu_item)
         {
             string sql = "update edu_item set bh=@bh,name=@name,pic=@pic,typ=@typ,xf=@xf,fzr=@fzr,";
-            sql += " fzdw=@fzdw,detail=@detail,scid=@scid,isHome=@isHome,valid=@valid,xsNumber=@xsNumber,scidArr=@scidArr where id=@id ";
+            sql += " fzdw=@fzdw,detail=@detail,scid=@scid,isHome=@isHome,valid=@valid,xsNumber=@xsNumber,scidArr=@scidArr,startDate=@startDate,cutOffDate=@cutOffDate where id=@id ";
             SqlParameter[] para = new SqlParameter[] 
             { 
                       new SqlParameter("@id",objEdu_item.id),
@@ -98,6 +100,8 @@ namespace DAL.root
                       new SqlParameter("@scid",objEdu_item.scid),
                       new SqlParameter("@isHome",objEdu_item.isHome),
                       new SqlParameter("@scidArr",objEdu_item.scidArr),
+                      new SqlParameter("@startDate",objEdu_item.startDate),
+                      new SqlParameter("@cutOffDate",objEdu_item.cutOffDate),
                       new SqlParameter("@valid",objEdu_item.valid)
             };
             return SqlHelper.ExcuteNonQuery(sql, para);

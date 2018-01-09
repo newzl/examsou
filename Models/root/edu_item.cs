@@ -24,6 +24,8 @@ namespace Models
         public bool valid { get; set; }
         public bool isDel { get; set; }
         public int xsNumber { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime cutOffDate { get; set; }
         public string scidArr { get; set; }
     }
     //查看继教项目详细信息

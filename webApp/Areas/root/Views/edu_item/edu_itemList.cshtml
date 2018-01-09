@@ -64,6 +64,18 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><b class="requ">*</b>项目时间</label>
+                        <div class="layui-input-inline" style="width: 150px;">
+                            <input type="text" id="startDate" name="startDate" required lay-verify="required" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                        </div>
+                        <div class="layui-form-mid">至</div>
+                        <div class="layui-input-inline" style="width: 150px;">
+                            <input type="text" id="cutOffDate" name="cutOffDate" required lay-verify="required" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label"><b class="requ">*</b>项目类型</label>
                     <div class="layui-input-inline">
                         <select name="typ" id="typ" required lay-verify="required"></select>
