@@ -24,9 +24,18 @@ namespace Models
         public bool valid { get; set; }
         public bool isDel { get; set; }
         public int xsNumber { get; set; }
-        public DateTime startDate { get; set; }
-        public DateTime cutOffDate { get; set; }
         public string scidArr { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+        public int chs { get; set; }
+        public Decimal chvs { get; set; }
+        public int mus { get; set; }
+        public Decimal muvs { get; set; }
+        public int jus { get; set; }
+        public Decimal juvs { get; set; }
+        public Decimal scores { get; set; }
+        public Decimal passScore { get; set; }
+        public int useTime { get; set; }
     }
     //查看继教项目详细信息
     public class edu_item_detail

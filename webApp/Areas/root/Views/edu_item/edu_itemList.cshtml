@@ -16,7 +16,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">编号</label>
                             <div class="layui-input-inline" style="width: 120px;">
-                                <input type="text" name="leid" placeholder="请输入项目编号"  autocomplete="off" class="layui-input" />
+                                <input type="text" name="leid" placeholder="请输入项目编号" autocomplete="off" class="layui-input" />
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -48,117 +48,190 @@
                 <input type="hidden" id="kid" name="id" value="0" autocomplete="off" />
                 <input type="hidden" id="kcurl" name="curl" value="0" autocomplete="off" />
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>上传图片</label>
+                    <label class="layui-form-label">项目图片</label>
                     <div class="layui-input-block" id="upPic"></div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>项目编号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="bh" name="bh" required lay-verify="required"  placeholder="请输入项目编号" autocomplete="off" autofocus class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>项目名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="name" name="name" required lay-verify="required" placeholder="请输入项目名称" autocomplete="off" autofocus class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label"><b class="requ">*</b>项目时间</label>
-                        <div class="layui-input-inline" style="width: 150px;">
-                            <input type="text" id="startDate" name="startDate" required lay-verify="required" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
-                        </div>
-                        <div class="layui-form-mid">至</div>
-                        <div class="layui-input-inline" style="width: 150px;">
-                            <input type="text" id="cutOffDate" name="cutOffDate" required lay-verify="required" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onfocus="minDateEve()" />
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>项目类型</label>
-                    <div class="layui-input-inline">
-                        <select name="typ" id="typ" required lay-verify="required"></select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>学时记分</label>
-                    <div class="layui-input-inline">
-                        <input type="number" id="xsNumber" name="xsNumber" required lay-verify="xsNumber" value="6" autocomplete="off" autofocus class="layui-input">
-                    </div>
-                    <div class="layui-form-mid layui-word-aux"><b id="xueMinute">6</b>学时记1学分</div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>学分</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="xf" name="xf" placeholder="请输入学分" required lay-verify="xue" autocomplete="off" autofocus class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>负责人</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="fzr" name="fzr"   value="新智联" autocomplete="off" autofocus class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>负责单位</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="fzdw" name="fzdw" value="新智联" autocomplete="off" autofocus class="layui-input">
-                    </div>
-                </div>
-                @*<div class="layui-form-item">
+                <fieldset class="layui-elem-field" style="margin-top: 10px;">
+                    <legend>考试设置</legend>
+                    <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">授课老师</label>
+                            <label class="layui-form-label">单项选择题</label>
                             <div class="layui-input-inline">
-                                <select name="teacher" id="teacher"></select>
+                                <input type="number" id="chs" name="chs" placeholder="单项选择题数量" lay-verify="chs" autocomplete="off" autofocus class="layui-input chst">
                             </div>
                         </div>
-                    </div>*@
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>练习试题集</label>
-                    <div class="layui-input-inline">
-                        <select name="scidt" id="scidt" lay-filter="scidt" required lay-verify="required"></select>
-                    </div>
-                    <div class="layui-input-inline">
-                        <select name="scid" id="scid" lay-filter="scid" required lay-verify="required"></select>
-                    </div>
-                </div>
-                <div class="layui-form-item" id="checs">
-                    <label class="layui-form-label">具体题库</label>
-                    <div class="layui-input-block" id="chec">
-                        @*<input type="checkbox" name="like[write]" title="写作">
-                <input type="checkbox" name="like[read]" title="阅读" checked="">
-                <input type="checkbox" name="like[game]" title="游戏">*@
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">首页显示</label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">分值</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="chvs" name="chvs" placeholder="单项选择题分值" lay-verify="chvs" autocomplete="off" autofocus class="layui-input chst">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux dx" style="display:none">单项选择题共<b id="chsScores"></b>分</div>
+                            <input type="hidden" id="dzxztzf" value="0" />
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">启用</label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="opens" id="opens" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
-                            @*<input type="checkbox" checked lay-skin="switch">*@
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">多项选择题</label>
+                            <div class="layui-input-inline">
+                                <input type="number" id="mus" name="mus" placeholder="多项选择题数量" lay-verify="mus" autocomplete="off" autofocus class="layui-input must">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">分值</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="muvs" name="muvs" placeholder="多项选择题分值" lay-verify="muvs" autocomplete="off" autofocus class="layui-input must">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux dxt" style="display:none">多项选择题共<b id="musScores"></b>分</div>
+                            <input type="hidden" id="dxxztzf" value="0" />
                         </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><b class="requ">*</b>介绍</label>
-                    <div class="layui-input-block">
-                        <textarea id="detail" name="detail" placeholder="请输入介绍" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">判断题</label>
+                            <div class="layui-input-inline">
+                                <input type="number" id="jus" name="jus" placeholder="判断题数量" lay-verify="jus" autocomplete=" off" autofocus class="layui-input just">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">分值</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="juvs" name="juvs" placeholder="判断题分值" lay-verify="juvs" autocomplete="off" autofocus class="layui-input just">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux pd" style="display:none">判断题共<b id="jusScores"></b>分</div>
+                            <input type="hidden" id="pdtzf" value="0" />
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button type="submit" id="saveForm" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
-                        <button type="reset" id="resetForm" class="layui-btn layui-btn-primary">重置</button>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">答题时间</label>
+                            <div class="layui-input-inline">
+                                <input type="number" id=" useTime" name=" useTime" value="45" lay-verify="number" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">及格分数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="passScore" name="passScore" value="90" required lay-verify="passScore" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">总分</label>
+                            <div class="layui-input-inline" style="width:515px">
+                                <input type="text" id="scores" name="scores" placeholder="总分是根据上面的题数和分数自动生成" autocomplete="off" autofocus class="layui-input" disabled="">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="layui-elem-field" style="margin-top: 10px;">
+                    <legend>项目信息</legend>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="bh" name="bh" required lay-verify="required" placeholder="请输入项目编号" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="name" name="name" required lay-verify="required" placeholder="请输入项目名称" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目类型</label>
+                            <div class="layui-input-inline">
+                                <select name="typ" id="typ" required lay-verify="required"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学分</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="xf" name="xf" placeholder="请输入学分" required lay-verify="xue" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学时记分</label>
+                            <div class="layui-input-inline">
+                                <input type="number" id="xsNumber" name="xsNumber" required lay-verify="xsNumber" value="6" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux"><b id="xueMinute">6</b>学时记1学分</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">负责人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="fzr" name="fzr" value="新智联" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">负责单位</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="fzdw" name="fzdw" value="新智联" autocomplete="off" autofocus class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目时间</label>
+                            <div class="layui-input-inline" style="width: 176px;">
+                                <input type="text" id="startDate" name="startDate" required lay-verify="required" placeholder="yyyy-MM-dd HH:mm" autocomplete="off" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" />
+                            </div>
+                            <div class="layui-form-mid">至</div>
+                            <div class="layui-input-inline" style="width: 176px;">
+                                <input type="text" id="cutOffDate" name="cutOffDate" required lay-verify="required" placeholder="yyyy-MM-dd HH:mm" autocomplete="off" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">练习试题集</label>
+                        <div class="layui-input-inline">
+                            <select name="scidt" id="scidt" lay-filter="scidt" required lay-verify="required"></select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <select name="scid" id="scid" lay-filter="scid" required lay-verify="required"></select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" id="checs">
+                        <label class="layui-form-label">具体题库</label>
+                        <div class="layui-input-block" id="chec">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">首页显示</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="open" id="open" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">启用</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="opens" id="opens" lay-skin="switch" lay-filter="switchTest" lay-text="启用|禁用" checked>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">介绍</label>
+                        <div class="layui-input-block">
+                            <textarea id="detail" name="detail" placeholder="请输入介绍" class="layui-textarea" style="height:145px" required lay-verify="required"></textarea>
+                        </div>
+                    </div>
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="submit" id="saveForm" class="layui-btn" lay-submit lay-filter="saveForm">保存</button>
+                            <button type="reset" id="resetForm" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+</form>
         </div>
     </div>
 </div>
@@ -168,6 +241,6 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 @section js{
-<script src="/content/my97date/WdatePicker.js"></script>
-    <script src="/Areas/root/js/edu_item.js?v=1.2.3"></script>
+    <script src="/content/my97date/WdatePicker.js"></script>
+    <script src="/Areas/root/js/edu_item.js?v=1.3.2"></script>
 }

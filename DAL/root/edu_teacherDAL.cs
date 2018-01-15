@@ -66,9 +66,14 @@ namespace DAL.root
         /// <returns></returns>
         public int DelTeacher(int id)
         {
-            string sql = "update edu_teacher set isDel=1 where id=@id";
-            SqlParameter[] param = new SqlParameter[] { new SqlParameter("@id", id) };
-            return SqlHelper.ExcuteScalre(sql, param);
+            if (new keJianDAL().Existst(id) == 0)
+            {
+                string sql = "update edu_teacher set isDel=1 where id=@id";
+                SqlParameter[] param = new SqlParameter[] { new SqlParameter("@id", id) };
+                return SqlHelper.ExcuteScalre(sql, param);
+            }
+            else
+                return -1;
         }
         /// <summary>
         /// 获取老师

@@ -8,7 +8,7 @@
     element.on('tab(tabView)', function (d) {
         if (d.index === 1) {
             $('#resetForm').click();
-           
+
             uploadpic.init({ elem: '#upPic' });
         }
         else {
@@ -88,7 +88,7 @@
             });
         }
         else if (obj.event === 'edit') {
-            
+
             initentity(data.id);
         }
         else if (obj.event === 'del') {
@@ -98,8 +98,12 @@
                     type: 'post', dataType: 'json', cache: false,
                     data: { id: data.id },
                     success: function (res) {
-                        obj.del();
-                        layer.msg('删除成功', { icon: 1 });
+                        if (res == -1) {
+                            layer.msg('该老师已经参与课件准备，所有不能删除', { icon: 2, anim: 6 });
+                        } else {
+                            obj.del();
+                            layer.msg('删除成功', { icon: 1 });
+                        }
                     },
                     error: function (msg) { alert('ajaxError:' + msg.responseText); }
                 });
@@ -126,7 +130,7 @@
             beforeSend: function () { layer.load(2); },
             success: function (res) {
                 $('#kid').val(res.id);
-                uploadpic.init({ elem: '#upPic',oldpic:res.pic });
+                uploadpic.init({ elem: '#upPic', oldpic: res.pic });
                 $('#name').val(res.name);
                 $('#zc').val(res.zc);
                 $('#detail').val(res.detail);

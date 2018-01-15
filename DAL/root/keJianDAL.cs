@@ -93,5 +93,25 @@ namespace DAL.root
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@id", id) };
             return SqlHelper.ExcuteNonQuery(sql, para);
         }
+        /// <summary>
+        /// 当前项目是否已经在课件使用
+        /// </summary>
+        /// <param name="itid"></param>
+        /// <returns></returns>
+        public int Exists(int itid)
+        {
+            string sql = "select COUNT(*)cun from keJian where itid=" + itid;
+            return SqlHelper.ExcuteScalre(sql);
+        }
+        /// <summary>
+        /// 当前老师是否参加课件
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <returns></returns>
+        public int Existst(int teacher)
+        {
+            string sql = "select COUNT(*)cun from keJian where teacher=" + teacher;
+            return SqlHelper.ExcuteScalre(sql);
+        }
     }
 }
