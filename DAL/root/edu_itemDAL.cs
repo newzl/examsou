@@ -158,7 +158,7 @@ namespace DAL.root
         /// <returns></returns>
         public DataSet detail(int itid)
         {
-            string sql = "select pic,a.name,b.name[typ],xf,bh,fzdw,a.detail from edu_item a left join vp_itemTyp b on a.typ=b.id where a.id=@itid";
+            string sql = "select pic,a.name,b.name[itype],xf,bh,fzr,fzdw,mustTime,scores,passScore,useTime,CONVERT(varchar(16),startDate,25) + ' 至 ' + CONVERT(varchar(16),endDate,25)[qzrq],a.detail from edu_item a left join vp_itemTyp b on a.typ=b.id where a.id=@itid";
             sql += " select title,b.name[typ],case when c.name is not null then c.name else a.author end[teacher],xueshi[xs],xueshi_minute[sc] from keJian a left join vp_learnTyp b on a.typ=b.id left join edu_teacher c on a.teacher=c.id where a.itid=@itid";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@itid", itid) };
             return SqlHelper.ExcuteDataSet(sql, param);

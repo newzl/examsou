@@ -79,16 +79,16 @@ namespace BLL
         /// <summary>
         /// 章节练习获得数据
         /// </summary>
-        /// <param name="sid"></param>
-        /// <param name="lid"></param>
+        /// <param name="eid"></param>
+        /// <param name="scid"></param>
         /// <returns></returns>
-        public static string getChapter(int lid, int sid)
+        public string getChapter(string eid, int scid)
         {
             using (DAL.learnSubjectDAl dal = new DAL.learnSubjectDAl())
             {
                 using (Common.JsonParse jp = new Common.JsonParse())
                 {
-                    return jp.convert(dal.getChapter(lid, sid));
+                    return jp.convert(dal.getChapter(eid, scid));
                 }
             }
         }

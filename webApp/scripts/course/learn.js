@@ -196,9 +196,11 @@
             },
             //隐藏目录
             hideChapter: function () {
-                var sh = $('.cou-shade'), ch = $('.cou-chapter');
-                sh.hide(); ch.children('ul').hide();
-                ch.animate({ width: 0 }, 100);
+                var ch = $('.cou-chapter');
+                if (ch.width() > 0) {
+                    $('.cou-shade').hide(); ch.children('ul').hide();
+                    ch.animate({ width: 0 }, 100);
+                }
             },
             //删除cookie
             delCookie: function () {

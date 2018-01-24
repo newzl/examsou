@@ -11,13 +11,13 @@ namespace webApp
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "learnRoute",
-                url: "practise/{controller}/{lid}/{sid}/{action}/{stype}",
-                defaults: new { controller = "learn", action = "index", stype = UrlParameter.Optional },
-                constraints: new { lid = @"^[0-9]*$", sid = @"^[0-9]*$" },
-                namespaces: new string[] { "webApp.Controllers" }
-            );
+            //routes.MapRoute(
+            //    name: "learnRoute",
+            //    url: "practise/{controller}/{lid}/{sid}/{action}/{stype}",
+            //    defaults: new { controller = "learn", action = "index", stype = UrlParameter.Optional },
+            //    constraints: new { lid = @"^[0-9]*$", sid = @"^[0-9]*$" },
+            //    namespaces: new string[] { "webApp.Controllers" }
+            //);
 
             routes.MapRoute(
                 name: "Default",

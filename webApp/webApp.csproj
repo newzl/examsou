@@ -160,9 +160,22 @@
     <Compile Include="Areas\admin\Controllers\reportController.cs" />
     <Compile Include="Areas\admin\Controllers\sgzjController.cs" />
     <Compile Include="Areas\admin\Controllers\sjzjController.cs" />
+    <Compile Include="Controllers\api\chapterController.cs" />
     <Compile Include="Controllers\api\eduindexController.cs" />
+    <Compile Include="Controllers\api\exam\formalPaperController.cs" />
+    <Compile Include="Controllers\api\exam\readyExamController.cs" />
+    <Compile Include="Controllers\api\exam\showFormalController.cs" />
+    <Compile Include="Controllers\api\exam\showSimulateController.cs" />
+    <Compile Include="Controllers\api\exam\simulatePaperController.cs" />
+    <Compile Include="Controllers\api\exam\simulateRecordController.cs" />
+    <Compile Include="Controllers\api\homeController.cs" />
+    <Compile Include="Controllers\api\learn\collectController.cs" />
+    <Compile Include="Controllers\api\learn\errorBackController.cs" />
+    <Compile Include="Controllers\api\learn\notesController.cs" />
+    <Compile Include="Controllers\api\learn\saveLearnController.cs" />
     <Compile Include="Controllers\api\myitemController.cs" />
     <Compile Include="Controllers\api\recordController.cs" />
+    <Compile Include="Controllers\examController.cs" />
     <Compile Include="Controllers\myitemController.cs" />
     <Compile Include="handler\__edu_saverecord.ashx.cs">
       <DependentUpon>__edu_saverecord.ashx</DependentUpon>
@@ -211,7 +224,6 @@
     <Compile Include="Controllers\feedbackController.cs" />
     <Compile Include="Controllers\homeController.cs" />
     <Compile Include="Controllers\learnController.cs" />
-    <Compile Include="Controllers\learnpublicController.cs" />
     <Compile Include="Controllers\profileController.cs" />
     <Compile Include="Controllers\subjectController.cs" />
     <Compile Include="Global.asax.cs">
@@ -231,9 +243,6 @@
     </Compile>
     <Compile Include="handler\ln_getlearnsx.ashx.cs">
       <DependentUpon>ln_getlearnsx.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="handler\ln_savelearn.ashx.cs">
-      <DependentUpon>ln_savelearn.ashx</DependentUpon>
     </Compile>
     <Compile Include="handler\mem_doctorphoto.ashx.cs">
       <DependentUpon>mem_doctorphoto.ashx</DependentUpon>
@@ -947,7 +956,6 @@
     <Content Include="content\zTree\js\jquery.ztree.exhide.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Hubs\learnSignalR.html" />
     <Content Include="images\dispose.png" />
     <Content Include="images\face\face0001.png" />
     <Content Include="images\face\face1001.png" />
@@ -970,6 +978,16 @@
     <Content Include="images\face\face1018.png" />
     <Content Include="images\face\face1019.png" />
     <Content Include="images\face\face1020.png" />
+    <Content Include="images\hi\1.gif" />
+    <Content Include="images\hi\10.gif" />
+    <Content Include="images\hi\20.gif" />
+    <Content Include="images\hi\30.gif" />
+    <Content Include="images\hi\40.gif" />
+    <Content Include="images\hi\50.gif" />
+    <Content Include="images\hi\60.gif" />
+    <Content Include="images\hi\70.gif" />
+    <Content Include="images\hi\80.gif" />
+    <Content Include="images\hi\90.gif" />
     <Content Include="images\home-tk.jpg" />
     <Content Include="images\home-wszgtk.jpg" />
     <Content Include="images\home-yxtk.jpg" />
@@ -1099,7 +1117,12 @@
     <Content Include="scripts\account\login.js" />
     <Content Include="scripts\account\phoneReg.js" />
     <Content Include="scripts\course\learn.js" />
+    <Content Include="scripts\exam\downCount.js" />
     <Content Include="scripts\exam\examtest.js" />
+    <Content Include="scripts\exam\formal.js" />
+    <Content Include="scripts\exam\formalshow.js" />
+    <Content Include="scripts\exam\simulate.js" />
+    <Content Include="scripts\exam\simulateshow.js" />
     <Content Include="scripts\exportword\FileSaver.js" />
     <Content Include="scripts\exportword\jquery.wordexport.js" />
     <Content Include="scripts\jquery-3.2.1.js" />
@@ -1115,6 +1138,7 @@
     <Content Include="scripts\member\profile\personal.js" />
     <Content Include="scripts\member\profile\profession.js" />
     <Content Include="scripts\mergecell.js" />
+    <Content Include="scripts\modules\exameven.js" />
     <Content Include="scripts\modules\selectr.js" />
     <Content Include="scripts\modules\timer.js" />
     <Content Include="scripts\myitem\index.js" />
@@ -1127,7 +1151,10 @@
     <Content Include="scripts\nav\nnav.js" />
     <Content Include="scripts\nav\unav.js" />
     <Content Include="scripts\modules\validator.js" />
+    <Content Include="upload\171212\01111129.jpg" />
     <Content Include="upload\171212\105123.html" />
+    <Content Include="upload\171212\1130.jpg" />
+    <Content Include="upload\171212\1131.jpg" />
     <Content Include="upload\171212\201709.jpg" />
     <Content Include="upload\171212\6026.jpg" />
     <Content Include="upload\171212\732.jpg" />
@@ -1202,7 +1229,7 @@
     <Content Include="Views\profile\core.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\learn\index.cshtml" />
+    <Content Include="Views\learn\__index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\admin\Views\Web.config" />
@@ -1310,9 +1337,6 @@
     <Content Include="Areas\root\Views\feedback\list.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\learn\learnsx.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\learn\exerch.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1320,9 +1344,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="handler\ln_getlearnsx.ashx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="handler\ln_savelearn.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\learn\exerju.cshtml" />
@@ -1335,9 +1356,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\learn\chapter.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\learn\record.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\root\Views\manCh\list.cshtml" />
@@ -1462,6 +1480,13 @@
     <Content Include="Views\myitem\list.cshtml" />
     <Content Include="scripts\course\learn.min.js" />
     <Content Include="Views\myitem\record.cshtml" />
+    <Content Include="Views\exam\simulate.cshtml" />
+    <Content Include="Views\exam\list.cshtml" />
+    <Content Include="Views\exam\simulatePaper.cshtml" />
+    <Content Include="Views\exam\formalPaper.cshtml" />
+    <Content Include="scripts\exam\simulate.min.js" />
+    <Content Include="Views\exam\simulateShow.cshtml" />
+    <Content Include="Views\exam\formalShow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

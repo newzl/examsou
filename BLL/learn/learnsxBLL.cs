@@ -48,11 +48,11 @@ namespace BLL.learn
         /// <param name="m"></param>
         /// <returns></returns>
 
-        public static int exeSaveLearn(Models.saveLearn m)
+        public void exeSaveLearn(Models.saveLearn m)
         {
             using (DAL.learn.learnsxDAL dal = new DAL.learn.learnsxDAL())
             {
-                return dal.exeSaveLearn(m);
+                dal.exeSaveLearn(m);
             }
         }
     }

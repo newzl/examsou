@@ -55,11 +55,12 @@ namespace DAL
         /// </summary>/myitem
         /// <param name="eid"></param>
         /// <returns></returns>
-        public DataSet edu_index(string eid) {
+        public DataSet edu_index(string eid)
+        {
             SqlParameter[] pars = {
                 new SqlParameter("@eid",eid)
             };
-           return SqlHelper.RunProcedure("edu_index", pars,"eduIndes");
+            return SqlHelper.RunProcedure("edu_index", pars, "eduIndes");
         }
         /// <summary>
         /// 学习记录list
@@ -72,6 +73,28 @@ namespace DAL
                 new SqlParameter("@eid",eid)
             };
             return SqlHelper.RunProcedure("edu_learnRecord", pars);
+        }
+        /// <summary>
+        /// 通过eid获得用户正在学习的项目
+        /// </summary>
+        /// <param name="eid"></param>
+        /// <returns></returns>
+        public Models.edu_myitem_inlearn inlearn(string eid)
+        {
+            string sql = "select id[miid],itid from edu_myitem where inlearn=1 and eid=@eid";
+            SqlParameter[] pars = {
+                new SqlParameter("@eid",eid)
+            };
+            return SqlHelper.ExecuteEntity<Models.edu_myitem_inlearn>(sql, pars);
+        }
+
+        public DataTable getMyitem(string eid)
+        {
+            string sql = "select id,itid,name,typ,xf,mustTime,isSucceed,inlearn,createTime,isValid,qzrq from v_myitem where eid=@eid";
+            SqlParameter[] pars = {
+                new SqlParameter("@eid",eid)
+            };
+            return SqlHelper.ExcuteDataTable(sql, pars);
         }
     }
 }

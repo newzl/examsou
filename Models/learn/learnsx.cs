@@ -8,20 +8,20 @@ namespace Models
 {
     public class learnsx
     {
-        public int lid { get; set; }
-        public int sid { get; set; }
+        public int miid { get; set; }
+        public int scid { get; set; }
         public string stype { get; set; }
         public int fx { get; set; }
         public int row { get; set; }
     }
     public class learnks {
-        public int sid { get; set; }
+        public int scid { get; set; }
         public string stype { get; set; }
         public int page { get; set; }
     }
     public class saveLearn {
-        public int lid { get; set; }
-        public int sid { get; set; }
+        public int miid { get; set; }
+        public int scid { get; set; }
         public string stype { get; set; }
         public int row { get; set; }
         public int kid { get; set; }

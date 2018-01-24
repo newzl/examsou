@@ -74,5 +74,27 @@ namespace BLL
                 }
             }
         }
+        /// <summary>
+        /// 通过eid获得用户正在学习的项目
+        /// </summary>
+        /// <param name="eid"></param>
+        /// <returns></returns>
+        public Models.edu_myitem_inlearn inlearn(string eid)
+        {
+            using (edu_myitemDAL dal = new edu_myitemDAL())
+            {
+                return dal.inlearn(eid);
+            }
+        }
+        public string getMyitem(string eid)
+        {
+            using (edu_myitemDAL dal = new edu_myitemDAL())
+            {
+                using (Common.JsonParse jp = new Common.JsonParse())
+                {
+                    return jp.ToJson(dal.getMyitem(eid));
+                }
+            }
+        }
     }
 }

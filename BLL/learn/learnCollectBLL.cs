@@ -13,13 +13,13 @@ namespace BLL.learn
         /// </summary>
         /// <param name="m"></param>
         /// <returns>新插入ID</returns>
-        public static int save(Models.learnCollect m)
+        public int save(Models.learnCollect m)
         {
             using (DAL.learn.learnCollectDAL dal = new DAL.learn.learnCollectDAL())
             {
-                if (m.cid > 0)
+                if (m.coid > 0)
                 {
-                    return dal.delete(m.cid);
+                    return dal.delete(m.coid);
                 }
                 else
                 {

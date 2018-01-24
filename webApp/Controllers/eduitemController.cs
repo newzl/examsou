@@ -28,25 +28,25 @@ namespace webApp.Controllers
             {
                 Response.Clear();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("valid=1 and isDel=0 and runDate<=GETDATE()");
+                sb.Append("valid=1 and isDel=0 and GETDATE() between startDate and endDate ");
                 string wherejson = Request.QueryString["wherejson"];
                 if (!string.IsNullOrEmpty(wherejson))
                 {
                     eduItemSearchFind m = JsonConvert.DeserializeObject<eduItemSearchFind>(wherejson);
                     if (m.scid >= 0) sb.Append(" and scid =" + m.scid);
-                    if (m.name != "") sb.Append("and (a.name like '%" + m.name.Trim() + "%' or bh like '%" + m.name.Trim() + "%')");
+                    if (m.name != "") sb.Append(" and (a.name like '%" + m.name.Trim() + "%' or bh like '%" + m.name.Trim() + "%')");
                     if (m.typ >= 0) sb.Append(" and typ=" + m.typ);
                 }
                 Models.paging pag = new Models.paging()
                 {
-                    table = "edu_item a left join vp_itemTyp b on a.typ=b.id left join (select id,itid from edu_myitem where nian=DATEPART(Year,GETDATE())and eid='" + employeeLogin.eid + "') c on a.id=c.itid",
+                    table = "edu_item a left join vp_itemTyp b on a.typ=b.id left join (select id,itid from edu_myitem where eid='" + employeeLogin.eid + "') c on a.id=c.itid",
                     order = "a.createTime desc",
-                    field = "a.id,pic,a.name,b.name[itemTyp],xf,learns,bh,fzdw,c.id[miid]",
+                    field = "a.id,pic,a.name,b.name[itype],xf,learns,bh,mustTime,startDate,endDate,c.id[miid]",
                     pageSize = 10,
                     pageNo = Convert.ToInt32(Request.QueryString["page"]),
                     where = sb.ToString()
                 };
-                Response.Write(BLL.pagingBLL.runpage(pag));
+                Response.Write(BLL.pagingBLL.runpage(pag,null));
             }
             catch (Exception m)
             {

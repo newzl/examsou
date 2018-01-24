@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "我的考试";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">我的考试</li>
+        <li><a href="/exam/simulate">模拟考试</a></li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote readyExam" id="readyExamView"></blockquote>
+            <script type="text/html" id="readyExamTpl">
+                <p>{{d.name}}</p>
+                <table>
+                    <tr>
+                        <td>考试总分：{{d.scores}}分</td>
+                        <td>及格分数：{{d.passScore}}分</td>
+                        <td>答题时间：{{d.useTime}}分钟</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">起止时间：{{d.qzrq}}</td>
+                    </tr>
+                </table>
+                <div class="operate">
+                    {{# if(d.allow){ }}
+                    <a href="/exam/formal/{{d.miid}}/{{d.itid}}?rid={{Math.random().toString(36).substr(2)}}" class="layui-btn layui-btn-radius layui-btn-big" style="margin-top:10px;">开 始 考 试</a>
+                    {{# } else { }}
+                    <h4 style="color:red;line-height:38px;margin-top: 10px;">必修课还未学完不能参加考试</h4>
+                    {{# } }}
+                </div>
+            </script>
+            <table id="tableView"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-xs" target="_blank" href="/exam/formalshow/{{d.ansid}}?rid={{Math.random().toString(36).substr(2)}}">查看试卷</a>
+</script>
+@section js{
+    <script>
+        layui.use(['table', 'layer', 'laytpl'], function () {
+            var table = layui.table,
+                layer = layui.layer,
+                laytpl = layui.laytpl;
+            $(document).off('click', '.layui-tab-title li');//移除tab事件
+            table.render({
+                elem: '#tableView',
+                cellMinWidth: 80,
+                page: { layout: ['prev', 'page', 'next', 'count'], first: false, last: false },
+                cols: [[
+                  { field: 'rows', title: '序号', width: 65, unresize: true, align: 'center' },
+                  { field: 'number', title: '题数', unresize: true, align: 'right', templet: '<span>{{d.number}}题</span>' },
+                  { field: 'chscore', title: '单选题', unresize: true, align: 'right', templet: '<span>{{d.chscore}}分</span>' },
+                  { field: 'muscore', title: '多选题', unresize: true, align: 'right', templet: '<span>{{d.muscore}}分</span>' },
+                  { field: 'juscore', title: '判断题', unresize: true, align: 'right', templet: '<span>{{d.juscore}}分</span>' },
+                  { field: 'scores', title: '总成绩', unresize: true, align: 'right', templet: '<span>{{d.scores}}分</span>' },
+                  { field: 'isPass', title: '是否及格', width: 90, unresize: true, align: 'center', templet: '<span>{{d.isPass?"及格":"不及格"}}</span>' },
+                  { field: 'usetime', title: '考试用时', width: 90, unresize: true },
+                  { field: 'examTime', title: '考试时间', width: 145, unresize: true },
+                  { align: 'center', unresize: true, toolbar: '#barTpl' }
+                ]]
+            });
+            $.ajax({
+                url: '/api/readyexam',
+                type: 'get', dataType: 'json', cache: false,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    if (res.code === 1) {
+                        laytpl(readyExamTpl.innerHTML).render(res.data, function (htm) {
+                            $('#readyExamView').html(htm);
+                        });
+                        var da = res.data;
+                        if (da.allow) {
+                            table.reload('tableView', {
+                                url: '/api/exam/list',
+                                where: { miid: da.miid }
+                            });
+                        }
+                    }
+                    else {
+                        layer.msg('继教项目已过期', {
+                            icon: 2, end: function () {
+                                window.location.replace('/myitem/list');
+                            }
+                        });
+                    }
+                },
+                complete: function () { layer.closeAll('loading'); },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
+            });
+        });
+    </script>
+}

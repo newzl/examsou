@@ -25,12 +25,12 @@ namespace DAL.learn
         ~learnCommonDAL() { Dispose(false); }
         #endregion
         //获得学习基本信息
-        public Models.learnInfo getLearnBaseInfo(int lid, int sid, string stype)
+        public Models.learnInfo getLearnBaseInfo(int miid, int scid, string stype)
         {
-            string sql = "select name[sname],chs,mus,jus,fis,qas,lss,mcs,[rows] from subjectClass a left join(select [sid],[rows] from learnHistory where lid=@lid and [sid]=@sid and stype=@stype) b on b.[sid]=a.ID where a.ID=@sid";
+            string sql = "select chs,mus,jus,fis,qas,mcs,[rows],CONVERT(varchar(16),mendTime,25)[time] from subjectClass a left join(select * from learnHistory where miid=@miid and scid=@scid and stype=@stype) b on b.scid=a.ID where a.ID=@scid";
             SqlParameter[] pars = {
-                                new SqlParameter("@lid",lid),
-                                new SqlParameter("@sid",sid),
+                                new SqlParameter("@miid",miid),
+                                new SqlParameter("@scid",scid),
                                 new SqlParameter("@stype",stype)
                                 };
             return SqlHelper.ExecuteEntity<Models.learnInfo>(sql, pars);

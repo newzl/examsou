@@ -50,7 +50,10 @@
     <Compile Include="companyDAL.cs" />
     <Compile Include="departmentDAL.cs" />
     <Compile Include="exam\examTestDAL.cs" />
+    <Compile Include="exam\formalDAL.cs" />
+    <Compile Include="exam\simulateDAL.cs" />
     <Compile Include="feedbackDAL.cs" />
+    <Compile Include="homeDAL.cs" />
     <Compile Include="jbzcDAL.cs" />
     <Compile Include="learn\learnCollectDAL.cs" />
     <Compile Include="learn\learnCommonDAL.cs" />

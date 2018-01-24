@@ -19,7 +19,7 @@ namespace webApp.handler
                 context.Response.ContentType = "application/json";
                 Models.learnks m = new Models.learnks
                 {
-                    sid = Convert.ToInt32(context.Request.QueryString["sid"]),
+                    scid = Convert.ToInt32(context.Request.QueryString["scid"]),
                     stype = context.Request.QueryString["stype"],
                     page = Convert.ToInt32(context.Request.QueryString["page"])
                 };

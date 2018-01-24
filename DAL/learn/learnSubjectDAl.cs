@@ -92,14 +92,14 @@ namespace DAL
         /// <summary>
         /// 章节练习获得数据
         /// </summary>
-        /// <param name="sid"></param>
-        /// <param name="lid"></param>
+        /// <param name="eid"></param>
+        /// <param name="scid"></param>
         /// <returns></returns>
-        public DataTable getChapter(int lid,int sid)
+        public DataTable getChapter(string eid, int scid)
         {
             SqlParameter[] pars = {
-                                new SqlParameter("@lid",lid),
-                                new SqlParameter("@sid",sid)
+                                new SqlParameter("@eid",eid),
+                                new SqlParameter("@scid",scid)
                                 };
             return SqlHelper.RunProcedure("[ln_chapter]", pars);
         }

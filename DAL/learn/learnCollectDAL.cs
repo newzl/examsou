@@ -25,31 +25,30 @@ namespace DAL.learn
         ~learnCollectDAL() { Dispose(false); }
         #endregion
         /// <summary>
-        /// 保存收藏
+        /// 保存收藏，返回插入ID
         /// </summary>
         /// <param name="m"></param>
         /// <returns>新插入ID</returns>
         public int save(Models.learnCollect m)
         {
-            string sql = "if not exists(select id from learnCollect where lid=@lid and [sid]=@sid and stype=@stype and kid=@kid) begin insert into learnCollect(lid,[sid],stype,kid)values(@lid,@sid,@stype,@kid)select @@IDENTITY end";
+            string sql = "if not exists(select * from learnCollect where miid=@miid and stype=@stype and kid=@kid) begin insert into learnCollect(miid,stype,kid)values(@miid,@stype,@kid)select @@IDENTITY end";
             SqlParameter[] pars = {
-                                new SqlParameter("@lid",m.lid),
-                                new SqlParameter("@sid",m.sid),
-                                new SqlParameter("@stype",m.stype),
-                                new SqlParameter("@kid",m.kid)
-                                };
+                new SqlParameter("@miid",m.miid),
+                new SqlParameter("@stype",m.stype),
+                new SqlParameter("@kid",m.kid)
+            };
             return SqlHelper.ExcuteScalre(sql, pars);
         }
         /// <summary>
         /// 删除收藏
         /// </summary>
         /// <param name="cid"></param>
-        public int delete(int cid)
+        public int delete(int id)
         {
-            string sql = "delete learnCollect where id=@cid";
+            string sql = "delete learnCollect where id=@id";
             SqlParameter[] pars = {
-                                new SqlParameter("@cid",cid)
-                                };
+                new SqlParameter("@id",id)
+            };
             return SqlHelper.ExcuteNonQuery(sql, pars);
         }
     }

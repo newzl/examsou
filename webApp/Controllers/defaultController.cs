@@ -7,7 +7,6 @@ namespace webApp.Controllers
         // GET: default
         public ActionResult index()
         {
-            ViewBag.isLogin = Utility.employeeLogin.isLogin;
             return View();
         }
     }

@@ -6,30 +6,50 @@
 <div class="item-info">
     <img src="@Model.pic" style="width: 300px;height: 200px">
     <p class="name">@Model.name</p>
-    <p>项目类型：@Model.typ<b class="xf">@Model.xf</b>学分</p>
-    <p>项目编号：@Model.bh</p>
-    <p>负责单位：@Model.fzdw</p>
-    <p>项目介绍：</p>
-    <p style="color:#c2c2c2">@Model.detail</p>
+    <table>
+        <tr>
+            <td>项目类型：@Model.itype<b class="xf">@Model.xf.ToString("0.##")</b>学分</td>
+            <td>项目编号：@Model.bh</td>
+            <td>必修学时：@Model.mustTime 分钟</td>
+        </tr>
+        <tr>
+            <td>考试满分：@Model.scores.ToString("0.##") 分</td>
+            <td>及格分数：@Model.passScore.ToString("0.##") 分</td>
+            <td>答题时间：@Model.useTime 分钟</td>
+        </tr>
+        <tr>
+            <td>负&ensp;责&ensp;人：@Model.fzr</td>
+            <td colspan="2">负责单位：@Model.fzdw</td>
+        </tr>
+        <tr>
+            <td colspan="3">起止时间：@Model.qzrq</td>
+        </tr>
+        <tr>
+            <td colspan="3">项目介绍：@Model.detail</td>
+        </tr>
+    </table>
 </div>
 <table class="layui-table" lay-skin="line">
     <thead>
         <tr>
             <th style="width:700px">课件目录</th>
             <th style="width:80px">修读类型</th>
-            <th style="width:80px">授课老师</th>
-            <th style="width:100px">学时/时长</th>
+            <th style="width:80px;text-align:center;">授课老师</th>
+            <th style="width:100px;text-align:right">学时/时长</th>
         </tr>
     </thead>
     <tbody class="layui-form">
-        @foreach (var item in @Model.keJian)
+        @if (@Model.keJian != null)
         {
-            <tr>
-                <td>@item.title</td>
-                <td>@item.typ</td>
-                <td>@item.teacher</td>
-                <td>@item.xs / @item.sc</td>
-            </tr>
+            foreach (var item in @Model.keJian)
+            {
+                <tr>
+                    <td>@item.title</td>
+                    <td>@item.typ</td>
+                    <td style="text-align:center">@item.teacher</td>
+                    <td style="text-align:right">@item.xs.ToString("0.##") / @item.sc.ToString("0.##")</td>
+                </tr>
+            }
         }
     </tbody>
 </table>

@@ -7,18 +7,20 @@
     <a href="/myitem" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe603;</i>我的学习</a>
     <a href="/eduitem/search" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索继教项目</a>
 </div>
-<table id="tableDom" lay-filter="tableView"></table>
+<table id="tableView" lay-filter="tableView"></table>
 <script type="text/html" id="nameLet">
     <a href="/eduitem/detail/{{d.itid}}" target="_blank" title="{{d.name}}" style="color: #01AAED;">{{d.name}}</a>
 </script>
 <script type="text/html" id="operateLet">
     <div class="layui-btn-group">
+        {{# if(d.isValid){ }}
         {{# if(d.inlearn){ }}
         <a href="/myitem" class="layui-btn layui-btn-xs layui-btn-normal"><i class="layui-icon">&#xe60e;</i>正在学习</a>
         {{# } else { }}
         <a class="layui-btn layui-btn-xs" lay-event="begin"><i class="layui-icon">&#xe609;</i>开始学习</a>
+        {{# if(!d.isSucceed){ }}
         <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="cancel" title="取消学习"><i class="layui-icon">&#xe640;</i></a>
-        {{# } }}
+        {{# } } } }}
     </div>
 </script>
 @section js{
@@ -26,18 +28,31 @@
         layui.use(['layer', 'table'], function () {
             var layer = layui.layer, table = layui.table;
             table.render({
-                elem: '#tableDom', id: 'tableData',
-                url: '/api/myitem',
+                elem: '#tableView',
                 cols: [[
-                    { field: 'rows', title: '序号', width: 60, align: 'center' },
-                    { title: '项目名称', width: 250, templet: '#nameLet' },
-                    { field: 'typ', title: '项目类型', width: 100, align: 'center' },
-                    { field: 'nian', title: '学习年度', width: 90, align: 'center' },
-                    { title: '学分', width: 80, align: 'center', templet: '<span>{{ d.xf }}分</span>' },
-                    { title: '是否完成', width: 100, align: 'center', templet: "<span>{{ d.isSucceed?'完成':'未完成' }}</span>" },
-                    { field: 'createTime', title: '学习日期', width: 120, align: 'center' },
-                    { width: 141, toolbar: '#operateLet' }
+                    { type: 'numbers', title: '序号', width: 60, unresize: true, align: 'center' },
+                    { title: '项目名称', width: 300, templet: '#nameLet' },
+                    { field: 'typ', title: '项目类型', width: 90, unresize: true, align: 'center' },
+                    { title: '必修学时', width: 90, unresize: true, align: 'right', templet: '<span>{{ d.mustTime }}分钟</span>' },
+                    { title: '学分', width: 70, unresize: true, align: 'right', templet: '<span>{{ d.xf }}分</span>' },
+                    { title: '是否完成', width: 90, unresize: true, align: 'center', templet: "<span>{{ d.isSucceed?'完成':'未完成' }}</span>" },
+                    { title: '学习状态', width: 90, unresize: true, align: 'center', templet: "<span>{{ d.isValid?'正在学习':'已过期' }}</span>" },
+                    { field: 'qzrq', title: '起止日期', width: 280, unresize: true },
+                    { field: 'createTime', title: '添加日期', width: 105, unresize: true },
+                    { fixed: 'right', width: 135, unresize: true, toolbar: '#operateLet' }
                 ]]
+            });
+            $.ajax({
+                url: '/api/myitem',
+                type: 'get', dataType: 'json', cache: false,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    table.reload('tableView', {
+                        data: res
+                    });
+                },
+                complete: function () { layer.closeAll('loading'); },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
             });
             table.on('tool(tableView)', function (obj) {
                 var data = obj.data;
@@ -73,6 +88,7 @@
                     });
                 }
             });
+
             function cancelLearn(miid) {
                 $.ajax({
                     url: '/api/myitem',

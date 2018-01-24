@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="Keywords" content="新智联,新智联在线,新智联在线学习平台,新智联在线考试平台,在线学习,在线考试,贵阳市继续医学教育,贵阳市继教" />
+    <meta name="Keywords" content="新智联,新智联在线,新智联在线学习平台,新智联在线学习平台,在线学习,在线考试,贵阳市继续医学教育,贵阳市继教" />
     <meta name="Description" content="贵州省,贵阳市,新智联,学习,在线学习,在线考试,在线学习考试,医师,执业医师,贵阳市继续医学教育,贵阳市继教" />
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width" />
@@ -22,53 +22,60 @@
                 <li class="layui-nav-item"><a href="javascript:;">快速导航</a></li>
                 <li class="layui-nav-item"><a href="javascript:;" target="_blank">平台简介</a></li>
             </ul>
-            <ul class="layui-nav edu-nav-user">
-                @if (Convert.ToBoolean(ViewBag.isLogin))
-                {
-                    <li class="layui-nav-item"><a href="/myitem"><img src="/images/face/face1012.png" class="layui-nav-img" />王建国</a></li>
-                }
-                else
-                {
-                    <li class="layui-nav-item"><a href="/account/login">登录</a></li>
-                    <li class="layui-nav-item"><a href="/account/reg">注册</a></li>
-                }
+            <ul class="layui-nav edu-nav-user" id="navUserView">
+                <li class="layui-nav-item"><a href="/account/login">登录</a></li>
+                <li class="layui-nav-item"><a href="/account/reg">注册</a></li>
             </ul>
+            <script type="text/html" id="navUserTpl">
+                <li class="layui-nav-item"><a href="/myitem"><img src="{{d.photo!==null?d.photo:'/images/face/face0001.png'}}" class="layui-nav-img" />{{d.name!==null?d.name:'游客'}}</a></li>
+            </script>
         </div>
     </div>
     <div class="edu-case-header">
-        <p class="edu-case-title">贵阳市继续医学教育在线学习平台</p>
+        <p class="edu-case-title">基层医疗继续医学教育在线学习平台</p>
         <p class="edu-case-detail">实现无纸化继续医学教育网络学习，提高卫生技术人员专业能力和业务水平及服务质量</p>
     </div>
     <div class="layui-main">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md4">
                 <div class="edu-menunav">
-                    <div class="userInfo">
-                        <img src="~/images/face/face1012.png" />
-                        <p class="userName">
-                            <a href="#">王建国</a>
-                            <i class="layui-icon sex nan">&#xe662;</i>
-                            @*<i class="layui-icon sex nv">&#xe661;</i>*@
-                            <b class="layui-badge">VIP3</b>
-                        </p>
-                        <p class="detail layui-elip">贵阳市第一人民医院</p>
-                        <p class="detail">
-                            <i class="layui-icon" style="margin-left:0" title="我的学分">&#xe63c;</i>2分
-                            <i class="layui-icon" title="登录时间">&#xe60e;</i>2017-12-15 17:32
-                        </p>
+                    <div class="userInfo" id="userInfoView">
+                        <img src="/images/face/face0001.png" />
+                        <div class="edu-login" style="text-align:center;line-height:90px;">
+                            <a href="/account/login" class="layui-btn layui-btn-radius">现在登录</a>
+                            <a href="/account/reg" class="layui-btn layui-btn-radius layui-btn-primary">立即注册</a>
+                        </div>
                     </div>
+                    <script type="text/html" id="userInfoTpl">
+                        <img src="{{d.photo!==null?d.photo:'/images/face/face0001.png'}}" />
+                        <p class="userName">
+                            <a href="/profile/personal">{{d.name!==null?d.name:'游客'}}</a>
+                            {{# if(d.sex!==null){}}
+                            {{# if(d.sex===1){}}
+                            <i class="layui-icon sex nan">&#xe662;</i>
+                            {{# } else { }}
+                            <i class="layui-icon sex nv">&#xe661;</i>
+                            {{# } } }}
+                        </p>
+                        <p class="detail layui-elip">{{d.company!==null?d.company:'个人账号'}}</p>
+                        <p class="detail">
+                            <i class="layui-icon" style="margin-left:0" title="登录次数">&#xe63c;</i>{{d.logins}}次
+                            <i class="layui-icon" title="登录时间">&#xe60e;</i>{{d.time}}
+                        </p>
+                    </script>
+
                     <div class="layui-row layui-col-space5 menuNav" style="padding:0 5px;">
                         <div class="layui-col-md4">
-                            <a href="#" class="action" style="color:#DAA520;">
+                            <a href="/myitem/record" class="action" style="color:#DAA520;">
                                 <i class="layui-icon">&#xe705;</i>
                                 <p>学习记录</p>
                             </a>
 
                         </div>
                         <div class="layui-col-md4">
-                            <a href="#" class="action" style="color:#5FB878;">
+                            <a href="/learn/chapter" class="action" style="color:#5FB878;">
                                 <i class="layui-icon">&#xe857;</i>
-                                <p>医考题库</p>
+                                <p>题库练习</p>
                             </a>
                         </div>
                         <div class="layui-col-md4">
@@ -119,11 +126,12 @@
             <div class="layui-col-md3">
                 <div class="edu-item">
                     <a href="#" class="edu-itemPic"><img src="{{item.pic}}" style="width: 100%; border: 0;" /></a>
-                    <a href="#" class="edu-itemName layui-elip">{{item.name}}</a>
+                    <a href="#" class="edu-itemName layui-elip" title="{{item.name}}">{{item.name}}</a>
                     <div class="edu-info">
                         <span class="type">{{item.type}}<b>{{item.xf}}</b>学分</span>
                         <span class="learns"><span>{{item.learns}}</span>人在学</span>
-                        <p class="company">{{item.fzdw}}</p>
+                        <p>必修学时：{{item.bxxs}}分钟</p>
+                        <p>{{item.qzrq}}</p>
                     </div>
                 </div>
             </div>
@@ -132,7 +140,10 @@
         {{# } }}
         {{# }); }}
     </script>
-
+    <br />
+    <div class="layui-main" style="text-align:center;">
+        <a href="/eduitem/search" style="color: #bbb">更多项目</a>
+    </div>
     <div class="layui-main">
         <div class="edu-panel">
             <p class="edu-panel-title">
@@ -147,11 +158,11 @@
                     {{# } }}
                     <div class="layui-col-md6">
                         <blockquote class="layui-elem-quote layui-quote-nm doctor">
-                            <img src="{{item.pic}}"/>
+                            <img src="{{item.pic}}" />
                             <p style="cursor:default">
                                 <span class="doc-name">{{item.name}}</span>
                                 <span class="doc-zc">{{item.zc}}</span>
-                                <span class="doc-kj">共{{item.kj}}个教程</span>
+                                <span class="doc-kj">共{{item.kj}}个课件</span>
                             </p>
                             <div class="doc-detail">{{item.detail}}</div>
                         </blockquote>
@@ -164,96 +175,45 @@
         </div>
     </div>
     <div class="footer">
-        <p>Copyright &copy; 2017 新智联在线学习平台 版权所有</p>
+        <p>Copyright &copy; 2018 新智联在线学习平台 版权所有</p>
         <p>贵阳新智联科技有限公司&ensp;黔ICP备17009435号&ensp;版本:2.0.2 </p>
         <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
     </div>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
     <script src="/layui/layui.js"></script>
     <script>
-        var eduItem = [{
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 3, learns: 235,
-            fzdw: '贵阳市第一人民医院'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 5, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 3, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 5, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 1, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 2.5, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 2.5, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }, {
-            pic: '/upload/171212/820.jpg',
-            name: '住院病案首页的质量控制和检查',
-            type: '省级II类',
-            xf: 2.5, learns: 235,
-            fzdw: '贵州省医皮肤病门诊'
-        }];
-        var doctor = [{
-            pic: '/upload/171212/732.jpg',
-            name: '王建国',
-            zc: '主任医师、教授',
-            kj: 3,
-            detail:'创、烧伤外科专家，中国工程院院士，博士生导师。1942年毕业于国立上海医学院。1947年在美国德克萨斯州立大学医学院研修一年。1942年毕业于国立上海医学院。1942年毕业于国立上海医学院。上海医学院'
-        }, {
-            pic: '/upload/171212/732.jpg',
-            name: '王建国',
-            zc: '主任医师、教授',
-            kj: 3,
-            detail: '创、烧伤外科专家，中国工程院院士，博士生导师。1942年毕业于国立上海医学院。1947年在美国德克萨斯州立大学医学院研修一年。1942年毕业于国立上海医学院。1942年毕业于国立上海医学院。上海医学院'
-        }, {
-            pic: '/upload/171212/732.jpg',
-            name: '王建国',
-            zc: '主任医师、教授',
-            kj: 3,
-            detail: '创、烧伤外科专家，中国工程院院士，博士生导师。1942年毕业于国立上海医学院。1947年在美国德克萨斯州立大学医学院研修一年。1942年毕业于国立上海医学院。1942年毕业于国立上海医学院。上海医学院'
-        }];
-        layui.use(['form', 'laytpl', 'carousel'], function () {
-            var form = layui.form, laytpl = layui.laytpl,carousel = layui.carousel;
-            //图片轮播
-            carousel.render({
-                elem: '#eduCarousel'
-              , width: '100%'
-              , height: '350px'
-              , interval: 5000
-            });
-            var getEduTpl = eduItemTpl.innerHTML,
-                getDoctor = doctorTpl.innerHTML;
-            laytpl(getEduTpl).render(eduItem, function (html) {
-                document.getElementById('eduItemView').innerHTML = html;
-            });
-            laytpl(getDoctor).render(doctor, function (html) {
-                document.getElementById('doctorView').innerHTML = html;
+        layui.use(['layer', 'laytpl', 'carousel'], function () {
+            var layer = layui.layer,
+                laytpl = layui.laytpl,
+                carousel = layui.carousel;
+            $.ajax({
+                url: '/api/home',
+                type: 'get', dataType: 'json', cache: false,
+                beforeSend: function () { layer.load(2); },
+                success: function (res) {
+                    if (res.employee !== null) {
+                        laytpl(navUserTpl.innerHTML).render(res.employee, function (htm) {
+                            $('#navUserView').html(htm);
+                        });
+                        laytpl(userInfoTpl.innerHTML).render(res.employee, function (htm) {
+                            $('#userInfoView').html(htm);
+                        });
+                    }
+                    laytpl(eduItemTpl.innerHTML).render(res.item, function (htm) {
+                        $('#eduItemView').html(htm);
+                    });
+                    laytpl(doctorTpl.innerHTML).render(res.teacher, function (htm) {
+                        $('#doctorView').html(htm);
+                    });
+                    carousel.render({//图片轮播
+                        elem: '#eduCarousel'
+                      , width: '100%'
+                      , height: '350px'
+                      , interval: 5000
+                    });
+                },
+                complete: function () { layer.closeAll('loading'); },
+                error: function (msg) { alert('ajaxError:' + msg.responseText); }
             });
         });
     </script>

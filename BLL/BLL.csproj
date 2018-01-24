@@ -49,7 +49,10 @@
     <Compile Include="edu_recordBLL.cs" />
     <Compile Include="examPlanBLL.cs" />
     <Compile Include="exam\examTestBLL.cs" />
+    <Compile Include="exam\formalBLL.cs" />
+    <Compile Include="exam\simulateBLL.cs" />
     <Compile Include="feedbackBLL.cs" />
+    <Compile Include="homeBLL.cs" />
     <Compile Include="jbzcBLL.cs" />
     <Compile Include="learn\learnCollectBLL.cs" />
     <Compile Include="learn\learnCommonBLL.cs" />

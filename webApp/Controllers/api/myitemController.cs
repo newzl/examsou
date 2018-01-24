@@ -12,20 +12,21 @@ namespace webApp.Controllers.api
         // GET: api/myitem
         public IHttpActionResult Get()
         {
-            Models.paging pag = new Models.paging()
-            {
-                table = "edu_myitem a left join edu_item b on a.itid=b.id left join vp_itemTyp c on b.typ=c.id",
-                order = "a.createTime desc",
-                field = "a.id,a.itid,b.name,c.name[typ],nian,xf,isSucceed,a.createTime,a.inlearn",
-                pageSize = 50,
-                pageNo = 1,
-                where = "b.valid=1 and b.isDel=0 and a.eid='" + employeeLogin.eid + "'"
-            };
+            //Models.paging pag = new Models.paging()
+            //{
+            //    table = "edu_myitem a left join edu_item b on a.itid=b.id left join vp_itemTyp c on b.typ=c.id",
+            //    order = "a.createTime desc",
+            //    field = "a.id,a.itid,b.name,c.name[typ],nian,xf,isSucceed,a.createTime,a.inlearn",
+            //    pageSize = 50,
+            //    pageNo = 1,
+            //    where = "b.valid=1 and b.isDel=0 and a.eid='" + employeeLogin.eid + "'"
+            //};
             return ResponseMessage(
             new HttpResponseMessage
             {
                 Content = new StringContent(
-                BLL.pagingBLL.runLaypage(pag),
+                new BLL.edu_myitemBLL().getMyitem(employeeLogin.eid),
+                //BLL.pagingBLL.runLaypage(pag),
                 Encoding.GetEncoding("UTF-8"), "application/json")
             });
         }

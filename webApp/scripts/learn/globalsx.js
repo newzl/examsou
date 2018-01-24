@@ -1,57 +1,59 @@
-﻿//顺序练习全局函数
-//'use strict';
+﻿//练习全局函数
 layui.define(['form', 'layer'], function (exports) {
-    var form = layui.form, layer = layui.layer;
-    var req = {
-        //保存错题反馈
-        _saveErrorBack: function (obj) {
-            $.ajax({
-                url: '/learnpublic/saveerrorback',
-                type: 'post', dataType: 'json', cache: false,
-                data: obj,
-                beforeSend: function () { layer.load(2); },
-                success: function (res) {
-                    layer.closeAll();
-                    layer.msg('错题反馈成功', { icon: 1 });
-                },
-                complete: function () { layer.closeAll('loading'); },
-                error: function (msg) { alert('ajaxError:' + msg.responseText); }
-            });
-        },
-        //保存笔记
-        _saveNotes: function (obj) {
-            $.ajax({
-                url: '/learnpublic/savenotes',
-                type: 'post', dataType: 'json', cache: false,
-                data: obj,
-                beforeSend: function () { layer.load(2); },
-                success: function (res) {
-                    layer.closeAll();
-                    layer.msg('保存笔记成功', { icon: 1 });
-                },
-                complete: function () { layer.closeAll('loading'); },
-                error: function (msg) { alert('ajaxError:' + msg.responseText); }
-            });
-        },
-        //ajax获得数据
-        _getlearn: function (url, data, callback) {
-            $.ajax({
-                url: url,
-                type: 'get', dataType: 'json', cache: false,
-                data: data,
-                beforeSend: function () { layer.load(2); },
-                success: function (res) {
-                    if (res.state !== undefined && res.state === 4001) window.location.replace("/account/login?rid=" + Math.random());
-                    else {
-                        if (res !== null) callback(res);
-                        else layer.msg('试题获取失败', { icon: 2, time: 1500, end: function () { window.location.replace("/learn?rid=" + Math.random()); } });
-                    }
-                },
-                complete: function () { layer.closeAll('loading'); },
-                error: function (msg) { alert('ajaxError:' + msg.responseText); }
-            });
-        }
-    };
+    var form = layui.form,
+        layer = layui.layer,
+        req = {
+            //保存错题反馈
+            _saveErrorBack: function (data) {
+                $.ajax({
+                    url: '/api/errorback',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: data,
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.closeAll();
+                        layer.msg('错题反馈成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            },
+            //保存笔记
+            _saveNotes: function (data) {
+                $.ajax({
+                    url: '/api/notes',
+                    type: 'post', dataType: 'json', cache: false,
+                    data: data,
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        layer.closeAll();
+                        layer.msg('保存笔记成功', { icon: 1 });
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            },
+            //ajax获得数据
+            _getlearn: function (url, data, callback) {
+                $.ajax({
+                    url: url,
+                    type: 'get', dataType: 'json', cache: false,
+                    data: data,
+                    beforeSend: function () { layer.load(2); },
+                    success: function (res) {
+                        if (res.state !== undefined) {
+                            if (res.state === 4001) window.location.replace("/account/login?rid=" + Math.random());
+                        }
+                        else {
+                            if (res !== null) callback(res);
+                            else layer.msg('试题获取失败', { icon: 2, time: 1500, end: function () { window.location.replace("/myitem?rid=" + Math.random()); } });
+                        }
+                    },
+                    complete: function () { layer.closeAll('loading'); },
+                    error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                });
+            }
+        };
     exports('globalsx', {
         //获得试题
         getlearnsx: function (data, callback) {
@@ -127,7 +129,6 @@ layui.define(['form', 'layer'], function (exports) {
             if (obj.jus > 0) htm += '<option value="ju">判断题</option>';
             if (obj.fis > 0) htm += '<option value="fi">填空题</option>';
             if (obj.qas > 0) htm += '<option value="qa">问答题</option>';
-            if (obj.lss > 0) htm += '<option value="ls">论述题</option>';
             if (obj.mcs > 0) htm += '<option value="mc">名词解析</option>';
             dom.empty().append(htm);
             if (dom.children('option').length > 1) {
@@ -135,16 +136,16 @@ layui.define(['form', 'layer'], function (exports) {
                 form.render('select');
                 //题型选择事件
                 form.on('select(stype)', function (sd) {
-                    window.location.href = '/practise/learn/' + obj.lid + '/' + obj.sid + '/learnsx/' + sd.value;
+                    window.location.href = '/practise/' + obj.miid + '/' + obj.scid + '/' + sd.value + '?rid=' + Math.random().toString(36).substr(2);
                 });
             }
             else {
                 dom.parent().hide()
             }
         },
-        //绑定错题反馈 options:{stype,kid}
-        bindErrorBack: function (dom, options) {
-            dom.off().on('click', function () {
+        //绑定错题反馈 options:{elem/点击按钮,stype,kid}
+        bindErrorBack: function (options) {
+            options.elem.off().on('click', function () {
                 layer.open({
                     type: 2, title: '错题反馈', resize: false,
                     shade: 0.3, area: ['700px', '300px'],
@@ -170,9 +171,9 @@ layui.define(['form', 'layer'], function (exports) {
                 });
             });
         },
-        //绑定编辑笔记 options:{not,lid,sid,stype,kid}
-        bindEditNotes: function (dom, options, callback) {
-            dom.off().on('click', function () {
+        //绑定编辑笔记 options:{elem/点击按钮,not/原有笔记内容,miid,stype,kid}
+        bindEditNotes: function (options, callback) {
+            options.elem.off().on('click', function () {
                 layer.open({
                     type: 1, title: '编辑笔记', resize: false,
                     shade: 0.3, area: ['700px', '300px'],
@@ -193,8 +194,7 @@ layui.define(['form', 'layer'], function (exports) {
                         }
                         else {
                             req._saveNotes({
-                                lid: options.lid,
-                                sid: options.sid,
+                                miid: options.miid,
                                 stype: options.stype,
                                 kid: options.kid,
                                 content: cval
@@ -205,15 +205,15 @@ layui.define(['form', 'layer'], function (exports) {
                 });
             });
         },
-        //保存或取消收藏 cid：0保存 cid！=0取消
-        saveCollect: function (obj, callback) {
+        //保存或取消收藏 coid：0保存 cid！=0取消
+        saveCollect: function (data, callback) {
             $.ajax({
-                url: '/learnpublic/savecollect',
+                url: '/api/collect',
                 type: 'post', dataType: 'json', cache: false,
-                data: obj,
+                data: data,
                 beforeSend: function () { layer.load(2); },
                 success: function (res) {
-                    if (obj.cid > 0) {
+                    if (data.coid > 0) {
                         layer.msg('取消收藏成功', { icon: 1 });
                         callback(res);
                     }
@@ -229,15 +229,11 @@ layui.define(['form', 'layer'], function (exports) {
         //保存学习
         saveLearn: function (obj) {
             $.ajax({
-                url: '/handler/ln_saveLearn.ashx',
+                url: '/api/savelearn',
                 type: 'post', dataType: 'json', cache: false,
                 data: obj,
-                success: function (res) {
-                    if (res.state !== undefined && res.state === 4001) window.location.replace("/account/login?rid=" + Math.random());
-                    else {
-                        if (res > 0) layer.msg('保存成功', { time: 700, offset: 'b' });
-                    }
-                },
+                beforeSend: function () { layer.load(2); },
+                complete: function () { layer.closeAll('loading'); },
                 error: function (msg) { alert('ajaxError:' + msg.responseText); }
             });
         },
