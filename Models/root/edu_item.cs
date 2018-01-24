@@ -29,10 +29,16 @@ namespace Models
     {
         public string pic { get; set; }
         public string name { get; set; }
-        public string typ { get; set; }
+        public string itype { get; set; }
         public decimal xf { get; set; }
         public string bh { get; set; }
+        public string fzr { get; set; }
         public string fzdw { get; set; }
+        public int mustTime { get; set; }
+        public decimal scores { get; set; }
+        public decimal passScore { get; set; }
+        public int useTime { get; set; }
+        public string qzrq { get; set; }
         public string detail { get; set; }
         public List<edu_item_detail_keJian> keJian { get; set; }
 

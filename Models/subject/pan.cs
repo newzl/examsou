@@ -13,6 +13,6 @@ namespace Models
     }
     public class panans : pan
     {
-        public string ans { get; set; }
+        public int ans { get; set; }
     }
 }

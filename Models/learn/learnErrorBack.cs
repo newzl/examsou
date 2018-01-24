@@ -8,7 +8,7 @@ namespace Models
 {
     public class learnErrorBack
     {
-        public string uid { get; set; }
+        public string eid { get; set; }
         public string stype { get; set; }
         public int kid { get; set; }
         public int errType { get; set; }

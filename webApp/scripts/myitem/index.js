@@ -12,14 +12,16 @@
                 $('#itemName').text(res.name);
                 var kj = res.inkjid <= 0 ? res.list[0].id : res.inkjid;
                 $('#continue').attr('href', '/course/learn/' + res.miid + '?rid=' + Math.random().toString(36).substr(2) + '#!kj=' + kj);
-                $('#chapter').attr('href', '/learn/chapter/'+res.scid);
+                //$('#chapter').attr('href', '/learn/chapter?rid=' + Math.random().toString(36).substr(2));
                 progress({ text: '学习进度', percent: res.xxjd, elem: '#xxjd' });
                 progress({ text: '必修课', percent: res.bxk, elem: '#bxk', color: '#f4665b' });
                 progress({ text: '选修课', percent: res.xxk, elem: '#xxk', color: '#00A854' });
                 laytpl(kjTpl.innerHTML).render(res, function (htm) {
                     $('#kjView').html(htm);
                 });
-                element.render('progress');
+                setTimeout(function () {
+                    element.render('progress');
+                }, 100);
             }
             else {
                 $('.member-content').empty();
@@ -28,9 +30,12 @@
                 });
             }
         },
-        complete: function () { layer.closeAll('loading'); },
+        complete: function () {
+            layer.closeAll('loading');
+        },
         error: function (msg) { alert('ajaxError:' + msg.responseText); }
     });
+    
     function progress(options) {
         var _cr = options.color || '#108ee9',
             _ps = (options.percent / 100) * 222;

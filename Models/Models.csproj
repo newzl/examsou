@@ -50,6 +50,10 @@
     <Compile Include="comment.cs" />
     <Compile Include="department.cs" />
     <Compile Include="employee.cs" />
+    <Compile Include="exam\formalExam.cs" />
+    <Compile Include="exam\readyExam.cs" />
+    <Compile Include="exam\simulate.cs" />
+    <Compile Include="home.cs" />
     <Compile Include="jobinfo.cs" />
     <Compile Include="learn.cs" />
     <Compile Include="learn\learnCollect.cs" />

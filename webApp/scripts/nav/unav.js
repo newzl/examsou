@@ -6,17 +6,11 @@ function getnav(emp, callback) {
         title: '在线考试',
         children: [
             {
-                title: '考试列表',
-                href: '/member/examlist'
-            }, {
-                title: '考试记录',
-                href: '/member/examrecord'
+                title: '我的考试',
+                href: '/exam/list'
             }, {
                 title: '模拟考试',
-                href: '/member/simulate'
-            }, {
-                title: '模拟记录',
-                href: '/member/simulaterecord'
+                href: '/exam/simulate'
             }
         ]
     }, {

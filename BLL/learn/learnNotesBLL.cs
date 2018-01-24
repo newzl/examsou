@@ -13,7 +13,7 @@ namespace BLL.learn
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        public static void save(Models.learnNotes m)
+        public void save(Models.learnNotes m)
         {
             using (DAL.learn.learnNotesDAL dal = new DAL.learn.learnNotesDAL())
             {

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>正在考试 - 新智联在线学习平台</title>
+    <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
+    <link href="/content/css/paper.css?v=2.0.2" rel="stylesheet" />
+</head>
+<body>
+    <div class="header"><div class="logo"><a href="javascript:;">新智联</a></div></div>
+    <div class="layui-box layui-main">
+        <div class="sub-wrap" id="subView"></div>
+        <script type="text/html" id="subTpl">
+            {{# var nav=1;}}
+
+            {{# if(d.dan.length>0){ }}
+            <div class="sub-type">单选题（每小题{{d.chvs}}分，共{{d.chrs}}分）</div>
+            <hr>
+            {{# layui.each(d.dan, function(i, item){ }}
+            <div id="t{{nav}}" class="subject dan">
+                <div class="titl"><span>第{{nav}}题</span>{{item.sub}}</div>
+                <div class="item"><input type="radio" value="A" name="ch{{item.id}}" />A、{{item.A}}</div>
+                <div class="item"><input type="radio" value="B" name="ch{{item.id}}" />B、{{item.B}}</div>
+                <div class="item"><input type="radio" value="C" name="ch{{item.id}}" />C、{{item.C}}</div>
+                <div class="item"><input type="radio" value="D" name="ch{{item.id}}" />D、{{item.D}}</div>
+                {{# if(item.E !== null && item.E !== '' ){ }}
+                <div class="item"><input type="radio" value="E" name="ch{{item.id}}" />E、{{item.E}}</div>
+                {{# } }}
+            </div>
+            {{# nav++;}}
+            {{# });}}
+            {{# } }}
+
+            {{# if(d.duo.length>0){ }}
+            <div class="sub-type">多选题（每小题{{d.muvs}}分，共{{d.murs}}分）</div>
+            <hr>
+            {{# layui.each(d.duo, function(i, item){ }}
+            <div id="t{{nav}}" class="subject duo">
+                <div class="titl"><span>第{{nav}}题</span>{{item.sub}}</div>
+                <div class="item"><input type="checkbox" value="A" name="mu{{item.id}}" />A、{{item.A}}</div>
+                <div class="item"><input type="checkbox" value="B" name="mu{{item.id}}" />B、{{item.B}}</div>
+                <div class="item"><input type="checkbox" value="C" name="mu{{item.id}}" />C、{{item.C}}</div>
+                <div class="item"><input type="checkbox" value="D" name="mu{{item.id}}" />D、{{item.D}}</div>
+                {{# if(item.E !== null && item.E !== '' ){ }}
+                <div class="item"><input type="checkbox" value="E" name="mu{{item.id}}" />E、{{item.E}}</div>
+                {{# } }}
+                {{# if(item.F !== null && item.F !== '' ){ }}
+                <div class="item"><input type="checkbox" value="F" name="mu{{item.id}}" />F、{{item.F}}</div>
+                {{# } }}
+            </div>
+            {{# nav++;}}
+            {{# });}}
+            {{# } }}
+
+            {{# if(d.pan.length>0){ }}
+            <div class="sub-type">判断题（每小题{{d.juvs}}分，共{{d.jurs}}分）</div>
+            <hr>
+            {{# layui.each(d.pan, function(i, item){ }}
+            <div id="t{{nav}}" class="subject pan">
+                <div class="titl"><span>第{{nav}}题</span>{{item.sub}}</div>
+                <div class="item"><input type="radio" value="1" name="ju{{item.id}}" />正确</div>
+                <div class="item"><input type="radio" value="0" name="ju{{item.id}}" />错误</div>
+            </div>
+            {{# nav++;}}
+            {{# });}}
+            {{# } }}
+        </script>
+        <div class="nav-wrap">
+            <div class="nav-content">
+                <div class="countdown">00:00:00</div>
+                <div class="nav-card">
+                    <dl id="subCard"></dl>
+                </div>
+                <div class="nav-hint">
+                    <div><i></i>已答</div>
+                    <div><i></i>未答</div>
+                </div>
+                <div class="nav-btn">
+                    <button class="layui-btn layui-btn-radius layui-btn-sm" id="submit">提交试卷</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="data" value="@ViewBag.data" />
+    <div class="footer">
+        <p>Copyright &copy; 2018 新智联在线学习平台 版权所有</p>
+        <p>贵阳新智联科技有限公司&ensp;黔ICP备17009435号&ensp;版本:2.0.2 </p>
+        <p>联系电话：0851-88515155 / 88515156 工作时间：周一至周五 09:00-17:30</p>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/layui/layui.js?v=2.2.4"></script>
+    <script src="/scripts/exam/formal.js?v=2.0.2"></script>
+</body>
+</html>

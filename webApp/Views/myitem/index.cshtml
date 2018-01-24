@@ -33,13 +33,13 @@
         </a>
     </div>
     <div class="layui-col-md3 ln-card">
-        <a href="javascript:;" id="chapter">
+        <a href="/learn/chapter">
             <p class="ln-name zx">题库练习</p>
             <p class="ln-de">按科目练习试题集</p>
         </a>
     </div>
     <div class="layui-col-md3 ln-card">
-        <a href="javascript:;" id="joinExam">
+        <a href="/exam/list" id="joinExam">
             <p class="ln-name mn">参加考试</p>
             <p class="ln-de">参加考试后才有学分</p>
         </a>
@@ -50,7 +50,7 @@
         <tr>
             <th style="width:600px">课件目录</th>
             <th style="width:70px">修读类型</th>
-            <th style="width:70px">学时/时长</th>
+            <th style="width:70px;text-align:right">学时/时长</th>
             <th style="width:150px">学习进度</th>
             <th></th>
         </tr>
@@ -62,14 +62,14 @@
     <tr>
         <td>{{item.title}}</td>
         <td>{{item.typ}}</td>
-        <td>{{item.xs}} / {{item.sc}}</td>
+        <td style="text-align:right;">{{item.xs}} / {{item.sc}}</td>
         <td>
             <div class="layui-progress" lay-showpercent="yes">
                 <div class="layui-progress-bar" lay-percent="{{item.perc}}%"></div>
             </div>
         </td>
         <td>
-            <a href="/course/learn/{{d.miid}}?rid={{Math.random().toString(36).substr(2)}}#!kj={{item.id}}" class="layui-btn layui-btn-xs" title="应学{{item.total}}，已学{{item.minut}}">开始学习</a>
+            <a href="/course/learn/{{d.miid}}?rid={{Math.random().toString(36).substr(2)}}#!kj={{item.id}}" class="layui-btn layui-btn-xs">开始学习</a>
         </td>
     </tr>
     {{# }); }}

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>顺序练习 - 新智联在线考试平台</title>
+    <title>顺序练习 - 新智联在线学习平台</title>
     <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
     <link href="/content/icheck/blue.css" rel="stylesheet" />
     <link href="/content/css/learn.css?v=2.0.2" rel="stylesheet" />
@@ -19,11 +19,10 @@
             <div class="ln-type">
                 <select id="stype" lay-filter="stype"></select>
             </div>
-            <p>@ViewBag.sname</p>
+            <p id="snav"></p>
             <div class="ln-header-btn">
                 <div class="layui-btn-group ln-cbtn">
-                    <a href="/learn" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe603;</i></a>
-                    @*<a id="help" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe607;</i></a>*@
+                    <a href="/learn/chapter" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe603;</i></a>
                     <a id="setting" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe614;</i></a>
                 </div>
             </div>
@@ -65,7 +64,7 @@
             <p>{{d.row}} / {{d.count}}</p>
             <div class="ln-tool ln-cbtn">
                 {{# if(d.col > 0){ }}
-                <a class="layui-btn layui-btn-primary star-btn" data-cid="{{d.col}}" title="取消收藏"><i class="layui-icon have">&#xe658;</i></a>
+                <a class="layui-btn layui-btn-primary star-btn" data-coid="{{d.col}}" title="取消收藏"><i class="layui-icon have">&#xe658;</i></a>
                 {{# } else { }}
                 <a class="layui-btn layui-btn-primary star-btn" title="收藏"><i class="layui-icon">&#xe600;</i></a>
                 {{# } }}

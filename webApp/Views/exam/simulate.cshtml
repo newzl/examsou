@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "模拟考试";
+    Layout = "~/Views/_layoutMember.cshtml";
+}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li><a href="/exam/list">我的考试</a></li>
+        <li class="layui-this">模拟考试</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show" style="text-align: center;">
+            <p style="font-size: 24px;color: #aaa;">无限自动全真模拟考题组卷</p>
+            <p style="font-size: 14px;color: #bbb;margin-top:10px;">题库抽题：100题&emsp;&ensp;考试时间：45分钟</p>
+            <a href="/exam/simulatepaper?rid=@Guid.NewGuid().ToString()" class="layui-btn layui-btn-radius layui-btn-big" style="margin:10px;" target="_blank">开 始 考 试</a>
+        </div>
+        <div style="margin:0 auto;width:550px;">
+            <table id="tableView" lay-filter="tableView"></table>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="data" value="@ViewBag.data" />
+<script type="text/html" id="barTpl">
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-xs" href="/exam/simulateshow/{{d.id}}?rid={{Math.random().toString(36).substr(2)}}" target="_blank">查看试卷</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
+    </div>
+</script>
+@section js{
+    <script>
+        layui.use('table', function () {
+            var table = layui.table,
+                miid = parseInt($('#data').val());
+            $(document).off('click', '.layui-tab-title li');
+            table.render({
+                elem: '#tableView',
+                url: '/api/simulaterecord',
+                width: 550,
+                where: { miid: miid },
+                page: { layout: ['prev', 'page', 'next', 'count'], first: false, last: false },
+                cols: [[
+                  { field: 'rows', title: '序号', width: 70, unresize: true, align: 'center' },
+                  { field: 'createtime', title: '考试时间', width: 170, unresize: true },
+                  { field: 'usetime', title: '考试用时', width: 110, unresize: true },
+                  { field: 'score', title: '成绩', width: 80, unresize: true, align: 'right', templet: '<span>{{d.score}}分</span>' },
+                  { align: 'center', unresize: true, toolbar: '#barTpl' }
+                ]]
+            });
+            table.on('tool(tableView)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    layer.confirm('确定删除考试记录？', { icon: 3 }, function (index) {
+                        $.ajax({
+                            url: '/api/simulaterecord/' + data.id,
+                            type: 'DELETE', dataType: 'json', cache: false,
+                            beforeSend: function () { layer.load(2); },
+                            success: function (res) {
+                                obj.del();
+                                layer.closeAll();
+                                layer.msg('删除成功', { icon: 1 });
+                            },
+                            complete: function () { layer.closeAll('loading'); },
+                            error: function (msg) { alert('ajaxError:' + msg.responseText); }
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+}

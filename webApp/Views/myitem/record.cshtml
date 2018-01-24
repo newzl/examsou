@@ -44,12 +44,14 @@
                               { title: '应学', width: 85, align: 'right', unresize: true, templet: '<span>{{d.total}}分钟</span>' },
                               { title: '已学', width: 85, align: 'right', unresize: true, templet: '<span>{{d.minut}}分钟</span>' },
                               { field: 'addDate', title: '首次学习', unresize: true, width: 105 },
-                              { field: 'mendTime', title: '最后学习', unresize: true, width: 145 },
+                              { field: 'mendTime', title: '最后学习时间', unresize: true, width: 145 },
                               { fixed: 'right', width: 90, align: 'center', unresize: true, templet: '#operTpl' }
                             ]],
                             data: res,
                             done: function () {
-                                element.render('progress');
+                                setTimeout(function () {
+                                    element.render('progress');
+                                }, 100);
                             }
                         });
                     }

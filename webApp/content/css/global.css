@@ -111,13 +111,18 @@
 .item-list li {position:relative;height:120px;padding:15px 15px 15px 230px;border-bottom:1px dotted #e2e2e2;}
 .item-list .itemPic {position:absolute;left:15px;top:15px;}
 .item-list .itemPic img {vertical-align:middle;border:0;}
-.item-list .itemName {font-size:20px;color:#2F4056;padding-bottom:10px;}
-.item-list li p {font-size:14px;color:#999;line-height:22px;}
-.item-list li .xf {padding:0 3px 0 8px;color:#FF5722;}
+.item-list .itemName {font-size:20px;color:#2F4056;}
+.item-list table{margin-top:5px;}
+.item-list table td,.item-info table td {font-size:14px;color:#999;width: 200px;padding-top: 10px;}
+.item-list .xf , .item-info .xf {padding: 0 5px 0 10px; font-size: 18px;color:#FF5722;}
 .item-list li .layui-btn {position:absolute;top:56px;right:15px;}
 
 .item-info {position: relative;height: 200px;padding: 15px 15px 15px 330px;}
 .item-info img {position: absolute;left: 15px;top: 15px;}
-.item-info .name {font-size: 20px;display: block;color: #01AAED;padding-bottom: 10px;}
-.item-info p {font-size: 14px;color: #777;line-height: 22px;}
-.item-info .xf {padding: 0 3px 0 8px;color: #FF5722;}
+.item-info .name {font-size: 20px;display: block;color: #01AAED;}
+.item-info table td{padding-top: 3px !important;}
+/*准备考试*/
+.readyExam {position: relative;}
+.readyExam p {font-size: 18px;color: #333;margin-bottom: 5px;}
+.readyExam table td {width: 130px;font-size: 14px;color: #999;padding: 5px 0;}
+.readyExam .operate {position: absolute;top: 30px;right: 30px;}

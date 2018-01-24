@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web;
-using System.Web.SessionState;
 using Newtonsoft.Json;
 
 namespace webApp.handler
@@ -8,9 +7,8 @@ namespace webApp.handler
     /// <summary>
     /// ln_getlearnsx 顺序练习获得试题
     /// </summary>
-    public class ln_getlearnsx : IHttpHandler, IRequiresSessionState
+    public class ln_getlearnsx : IHttpHandler
     {
-
         public void ProcessRequest(HttpContext context)
         {
             try
@@ -19,8 +17,8 @@ namespace webApp.handler
                 context.Response.ContentType = "application/json";
                 Models.learnsx m = new Models.learnsx
                 {
-                    lid = Convert.ToInt32(context.Request.QueryString["lid"]),
-                    sid = Convert.ToInt32(context.Request.QueryString["sid"]),
+                    miid = Convert.ToInt32(context.Request.QueryString["miid"]),
+                    scid = Convert.ToInt32(context.Request.QueryString["scid"]),
                     stype = context.Request.QueryString["stype"],
                     fx = Convert.ToInt32(context.Request.QueryString["fx"]),
                     row = Convert.ToInt32(context.Request.QueryString["row"])
@@ -42,7 +40,6 @@ namespace webApp.handler
             }
             finally { context.Response.End(); }
         }
-
         public bool IsReusable
         {
             get

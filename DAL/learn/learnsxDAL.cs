@@ -33,12 +33,12 @@ namespace DAL.learn
         public DataTable exeLearnsx(Models.learnsx m)
         {
             SqlParameter[] pars = {
-                                new SqlParameter("@lid",m.lid),
-                                new SqlParameter("@sid",m.sid),
-                                new SqlParameter("@stype",m.stype),
-                                new SqlParameter("@fx",m.fx),
-                                new SqlParameter("@row",m.row)
-                                };
+                new SqlParameter("@miid",m.miid),
+                new SqlParameter("@scid",m.scid),
+                new SqlParameter("@stype",m.stype),
+                new SqlParameter("@fx",m.fx),
+                new SqlParameter("@row",m.row)
+            };
             return SqlHelper.RunProcedure("[ln_learnsx]", pars);
         }
         /// <summary>
@@ -50,7 +50,7 @@ namespace DAL.learn
         public DataTable exeLearnks(Models.learnks m, out int count)
         {
             SqlParameter[] pars = {
-                                new SqlParameter("@sid",m.sid),
+                                new SqlParameter("@scid",m.scid),
                                 new SqlParameter("@stype",m.stype),
                                 new SqlParameter("@pageNo",m.page),
                                 new SqlParameter("@groups",SqlDbType.Int)
@@ -65,18 +65,18 @@ namespace DAL.learn
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        public int exeSaveLearn(Models.saveLearn m)
+        public void exeSaveLearn(Models.saveLearn m)
         {
             SqlParameter[] pars = {
-                                new SqlParameter("@lid",m.lid),
-                                new SqlParameter("@sid",m.sid),
-                                new SqlParameter("@stype",m.stype),
-                                new SqlParameter("@row",m.row),
-                                new SqlParameter("@kid",m.kid),
-                                new SqlParameter("@answer",m.answer),
-                                new SqlParameter("@result",m.result)
-                                };
-            return SqlHelper.RunProcedures("[ln_saveLearn]", pars);
+                new SqlParameter("@miid",m.miid),
+                new SqlParameter("@scid",m.scid),
+                new SqlParameter("@stype",m.stype),
+                new SqlParameter("@row",m.row),
+                new SqlParameter("@kid",m.kid),
+                new SqlParameter("@answer",m.answer),
+                new SqlParameter("@result",m.result)
+            };
+            SqlHelper.RunProcedures("[ln_SaveLearn]", pars);
         }
     }
 }

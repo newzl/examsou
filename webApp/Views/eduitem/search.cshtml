@@ -39,14 +39,23 @@
             <li>
                 <a href="/eduitem/detail/{{item.id}}" target="_blank" class="itemPic"><img src="{{item.pic}}" style="width: 200px;height: 120px"></a>
                 <a href="/eduitem/detail/{{item.id}}" target="_blank" class="itemName">{{item.name}}</a>
-                <p>项目类型：{{item.itemTyp}}<b class="xf">{{item.xf}}</b>学分</p>
-                <p>学习人数：{{item.learns}}人在学</p>
-                <p>项目编号：{{item.bh}}</p>
-                <p>负责单位：{{item.fzdw}}</p>
-                {{# if(item.miid === null){ }}
-                    <a href="javascript:;" class="layui-btn layui-btn-radius beginLearn" data-itid="{{item.id}}">立即学习</a>
-                {{# } else { }}
+                <table>
+                    <tr>
+                        <td>项目类型：{{item.itype}}<b class="xf">{{item.xf}}</b>学分</td>
+                        <td>学习人数：{{item.learns}}人</td>
+                    </tr>
+                    <tr>
+                        <td>项目编号：{{item.bh}}</td>
+                        <td>必修学时：{{item.mustTime}}分钟</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">起止时间：{{item.startDate}}&ensp;至&ensp;{{item.endDate}}</td>
+                    </tr>
+                </table>
+                {{# if(item.miid !== null){ }}
                     <a href="/myitem/list" class="layui-btn layui-btn-radius layui-btn-normal">正在学习</a>
+                {{# } else { }}
+                    <a href="javascript:;" class="layui-btn layui-btn-radius beginLearn" data-itid="{{item.id}}">立即学习</a>
                 {{# } }}
             </li>
         {{# }); }}

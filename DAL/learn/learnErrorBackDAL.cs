@@ -33,12 +33,12 @@ namespace DAL.learn
         {
             string sql = "insert into learnErrorBack([uid],stype,kid,errType,content)values(@uid,@stype,@kid,@errType,@content)";
             SqlParameter[] pars = {
-                                new SqlParameter("@uid",m.uid),
-                                new SqlParameter("@stype",m.stype),
-                                new SqlParameter("@kid",m.kid),
-                                new SqlParameter("@errType",m.errType),
-                                new SqlParameter("@content",m.content)
-                                };
+                new SqlParameter("@uid",m.eid),
+                new SqlParameter("@stype",m.stype),
+                new SqlParameter("@kid",m.kid),
+                new SqlParameter("@errType",m.errType),
+                new SqlParameter("@content",m.content)
+            };
             SqlHelper.ExcuteNonQuery(sql, pars);
         }
     }
