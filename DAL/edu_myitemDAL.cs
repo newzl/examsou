@@ -50,12 +50,28 @@ namespace DAL
                                 };
             SqlHelper.RunProcedure("edu_beginLearn", pars);
         }
-        //我的学习页获得数据
+        /// <summary>
+        /// 我的学习页获得数据
+        /// </summary>/myitem
+        /// <param name="eid"></param>
+        /// <returns></returns>
         public DataSet edu_index(string eid) {
             SqlParameter[] pars = {
                 new SqlParameter("@eid",eid)
             };
            return SqlHelper.RunProcedure("edu_index", pars,"eduIndes");
+        }
+        /// <summary>
+        /// 学习记录list
+        /// </summary>/myitem/record
+        /// <param name="eid"></param>
+        /// <returns></returns>
+        public DataTable learnRecord(string eid)
+        {
+            SqlParameter[] pars = {
+                new SqlParameter("@eid",eid)
+            };
+            return SqlHelper.RunProcedure("edu_learnRecord", pars);
         }
     }
 }

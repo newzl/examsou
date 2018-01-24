@@ -1,21 +1,19 @@
-﻿@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>正在学习……</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>正在学习</title>
     <link href="/layui/css/layui.css?v=2.2.4" rel="stylesheet" />
     <link href="/content/css/course.css?v=2.0.2" rel="stylesheet" />
 </head>
 <body>
     <div class="layui-box layui-main">
         <div class="header-box">
-            <div class="cou-time"></div>
-            <p>第二节 中华人民共和国未成年人保护法</p>
+            <div class="cou-time" id="timer"></div>
+            <p id="title"></p>
             <div class="header-btn">
                 <button id="quit" class="layui-btn layui-btn-danger">退出学习</button>
             </div>
@@ -26,154 +24,21 @@
                 <a class="cou-prev"><i class="layui-icon">&#xe65a;</i>上一章</a><a class="cou-next">下一章<i class="layui-icon">&#xe65b;</i></a>
             </div>
             <div class="bottom-tool">
-                <a href="javascript:;" class="revert"><i class="layui-icon">&#xe603;</i></a>
-                <a class="setting"><i class="layui-icon">&#xe614;</i></a>
-                <a class="chapter-tool"><i class="layui-icon">&#xe671;</i></a>
+                <a class="setting" title="页面设置"><i class="layui-icon">&#xe614;</i></a>
+                <a class="chapter-tool" title="课件目录"><i class="layui-icon">&#xe671;</i></a>
             </div>
         </div>
-        @*章节目录*@
         <div class="cou-heig cou-shade"></div>
         <div class="cou-heig cou-chapter">
-            <ul>
-                <li class="layui-elip"><a href="#">基于 layui 的极简社区页面模版</a></li>
-                <li class="layui-elip"><a href="#">基于 layui 的极简社区页面模版</a></li>
-                <li class="layui-elip"><a href="#">区页面模版</a></li>
-                <li class="layui-elip"><a href="#">黄元浪测试</a></li>
-            </ul>
+            <ul id="chapter"></ul>
         </div>
     </div>
-    <input type="hidden" id="data" value="@ViewBag.data" />
+    <input type="hidden" id="miid" value="@ViewBag.miid" />
     <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="/signalr/hubs"></script>
     <script src="/scripts/jquery.cookie.js"></script>
     <script src="/layui/layui.js?v=2.2.4"></script>
-    <script>
-        layui.config({
-            base: '/scripts/modules/'
-        }).use(['layer', 'timer'], function () {
-            "use strict";
-            var layer = layui.layer, timer = layui.timer,
-                timeCook = 'COURSETIME',
-                tielem = $('.cou-time'), mdom = $('#maincontent');
-            var init = {
-                winHeig: function () {
-                    $('.cou-heig').css('height', $(window).height() - 104);
-                    mdom.css('height', $(window).height() - 144);
-                    mdom.load('/upload/171212/105123.html', function () {
-                        var inter = timer.counts(tielem, '00:60:23');
-                        $('#quit').click(function () {
-                            window.clearInterval(inter);
-                            requ.save({
-                                miid: 5,
-                                kjid: 23,
-                                minut: timer.minuteAgo(tielem.text()),
-                                timer: tielem.text(),
-                                position: mdom.scrollTop()
-                            });
-                        });
-                    });
-                },
-                //初始化设置
-                initSet: function () {
-                    var learnCookie = 'COURSESETTINGCOOKIE', cook = $.cookie(learnCookie), obj = {};
-                    if (cook !== undefined && cook !== null) obj = $.parseJSON(cook);
-                    else obj = { skin: 0, font: 0 }
-                    _loadSet();
-                    //打开设置
-                    $('.setting').off().on('click', function () {
-                        var pst = "layui-btn-primary",
-                            s0 = obj.skin == 0 ? '' : pst,
-                            s1 = obj.skin == 1 ? '' : pst,
-                            f0 = obj.font == 0 ? '' : pst,
-                            f1 = obj.font == 1 ? '' : pst,
-                            f2 = obj.font == 2 ? '' : pst;
-                        var htm = '<table><tr><td>皮肤：</td><td class="settskin">';
-                        htm += '<button value="0" class="layui-btn layui-btn-xs ' + s0 + '">正常</button>';
-                        htm += '<button value="1" class="layui-btn layui-btn-xs ' + s1 + '">夜间</button>';
-                        htm += '</td></tr><tr><td>字体：</td><td style="padding-top:5px;" class="settfont">';
-                        htm += '<button value="0" class="layui-btn layui-btn-xs ' + f0 + '">小</button>';
-                        htm += '<button value="1" class="layui-btn layui-btn-xs ' + f1 + '">中</button>';
-                        htm += '<button value="2" class="layui-btn layui-btn-xs ' + f2 + '">大</button>';
-                        htm += '</td></tr></table>';
-                        layer.tips(htm, '.setting', {
-                            time: 3000,
-                            tips: [1, '#999'],
-                            success: function () {
-                                $('.settskin .layui-btn-primary').off().on('click', function () {
-                                    obj['skin'] = parseInt($(this).val()); _saveCookie();
-                                });
-                                $('.settfont .layui-btn-primary').off().on('click', function () {
-                                    obj['font'] = parseInt($(this).val()); _saveCookie();
-                                });
-                            }
-                        });
-                    });
-                    function _saveCookie() {
-                        $.cookie(learnCookie, JSON.stringify(obj), { expires: 360, path: '/' });
-                        _loadSet(); layer.closeAll();
-                    }
-                    function _loadSet() {
-                        var dom = $('#maincontent');
-                        if (obj.skin === 1) $('body').addClass('black');//皮肤设置
-                        else $('body').removeClass('black');
-                        switch (obj.font) {
-                            case 0: dom.removeClass('font18 font20').addClass('font16'); break;
-                            case 1: dom.removeClass('font16 font20').addClass('font18'); break;
-                            case 2: dom.removeClass('font16 font18').addClass('font20'); break;
-                        }
-                    }
-                },
-            },
-            even = {
-                //章节目录
-                chapter: function () {
-                    var sh = $('.cou-shade'),
-                        ch = $('.cou-chapter'),
-                        tool = $('.chapter-tool');
-                    tool.off().on('click', function () {
-                        if (ch.width() <= 0) {
-                            sh.show(); ch.children('ul').show()
-                            ch.animate({ width: 200 }, 100);
-                        }
-                        else {
-                            sh.hide(); ch.children('ul').hide()
-                            ch.animate({ width: 0 }, 100);
-                        }
-                    });
-                    sh.off().on('click', function () {
-                        $(this).hide();
-                        ch.animate({ width: 0 }, 100);
-                    });
-                },
-                //浏览器关闭或刷新事件
-                browser: function () {
-                    window.onbeforeunload = function (b) {
-                        $.cookie(timeCook, tielem.text(), { expires: 5, path: '/' });
-                    }
-                }
-            },
-            requ = {
-                save: function (field) {
-                    $.ajax({
-                        url: '/handler/edu_saverecord.ashx',
-                        type: 'POST', dataType: 'json', cache: false,
-                        data: field,
-                        beforeSend: function () { layer.load(2); },
-                        success: function (res) {
-                            window.location.replace('/eduitem');
-                        },
-                        complete: function () { layer.closeAll('loading'); },
-                        error: function (msg) { alert('ajaxError:' + msg.responseText); }
-                    });
-                }
-            };
-            $(function () {
-                init.winHeig();
-                init.initSet();
-                even.chapter();
-                even.browser();
-                layer.tips('请点击“退出学习”按钮暂停或结束学习，否则不计学时哟！', '#quit', { time: 10000, tips: [4, '#2F4056'] });
-            });
-        });
-    </script>
+    <script src="/scripts/course/learn.js?v=2.0.2"></script>
 </body>
 </html>

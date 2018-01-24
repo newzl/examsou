@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>即时通信</title>
+</head>
+<body>
+    <input type="text" id="uname" value="hlliive" /><br />
+    <input type="text" id="mesg" value="消息" /><br />
+    <button id="send">提交</button><br />
+    <div id="mes"></div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var eid = 'hllive';
+            var service = $.connection.learnService;
+            //监听被停止
+            service.client.learnStop = function () {
+                service.server.learnRemove();
+                alert('我退出了');
+            }
+            //启动连接
+            $.connection.hub.start().done(function () {
+                service.server.learnStart();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace DAL
 {
@@ -21,6 +22,18 @@ namespace DAL
         #endregion
 
         /// <summary>
+        /// 获得正在学习课件list
+        /// </summary>/course/learn/
+        /// <param name="miid"></param>
+        /// <returns></returns>
+        public DataTable getCourse(int miid)
+        {
+            SqlParameter[] pars = {
+                new SqlParameter("@miid",miid)
+            };
+            return SqlHelper.RunProcedure("edu_course", pars);
+        }
+        /// <summary>
         /// 保存学习记录
         /// </summary>
         /// <param name="m"></param>
@@ -35,5 +48,6 @@ namespace DAL
             };
             SqlHelper.RunProcedure("edu_saveRecord", pars);
         }
+        
     }
 }

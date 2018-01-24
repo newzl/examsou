@@ -21,3 +21,26 @@ Uninstall-Package Microsoft.AspNet.WebApi.OData.zh-Hans
 Uninstall-Package Microsoft.AspNet.WebApi.OData
 
 --Update-Package Microsoft.AspNet.Mvc
+
+2017-12-27 webApp
+Uninstall-Package Microsoft.AspNet.Mvc.FixedDisplayModes
+Uninstall-Package Microsoft.AspNet.SignalR.Core.zh-Hans
+Uninstall-Package Microsoft.AspNet.SignalR.zh-Hans
+Uninstall-Package Microsoft.AspNet.SignalR.SystemWeb.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.Client.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.Core.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.WebHost.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebPages.zh-Hans
+Uninstall-Package Microsoft.Owin.Host.SystemWeb.zh-Hans
+Uninstall-Package Microsoft.Owin.Security.zh-Hans
+Uninstall-Package Microsoft.Owin.zh-Hans
+
+2017-12-27 webApi
+Uninstall-Package Microsoft.AspNet.Mvc.FixedDisplayModes
+Uninstall-Package Microsoft.AspNet.Mvc.zh-Hans
+Uninstall-Package Microsoft.AspNet.Razor.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.Client.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.Core.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebApi.WebHost.zh-Hans
+Uninstall-Package Microsoft.AspNet.WebPages.zh-Hans
+Uninstall-Package Microsoft.Net.Http.zh-Hans

@@ -23,7 +23,7 @@
     <div class="layui-col-md3 ln-card">
         <a href="javascript:;" id="continue">
             <p class="ln-name zj">继续学习</p>
-            <p class="ln-de">随机抽所有题练习</p>
+            <p class="ln-de">继续学习上次的课件</p>
         </a>
     </div>
     <div class="layui-col-md3 ln-card">
@@ -33,15 +33,15 @@
         </a>
     </div>
     <div class="layui-col-md3 ln-card">
-        <a href="/learn/chapter">
+        <a href="javascript:;" id="chapter">
             <p class="ln-name zx">题库练习</p>
-            <p class="ln-de">按科目系列逐步练习</p>
+            <p class="ln-de">按科目练习试题集</p>
         </a>
     </div>
     <div class="layui-col-md3 ln-card">
-        <a href="#">
+        <a href="javascript:;" id="joinExam">
             <p class="ln-name mn">参加考试</p>
-            <p class="ln-de">无限制地自动组卷</p>
+            <p class="ln-de">参加考试后才有学分</p>
         </a>
     </div>
 </div>
@@ -55,9 +55,9 @@
             <th></th>
         </tr>
     </thead>
-    <tbody class="layui-form" id="listView"></tbody>
+    <tbody class="layui-form" id="kjView"></tbody>
 </table>
-<script type="text/html" id="listTpl">
+<script type="text/html" id="kjTpl">
     {{# layui.each(d.list, function(i,item){ }}
     <tr>
         <td>{{item.title}}</td>
@@ -69,55 +69,11 @@
             </div>
         </td>
         <td>
-            <a href="/course/learn/{{item.id}}/{{d.miid}}?rid={{Math.random().toString(36).substr(2)}}" class="layui-btn layui-btn-xs" title="应学{{item.total}}，已学{{item.minut}}">开始学习</a>
+            <a href="/course/learn/{{d.miid}}?rid={{Math.random().toString(36).substr(2)}}#!kj={{item.id}}" class="layui-btn layui-btn-xs" title="应学{{item.total}}，已学{{item.minut}}">开始学习</a>
         </td>
     </tr>
     {{# }); }}
 </script>
 @section js{
-    <script>
-        layui.use(['element', 'layer', 'laytpl'], function () {
-            var element = layui.element,
-                layer = layui.layer,
-                laytpl = layui.laytpl;
-            $.ajax({
-                url: '/api/eduindex',
-                type: 'get', dataType: 'json', cache: false,
-                beforeSend: function () { layer.load(2); },
-                success: function (res) {
-                    if (res) {
-                        $('#itemName').text(res.name);
-                        $('#continue').attr('href', '/course/learn/' + res.inkjid + '/' + res.miid + '?rid=' + Math.random().toString(36).substr(2));
-                        progress({ text: '学习进度', percent: res.xxjd, elem: '#xxjd' });
-                        progress({ text: '必修课', percent: res.bxk, elem: '#bxk', color: '#f4665b' });
-                        progress({ text: '选修课', percent: res.xxk, elem: '#xxk', color: '#00A854' });
-
-                        var getTpl = listTpl.innerHTML, view = document.getElementById('listView');
-                        laytpl(getTpl).render(res, function (htm) {
-                            view.innerHTML = htm;
-                        });
-                        element.render('progress');
-                    }
-                    else {
-                        $('.member-content').empty();
-                        layer.alert('您还没有选择任何项目学习，请在“继教项目”里添加项目学习。', { icon: 5, closeBtn: 0, offset: '100px' }, function () {
-                            window.location.replace('/eduitem/search');
-                        });
-                    }
-                },
-                complete: function () { layer.closeAll('loading'); },
-                error: function (msg) { alert('ajaxError:' + msg.responseText); }
-            });
-            function progress(options) {
-                var _cr = options.color || '#108ee9',
-                    _ps = (options.percent / 100) * 222;
-                var htm = '<svg viewBox="0 0 100 100">';
-                htm += '<path d="M 50,50 m 0,47 a 47,47 0 1 1 0,-94 a 47,47 0 1 1 0,94" stroke="#e2e2e2" stroke-width="6" fill-opacity="0" style="stroke-dasharray: 222px, 295.31px; stroke-dashoffset: -37.5px; transition: stroke-dashoffset 0.3s ease 0s, stroke-dasharray 0.3s ease 0s, stroke 0.3s;"></path>';
-                htm += '<path d="M 50,50 m 0,47 a 47,47 0 1 1 0,-94 a 47,47 0 1 1 0,94" stroke="' + _cr + '" stroke-width="6" fill-opacity="0" style="stroke-dasharray: ' + _ps + 'px, 295.31px; stroke-dashoffset: -37.5px; transition: stroke-dashoffset 0.3s ease 0s, stroke-dasharray 0.3s ease 0s, stroke 0.3s;"></path>';
-                htm += '</svg><span style="color:' + _cr + '">' + options.percent + '%</span>';
-                if (options.text != undefined && options.text.length > 0) htm += '<p>' + options.text + '</p>';
-                $(options.elem).empty().append(htm);
-            }
-        });
-    </script>
+<script src="/scripts/myitem/index.js?v=2.0.2"></script>
 }
